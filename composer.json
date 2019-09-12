@@ -1,0 +1,25 @@
+{
+	"name": "innoweb/silverstripe-cookie-consent",
+	"description": "Creates a cookie consent popup and cookie policy page.",
+	"type": "silverstripe-vendormodule",
+	"license": "BSD-3-Clause",
+	"keywords": ["silverstripe", "cookie", "consent", "GDPR"],
+	"homepage": "http://github.com/xini/silverstripe-cookie-consent",
+	"authors": [{
+		"name": "Florian Thoma",
+		"homepage": "http://www.innoweb.com.au"
+	}],
+	"require": {
+		"silverstripe/cms": "^4"
+	},
+	"autoload": {
+		"psr-4": {
+			"Innoweb\\CookieConsent\\": "src/"
+		}
+	},
+	"extra": {
+		"expose": [
+			"client/dist"
+		]
+	}
+}

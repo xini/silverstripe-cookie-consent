@@ -1,0 +1,19 @@
+---
+Name: cookieconsent
+---
+Innoweb\CookieConsent\CookieConsent:
+  cookieGroups:
+    - Necessary
+    - Preferences
+    - Analytics
+    - TagManagement
+    - External
+    - Infrastructure
+
+SilverStripe\CMS\Controllers\ContentController:
+  extensions:
+    - Innoweb\CookieConsent\Extensions\ContentControllerExtension
+
+SilverStripe\SiteConfig\SiteConfig:
+  extensions:
+    - Innoweb\CookieConsent\Extensions\SiteConfigExtension
