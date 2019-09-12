@@ -35,7 +35,7 @@ class ContentControllerExtension extends Extension
         }
         // show cookie consent
         if (Config::inst()->get(CookieConsent::class, 'include_javascript')) {
-            Requirements::javascript('innoweb/silverstripe-cookie-consent:client/dist/javascript/cookie-consent.js', ['defer' => true]);
+            Requirements::javascript('innoweb/silverstripe-cookie-consent:client/dist/javascript/bundle.js', ['defer' => true]);
         }
         if (Config::inst()->get(CookieConsent::class, 'include_css')) {
             Requirements::css('innoweb/silverstripe-cookie-consent:client/dist/css/cookie-consent.css');
@@ -57,7 +57,7 @@ class ContentControllerExtension extends Extension
             ?: $this->owner->getReturnReferer()
                 ?: Director::baseURL();
         $cachebust = uniqid();
-        $url = Director::absoluteURL("$url?acceptCookies=$cachebust");
+        $url = Controller::join_links(Director::absoluteURL($url), "?cache=$cachebust");
         $this->owner->redirect($url);
     }
 
@@ -75,7 +75,7 @@ class ContentControllerExtension extends Extension
             ?: $this->owner->getReturnReferer()
             ?: Director::baseURL();
         $cachebust = uniqid();
-        $url = Director::absoluteURL("$url?revokeCookies=$cachebust");
+        $url = Controller::join_links(Director::absoluteURL($url), "?cache=$cachebust");
         $this->owner->redirect($url);
     }
     

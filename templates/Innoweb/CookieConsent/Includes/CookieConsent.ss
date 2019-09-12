@@ -11,7 +11,7 @@
 		<a class="CookieConsent__button CookieConsent__button--highlight js-cookie-consent-button" href="$AcceptCookiesLink" rel="nofollow">
 			<%t Innoweb\\CookieConsent\\CookieConsent.Accept 'Accept' %>
 		</a>
-		<a class="CookieConsent__button" href="$CookiePolicyPage.Link" rel="nofollow">
+		<a class="CookieConsent__button js-cookie-info-button" href="$CookiePolicyPage.Link" rel="nofollow">
 			<%t Innoweb\\CookieConsent\\CookieConsent.LearnMore 'Learn more' %>
 		</a>
 	</div>

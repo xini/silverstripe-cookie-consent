@@ -15,7 +15,7 @@
 		this.popup = document.getElementById('CookieConsent');
 		
 		// handle acceptance buttons
-		this.buttons = this.menu.querySelectorAll('.js-cookie-consent-button');
+		this.buttons = document.querySelectorAll('a.js-cookie-consent-button');
 		if (this.buttons.length > 0) {
 			Array.prototype.forEach.call(this.buttons, function (button, index) {
 				button.addEventListener('click', function (e) {
@@ -25,9 +25,21 @@
 			}.bind(this))
 		}
 		
+		// handle all other links
+		this.buttons = document.querySelectorAll('a:not(.js-cookie-consent-button):not(.js-cookie-info-button)');
+		if (this.buttons.length > 0) {
+			Array.prototype.forEach.call(this.buttons, function (button, index) {
+				button.addEventListener('click', function (e) {
+					this.accept();
+				}.bind(this))
+			}.bind(this))
+		}
+
 		// handle window scroll
 		window.addEventListener('scroll', throttle(function() {
-			self.accept();
+			if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+				self.accept();
+			}
 		}, 200));
 
 		// initiate listeners object for public events
@@ -35,7 +47,7 @@
 	}
 	
 	CookieConsent.prototype.accept = function () {
-		Cookie.set('CookieConsent', 'true');
+		Cookies.set('CookieConsent', 'true');
 		if (this.popup) {
 			this.popup.style.display = 'none';
 		}
@@ -85,4 +97,5 @@
 		// attach to window
 		window.CookieConsent = CookieConsent;
 	}
+	
 }());

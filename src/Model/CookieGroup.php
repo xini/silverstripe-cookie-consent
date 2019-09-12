@@ -20,6 +20,7 @@ class CookieGroup extends DataObject
     private static $db = array(
         'Title' => 'Varchar(255)',
         'Content' => 'HTMLText',
+        'Sort' => 'Int',
     );
 
     private static $translate = array(
@@ -27,6 +28,8 @@ class CookieGroup extends DataObject
         'Content'
     );
 
+    private static $default_sort = 'Sort ASC';
+    
     public function getCMSFields()
     {
         $fields = FieldList::create(TabSet::create('Root', Tab::create('Main')));

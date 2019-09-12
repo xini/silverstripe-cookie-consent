@@ -33,7 +33,7 @@ class CookiePolicyPage extends Page
             HTMLEditorField::create(
                 'FooterContent',
                 'Content below cookie descriptions'
-            )
+            )->addExtraClass('stacked')
         );
         
         $content = $fields->dataFieldByName('Content');

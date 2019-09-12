@@ -10,6 +10,7 @@ use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\SiteConfig\SiteConfig;
+use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
 class SiteConfigExtension extends DataExtension
 {
@@ -28,7 +29,12 @@ class SiteConfigExtension extends DataExtension
         $fields->addFieldsToTab('Root.CookieConsent', array(
             TextField::create('CookieConsentTitle', $this->owner->fieldLabel('CookieConsentTitle')),
             HtmlEditorField::create('CookieConsentContent', $this->owner->fieldLabel('CookieConsentContent')),
-            GridField::create('Cookies', 'Cookies', CookieGroup::get(), GridFieldConfig_RecordEditor::create())
+            GridField::create(
+                'Cookies', 
+                'Cookie Groups', 
+                CookieGroup::get(), 
+                GridFieldConfig_RecordEditor::create()->addComponents(GridFieldOrderableRows::create())
+            )
         ));
     }
 
