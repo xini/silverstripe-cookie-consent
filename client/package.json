@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Florian Thoma",
-  "license": "MIT",
+  "license": "BSD-3-Clause",
   "dependencies": {
     "js-cookie": "^2.2.1"
   },
@@ -21,7 +21,6 @@
     "gulp-plumber": "^1.2.1",
     "gulp-sass": "^4.1.0",
     "gulp-sourcemaps": "^3.0.0",
-    "gulp-strip-debug": "^3.0.0",
-    "gulp-uglify": "^3.0.2"
+    "gulp-strip-debug": "^4.0.0"
   }
 }
