@@ -46,7 +46,7 @@ class CookieGroup extends DataObject
     {
         parent::requireDefaultRecords();
         
-        if (!CookieGroup::get()->exists()) {
+        if (!CookieGroup::get() || !CookieGroup::get()->exists()) {
             $cookiesConfig = CookieConsent::config()->get('cookieGroups');
             if ($cookiesConfig) {
                 foreach ($cookiesConfig as $groupName) {
