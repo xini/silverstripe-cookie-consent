@@ -2,7 +2,7 @@ const { src, dest, watch, series, parallel } = require('gulp');
 const del = require('del');
 const path = require('path');
 const plumber = require('gulp-plumber');
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('sass'));
 const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 const cleancss = require('gulp-clean-css');
@@ -15,29 +15,13 @@ const uglify = require('gulp-uglify');
 const paths = {
 	"src": "./src/",
 	"dist": "./dist/",
-	
+
 	"styles": {
 		"src": "scss/",
 		"filter": "**/*.+(scss)",
 		"dist": "css/"
-	},
-	"scripts": {
-		"src": "javascript/",
-		"filter": "**/*.+(js)",
-		"dist": "javascript/"
 	}
 };
-
-const scriptFiles = {
-	"bundle.js": [
-		"node_modules/js-cookie/src/js.cookie.js",
-		"src/javascript/throttle.js",
-		"src/javascript/cookie-consent.js",
-	],
-	"cookie-consent.js": [
-		"src/javascript/cookie-consent.js",
-	]
-}
 
 const sassOptions = {
     errLogToConsole: true,
@@ -72,41 +56,9 @@ function cleanStyles(cb) {
 	cb();
 }
 
-function scripts(cb) {
-	var scriptNames = Object.keys(scriptFiles);
-	scriptNames.forEach(function(scriptName) {
-		src(
-                scriptFiles[scriptName],
-                {
-                    cwd: path.join(process.cwd(), './'),
-                    nosort: true
-                }
-            )
-            .pipe(plumber({
-                errorHandler: onError
-            }))
-            .pipe(sourcemaps.init())
-            .pipe(concat(scriptName))
-            .pipe(stripdebug())
-            .pipe(uglify({mangle: false}))
-            .pipe(sourcemaps.write('.'))
-            .pipe(dest(paths.dist + paths.scripts.dist));
-	});
-	cb();
-}
-
-function cleanScripts(cb) {
-	del([
-		paths.dist + paths.scripts.dist + "*.(js|map)"
-	]);
-	cb();
-}
-
 function watchAll() {
 	// watch for style changes
 	watch(paths.src + paths.styles.src + paths.styles.filter, series(cleanStyles, styles));
-	// watch for script changes
-	watch(paths.src + paths.scripts.src + paths.scripts.filter, series(cleanScripts, scripts));
 }
 
 function onError(err) {
@@ -115,23 +67,19 @@ function onError(err) {
 
 exports.build = series(
 	parallel(
-		cleanStyles,
-		cleanScripts
+		cleanStyles
 	),
 	parallel(
-		styles,
-		scripts
+		styles
 	)
 );
 
 exports.default = series(
 	parallel(
-		cleanStyles,
-		cleanScripts
+		cleanStyles
 	),
 	parallel(
-		styles,
-		scripts
+		styles
 	),
 	watchAll
 );

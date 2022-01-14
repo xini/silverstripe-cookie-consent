@@ -2,13 +2,19 @@
 Name: cookieconsent
 ---
 Innoweb\CookieConsent\CookieConsent:
-  cookieGroups:
-    - Necessary
-    - Preferences
-    - Analytics
-    - TagManagement
-    - External
-    - Infrastructure
+  cookies:
+    Necessary:
+      local:
+        - PHPSESSID
+        - CookieConsent
+    #Analytics
+    #Marketing
+    #External
+    #Preferences
+
+SilverStripe\Control\Director:
+  rules:
+    acceptAllCookies: PageController
 
 SilverStripe\CMS\Controllers\ContentController:
   extensions:

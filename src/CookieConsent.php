@@ -2,39 +2,140 @@
 
 namespace Innoweb\CookieConsent;
 
+use Innoweb\CookieConsent\Model\CookieGroup;
+use Exception;
+use SilverStripe\Control\Director;
+use SilverStripe\Core\Config\Config;
 use SilverStripe\Control\Cookie;
 use SilverStripe\Core\Config\Configurable;
+use SilverStripe\Core\Extensible;
+use SilverStripe\Core\Injector\Injectable;
 
 class CookieConsent
 {
+    use Extensible;
+    use Injectable;
     use Configurable;
 
     const COOKIE_NAME = 'CookieConsent';
+    const NECESSARY = 'Necessary';
+    const ANALYTICS = 'Analytics';
+    const MARKETING = 'Marketing';
+    const EXTERNAL = 'External';
+    const PREFERENCES = 'Preferences';
 
-    private static $cookieGroups = [];
+    private static $required_groups = [
+        self::NECESSARY
+    ];
 
-    private static $include_javascript = true;
+    private static $cookies = [];
 
     private static $include_css = true;
 
     private static $create_default_pages = true;
 
-    public static function accepted()
+    /**
+     * Check if there is consent for the given cookie
+     *
+     * @param $group
+     * @return bool
+     * @throws Exception
+     */
+    public static function check($group = CookieConsent::NECESSARY)
     {
-        if (Cookie::get(CookieConsent::COOKIE_NAME) == 'true') {
-            return true;
+        $cookies = self::config()->get('cookies');
+        if (!isset($cookies[$group])) {
+            throw new Exception(sprintf(
+                "The cookie group '%s' is not configured. You need to add it to the cookies config on %s",
+                $group,
+                self::class
+            ));
         }
-        return false;
+
+        $consent = self::getConsent();
+        return array_search($group, $consent) !== false;
     }
 
-    public static function accept()
+    /**
+     * Grant consent for the given cookie group
+     *
+     * @param $group
+     */
+    public static function grant($group)
     {
-        Cookie::set(CookieConsent::COOKIE_NAME, 'true', 0, null, null, false, false);
+        $consent = self::getConsent();
+        if (is_array($group)) {
+            $consent = array_merge($consent, $group);
+        } else {
+            array_push($consent, $group);
+        }
+        self::setConsent($consent);
     }
 
-    public static function revoke()
+    /**
+     * Grant consent for all the configured cookie groups
+     */
+    public static function grantAll()
     {
-        Cookie::force_expiry(CookieConsent::COOKIE_NAME, null, null, false, false);
+        $consent = array_keys(Config::inst()->get(CookieConsent::class, 'cookies'));
+        self::setConsent($consent);
     }
 
+    /**
+     * Remove consent for the given cookie group
+     *
+     * @param $group
+     */
+    public static function remove($group)
+    {
+        $consent = self::getConsent();
+        $key = array_search($group, $consent);
+        $cookies = Config::inst()->get(CookieConsent::class, 'cookies');
+        if (isset($cookies[$group])) {
+            foreach ($cookies[$group] as $host => $cookies) {
+                $host = ($host === CookieGroup::LOCAL_PROVIDER)
+                    ? Director::host()
+                    : str_replace('_', '.', $host);
+                foreach ($cookies as $cookie) {
+                    Cookie::force_expiry($cookie, null, $host);
+                }
+            }
+        }
+
+        unset($consent[$key]);
+        self::setConsent($consent);
+    }
+
+    /**
+     * Get the current configured consent
+     *
+     * @return array
+     */
+    public static function getConsent()
+    {
+        return explode(',', Cookie::get(CookieConsent::COOKIE_NAME));
+    }
+
+    /**
+     * Save the consent
+     *
+     * @param $consent
+     */
+    public static function setConsent($consent)
+    {
+        $consent = array_filter(array_unique(array_merge($consent, self::config()->get('required_groups'))));
+        $domain = self::config()->get('domain') ?: null;
+        Cookie::set(CookieConsent::COOKIE_NAME, implode(',', $consent), 730, null, $domain, false, false);
+    }
+
+    /**
+     * Check if the group is required
+     *
+     * @param $group
+     * @return bool
+     */
+    public static function isRequired($group)
+    {
+        return in_array($group, self::config()->get('required_groups'));
+    }
 }

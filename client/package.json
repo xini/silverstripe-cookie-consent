@@ -1,6 +1,6 @@
 {
   "name": "silverstripe-cookie-consent",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,9 +8,7 @@
   },
   "author": "Florian Thoma",
   "license": "BSD-3-Clause",
-  "dependencies": {
-    "js-cookie": "^2.2.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "del": "^6.0.0",
     "gulp": "^4.0.2",
@@ -19,9 +17,10 @@
     "gulp-concat-util": "^0.5.5",
     "gulp-cssimport": "^7.0.0",
     "gulp-plumber": "^1.2.1",
-    "gulp-sass": "^4.1.0",
+    "gulp-sass": "^5.0.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-strip-debug": "^4.0.0",
-    "gulp-uglify": "^3.0.2"
+    "gulp-uglify": "^3.0.2",
+    "sass": "^1.43.2"
   }
 }

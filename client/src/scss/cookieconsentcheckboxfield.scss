@@ -1,0 +1,10 @@
+.field.cookieconsentcheckbox .field_wrapper {
+    display: flex;
+
+    input {
+        flex: 0 0 auto;
+    }
+    label.right {
+        flex: 0 0 25%;
+    }
+}

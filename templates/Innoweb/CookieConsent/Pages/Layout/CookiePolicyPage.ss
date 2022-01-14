@@ -1,23 +1,34 @@
-<div class="typography">
+<div class="typography l-Page__component s-cmsContent">
     <h1>$Title</h1>
-	$Content
-	<% if $SiteConfig.CookieGroups %>
-		<% loop $SiteConfig.CookieGroups %>
-			<h2>$Title</h2>
-			$Content
-		<% end_loop %>
-	<% end_if %>
-	$FooterContent
-	<p>
-		<% if $CookiesAccepted %>
-			<a class="CookieConsent__button" href="$RevokeCookiesLink" rel="nofollow">
-				<%t Innoweb\\CookieConsent\\CookieConsent.Revoke 'Revoke' %>
-			</a>
-		<% else %>
-			<a class="CookieConsent__button CookieConsent__button--highlight js-cookie-consent-button" href="$AcceptCookiesLink" rel="nofollow">
-				<%t Innoweb\\CookieConsent\\CookieConsent.Accept 'Accept' %>
-			</a>
-		<% end_if %>
-	</p>
-	
+    $Content
+    <h2><%t Innoweb\\CookieConsent\\Pages\\CookiePolicyPage.ManageCookies 'Manage Cookies' %></h2>
+    $Form
+    <% if $SiteConfig.CookieGroups %>
+        <h3><%t Innoweb\\CookieConsent\\Pages\\CookiePolicyPage.CookiesUsed 'Cookies used on this website' %></h3>
+        <% loop $SiteConfig.CookieGroups %>
+            <h4>$Title</h4>
+            $Content
+            <table>
+                <thead>
+                <tr>
+                    <th><%t Innoweb\\CookieConsent\\Model\\CookieGroup.Title 'Cookie Name' %></th>
+                    <th><%t Innoweb\\CookieConsent\\Model\\CookieGroup.Provider 'Placed by' %></th>
+                    <th><%t Innoweb\\CookieConsent\\Model\\CookieGroup.Purpose 'Purpose' %></th>
+                    <th><%t Innoweb\\CookieConsent\\Model\\CookieGroup.Expiry 'Expiry' %></th>
+                </tr>
+                </thead>
+                <tbody>
+                <% loop $Cookies %>
+                    <tr>
+                        <td>$Title</td>
+                        <td>$ProviderLabel</td>
+                        <td>$Purpose</td>
+                        <td>$Expiry</td>
+                    </tr>
+                <% end_loop %>
+                </tbody>
+            </table>
+        <% end_loop %>
+    <% end_if %>
+    $FooterContent
 </div>
