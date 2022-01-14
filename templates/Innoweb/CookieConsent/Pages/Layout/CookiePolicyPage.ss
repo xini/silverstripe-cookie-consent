@@ -1,4 +1,4 @@
-<div class="typography l-Page__component s-cmsContent">
+<div class="typography">
     <h1>$Title</h1>
     $Content
     <h2><%t Innoweb\\CookieConsent\\Pages\\CookiePolicyPage.ManageCookies 'Manage Cookies' %></h2>
