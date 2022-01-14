@@ -48,8 +48,6 @@ class CookieDescription extends DataObject
     );
 
     private static $translate = array(
-        'Title',
-        'Provider',
         'Purpose',
         'Expiry'
     );

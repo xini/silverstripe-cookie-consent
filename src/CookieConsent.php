@@ -5,6 +5,7 @@ namespace Innoweb\CookieConsent;
 use Innoweb\CookieConsent\Model\CookieGroup;
 use Exception;
 use SilverStripe\Control\Director;
+use SilverStripe\Control\Session;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Control\Cookie;
 use SilverStripe\Core\Config\Configurable;
@@ -17,7 +18,6 @@ class CookieConsent
     use Injectable;
     use Configurable;
 
-    const COOKIE_NAME = 'CookieConsent';
     const NECESSARY = 'Necessary';
     const ANALYTICS = 'Analytics';
     const MARKETING = 'Marketing';
@@ -33,6 +33,46 @@ class CookieConsent
     private static $include_css = true;
 
     private static $create_default_pages = true;
+
+    /**
+     * Use this name when setting the consent cookie
+     *
+     * @config
+     * @var string
+     */
+    private static $cookie_name = 'CookieConsent';
+
+    /**
+     * The expiry time in days for a consent persistence cookie
+     *
+     * @config
+     * @var int
+     */
+    private static $cookie_expiry = 60;
+
+    /**
+     * Use this path when setting the consent cookie
+     *
+     * @config
+     * @var string
+     */
+    private static $cookie_path = null;
+
+    /**
+     * Use this domain when setting the consent cookie
+     *
+     * @config
+     * @var string
+     */
+    private static $cookie_domain = null;
+
+    /**
+     * Use http-only cookies. Set to false if you need js access.
+     *
+     * @config
+     * @var bool
+     */
+    private static $cookie_http_only = true;
 
     /**
      * Check if there is consent for the given cookie
@@ -113,7 +153,7 @@ class CookieConsent
      */
     public static function getConsent()
     {
-        return explode(',', Cookie::get(CookieConsent::COOKIE_NAME));
+        return explode(',', Cookie::get(self::config()->get('cookie_name')));
     }
 
     /**
@@ -124,8 +164,16 @@ class CookieConsent
     public static function setConsent($consent)
     {
         $consent = array_filter(array_unique(array_merge($consent, self::config()->get('required_groups'))));
-        $domain = self::config()->get('domain') ?: null;
-        Cookie::set(CookieConsent::COOKIE_NAME, implode(',', $consent), 730, null, $domain, false, false);
+        $secure = Director::is_https($request) && Session::config()->get('cookie_secure');
+        Cookie::set(
+            self::config()->get('cookie_name'),
+            implode(',', $consent),
+            self::config()->get('cookie_expiry'),
+            self::config()->get('cookie_path'),
+            self::config()->get('cookie_domain'),
+            $secure,
+            self::config()->get('cookie_http_only')
+        );
     }
 
     /**

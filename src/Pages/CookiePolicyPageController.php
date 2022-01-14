@@ -17,9 +17,9 @@ use SilverStripe\View\Requirements;
  */
 class CookiePolicyPageController extends PageController
 {
-    private static $allowed_actions = array(
+    private static $allowed_actions = [
         'Form'
-    );
+    ];
 
     /**
      * Get the CookieConsentForm

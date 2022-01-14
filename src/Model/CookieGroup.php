@@ -111,7 +111,7 @@ class CookieGroup extends DataObject
                 if (!$group = self::get()->find('ConfigName', $groupName)) {
                     $group = self::create(array(
                         'ConfigName' => $groupName,
-                        'Title' => _t(__CLASS__ . ".$groupName", $groupName),
+                        'Title' => _t(__CLASS__ . ".{$groupName}", $groupName),
                         'Content' => _t(__CLASS__ . ".{$groupName}_Content", $groupName)
                     ));
 
