@@ -2,12 +2,12 @@
 
 namespace Innoweb\CookieConsent;
 
-use Innoweb\CookieConsent\Model\CookieGroup;
 use Exception;
+use Innoweb\CookieConsent\Model\CookieGroup;
+use SilverStripe\Control\Cookie;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\Session;
 use SilverStripe\Core\Config\Config;
-use SilverStripe\Control\Cookie;
 use SilverStripe\Core\Config\Configurable;
 use SilverStripe\Core\Extensible;
 use SilverStripe\Core\Injector\Injectable;
@@ -67,12 +67,12 @@ class CookieConsent
     private static $cookie_domain = null;
 
     /**
-     * Use http-only cookies. Set to false if you need js access.
+     * Use http-only cookies. Set to true if you don't need js access.
      *
      * @config
      * @var bool
      */
-    private static $cookie_http_only = true;
+    private static $cookie_http_only = false;
 
     /**
      * Check if there is consent for the given cookie

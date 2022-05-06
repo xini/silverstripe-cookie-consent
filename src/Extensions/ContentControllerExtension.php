@@ -2,16 +2,15 @@
 
 namespace Innoweb\CookieConsent\Extensions;
 
+use Exception;
 use Innoweb\CookieConsent\CookieConsent;
 use Innoweb\CookieConsent\Pages\CookiePolicyPage;
 use Innoweb\CookieConsent\Pages\CookiePolicyPageController;
-use Exception;
 use SilverStripe\CMS\Controllers\ContentController;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Extension;
-use SilverStripe\Core\Manifest\ModuleLoader;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Security;
 use SilverStripe\View\Requirements;
@@ -51,6 +50,16 @@ class ContentControllerExtension extends Extension
     public function CookieConsent($group = CookieConsent::NECESSARY)
     {
         return CookieConsent::check($group);
+    }
+
+    /**
+     * Get consent cookie name
+     *
+     * @return string
+     */
+    public function getCookieConsentCookieName()
+    {
+        return Config::inst()->get(CookieConsent::class, 'cookie_name');
     }
 
     /**

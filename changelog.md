@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.0]
+
+* hide popup using js if cookie is present. Necessary if page is cached.
+* update dependencies
+
 ## [2.0.0]
 
 rebuild most of the module using https://github.com/TheBnl/silverstripe-cookie-consent for inspiration:
