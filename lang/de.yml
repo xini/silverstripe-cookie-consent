@@ -17,7 +17,7 @@ de:
     External_Content: '<p>Diese Art von Diensten ermöglicht es Ihnen, Inhalte, die auf externen Plattformen gehostet werden, direkt von den Seiten dieser Anwendung aus anzuzeigen und mit ihnen zu interagieren.</p>'
     Preferences: 'Einstellungen'
     Preferences_Content: '<p>Diese Website verwendet Cookies, um Browsereinstellungen zu speichern und das Surferlebnis des Benutzers zu optimieren. Zu diesen Cookies gehören beispielsweise solche, die für die Einstellung von Sprach- und Währungseinstellungen verwendet werden.</p>'
-  Innoweb\CookieConsent\Forms\CookieConsentFormular:
+  Innoweb\CookieConsent\Forms\CookieConsentForm:
     Save: 'Speichern'
     FormMessage: 'Ihre Einstellungen wurden gespeichert'
   Innoweb\CookieConsent\Pages\CookiePolicyPage:
