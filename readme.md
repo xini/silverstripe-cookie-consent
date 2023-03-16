@@ -1,4 +1,4 @@
-# SilverStripe Cookie Consent
+# Silverstripe Cookie Consent
 
 [![Version](http://img.shields.io/packagist/v/innoweb/silverstripe-cookie-consent.svg?style=flat-square)](https://packagist.org/packages/innoweb/silverstripe-cookie-consent)
 [![License](http://img.shields.io/packagist/l/innoweb/silverstripe-cookie-consent.svg?style=flat-square)](license.md)
@@ -7,13 +7,15 @@
 
 Creates a cookie consent popup and cookie policy page. 
 
-While we try to tick as many legal boxes as we can, we give no warranty for this module to adhere to any legisaltion, including GDPR.
+While we try to tick as many legal boxes as we can, we give no warranty for this module to adhere to any legislation, including GDPR.
 
 This is an amended and simplified version of [TheBnl's cookie consent module](https://github.com/TheBnl/silverstripe-cookie-consent). Thanks for your work and inspiration!
 
 ## Requirements
 
-* SilverStripe CMS 4.x
+* Silverstripe CMS 5.x
+
+Note: this version is compatible with Silverstripe 5. For Silverstripe 4, please see the [2 release line](https://github.com/xini/silverstripe-cookie-consent/tree/2).
 
 ## Installation
 
