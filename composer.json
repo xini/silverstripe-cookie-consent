@@ -10,8 +10,8 @@
 		"homepage": "http://www.innoweb.com.au"
 	}],
 	"require": {
-		"silverstripe/cms": "^4",
-        "silverstripe/vendor-plugin": "^1"
+		"silverstripe/cms": "^5",
+        "silverstripe/vendor-plugin": "^2"
     },
 	"autoload": {
 		"psr-4": {
