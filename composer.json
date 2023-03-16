@@ -12,6 +12,7 @@
 	"require": {
 		"silverstripe/cms": "^5",
         "silverstripe/vendor-plugin": "^2"
+        "symbiote/silverstripe-gridfieldextensions": "^4"
     },
 	"autoload": {
 		"psr-4": {
