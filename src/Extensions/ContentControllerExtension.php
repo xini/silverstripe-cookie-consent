@@ -23,7 +23,8 @@ use SilverStripe\View\Requirements;
 class ContentControllerExtension extends Extension
 {
     private static $allowed_actions = [
-        'acceptAllCookies'
+        'acceptAllCookies',
+        'acceptNecessaryCookies',
     ];
 
     /**
@@ -111,5 +112,29 @@ class ContentControllerExtension extends Extension
     public function getAcceptAllCookiesLink()
     {
         return Controller::join_links($this->getOwner()->Link(), 'acceptAllCookies');
+    }
+
+    public function acceptNecessaryCookies()
+    {
+        CookieConsent::grant(CookieConsent::NECESSARY);
+
+        // Get the url the same as the redirect back method gets it
+        $url = $this->owner->getBackURL()
+            ?: $this->owner->getReturnReferer()
+                ?: Director::baseURL();
+
+        $cachebust = uniqid();
+        if (parse_url($url, PHP_URL_QUERY)) {
+            $url = Director::absoluteURL("$url&acceptCookies=$cachebust");
+        } else {
+            $url = Director::absoluteURL("$url?acceptCookies=$cachebust");
+        }
+
+        $this->owner->redirect($url);
+    }
+
+    public function getAcceptNecessaryCookiesLink()
+    {
+        return Controller::join_links($this->getOwner()->Link(), 'acceptNecessaryCookies');
     }
 }
