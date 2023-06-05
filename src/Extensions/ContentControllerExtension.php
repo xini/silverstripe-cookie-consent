@@ -94,19 +94,23 @@ class ContentControllerExtension extends Extension
     {
         CookieConsent::grantAll();
 
-        // Get the url the same as the redirect back method gets it
-        $url = $this->owner->getBackURL()
-            ?: $this->owner->getReturnReferer()
-                ?: Director::baseURL();
-
-        $cachebust = uniqid();
-        if (parse_url($url, PHP_URL_QUERY)) {
-            $url = Director::absoluteURL("$url&acceptCookies=$cachebust");
+        if (Director::is_ajax()) {
+            return "ok";
         } else {
-            $url = Director::absoluteURL("$url?acceptCookies=$cachebust");
-        }
+            // Get the url the same as the redirect back method gets it
+            $url = $this->owner->getBackURL()
+                ?: $this->owner->getReturnReferer()
+                    ?: Director::baseURL();
 
-        $this->owner->redirect($url);
+            $cachebust = uniqid();
+            if (parse_url($url, PHP_URL_QUERY)) {
+                $url = Director::absoluteURL("$url&acceptCookies=$cachebust");
+            } else {
+                $url = Director::absoluteURL("$url?acceptCookies=$cachebust");
+            }
+
+            $this->owner->redirect($url);
+        }
     }
 
     public function getAcceptAllCookiesLink()
@@ -118,19 +122,23 @@ class ContentControllerExtension extends Extension
     {
         CookieConsent::grant(CookieConsent::NECESSARY);
 
-        // Get the url the same as the redirect back method gets it
-        $url = $this->owner->getBackURL()
-            ?: $this->owner->getReturnReferer()
-                ?: Director::baseURL();
-
-        $cachebust = uniqid();
-        if (parse_url($url, PHP_URL_QUERY)) {
-            $url = Director::absoluteURL("$url&acceptCookies=$cachebust");
+        if (Director::is_ajax()) {
+            return "ok";
         } else {
-            $url = Director::absoluteURL("$url?acceptCookies=$cachebust");
-        }
+            // Get the url the same as the redirect back method gets it
+            $url = $this->owner->getBackURL()
+                ?: $this->owner->getReturnReferer()
+                    ?: Director::baseURL();
 
-        $this->owner->redirect($url);
+            $cachebust = uniqid();
+            if (parse_url($url, PHP_URL_QUERY)) {
+                $url = Director::absoluteURL("$url&acceptCookies=$cachebust");
+            } else {
+                $url = Director::absoluteURL("$url?acceptCookies=$cachebust");
+            }
+
+            $this->owner->redirect($url);
+        }
     }
 
     public function getAcceptNecessaryCookiesLink()
