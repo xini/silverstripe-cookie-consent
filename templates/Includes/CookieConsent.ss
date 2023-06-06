@@ -21,11 +21,24 @@
         </div>
     </div>
     <script>
-        var popup = document.getElementById('CookieConsent');
+        const popup = document.getElementById('CookieConsent');
         if (typeof(popup) != 'undefined' && popup != null) {
-            var cookieName = popup.getAttribute('data-cookie');
+            const cookieName = popup.getAttribute('data-cookie');
             if (document.cookie.match(new RegExp('(^| )' + cookieName + '=([^;]+)'))) {
                 popup.style.display = 'none';
+            }
+            const buttons = document.querySelectorAll('.js-cookie-consent-button');
+            if (buttons.length > 0) {
+                Array.prototype.forEach.call(buttons, function (button) {
+                    button.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('GET', this.href);
+                        xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
+                        xhr.send();
+                        popup.style.display = 'none';
+                    });
+                });
             }
         }
     </script>
