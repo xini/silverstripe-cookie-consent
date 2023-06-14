@@ -64,6 +64,16 @@ class ContentControllerExtension extends Extension
     }
 
     /**
+     * Get consent cookie name
+     *
+     * @return string
+     */
+    public function getCookieConsentCookieExpiry()
+    {
+        return Config::inst()->get(CookieConsent::class, 'cookie_expiry');
+    }
+
+    /**
      * Check if we can promt for concent
      * We're not on a Securty or Cooky policy page and have no concent set
      *
@@ -116,6 +126,11 @@ class ContentControllerExtension extends Extension
     public function getAcceptAllCookiesLink()
     {
         return Controller::join_links($this->getOwner()->Link(), 'acceptAllCookies');
+    }
+
+    public function getAcceptAllCookiesGroups()
+    {
+        return implode(',', array_keys(Config::inst()->get(CookieConsent::class, 'cookies')));
     }
 
     public function acceptNecessaryCookies()
