@@ -4,6 +4,7 @@ namespace Innoweb\CookieConsent;
 
 use Exception;
 use Innoweb\CookieConsent\Model\CookieGroup;
+use SilverStripe\Control\Controller;
 use SilverStripe\Control\Cookie;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\Session;
@@ -164,6 +165,7 @@ class CookieConsent
     public static function setConsent($consent)
     {
         $consent = array_filter(array_unique(array_merge($consent, self::config()->get('required_groups'))));
+		$request = Controller::curr()->getRequest();
         $secure = Director::is_https($request) && Session::config()->get('cookie_secure');
         Cookie::set(
             self::config()->get('cookie_name'),
