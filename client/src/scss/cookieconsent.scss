@@ -66,10 +66,10 @@ body {
             color: #fff;
             text-decoration: none;
             outline: {
-                width: rem(2);
+                width: 0.125rem;
                 style: solid;
                 color: transparent;
-                offset: rem(-4);
+                offset: -0.25rem;
             }
         }
         &:focus {
