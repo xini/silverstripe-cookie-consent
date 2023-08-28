@@ -1,7 +1,7 @@
 <% if $PromptCookieConsent %>
     <div role="dialog" aria-labelledby="cookieconsent-title" class="CookieConsent" id="CookieConsent" data-cookie="$CookieConsentCookieName" data-expiry="$CookieConsentCookieExpiry">
         <div class="CookieConsent__hd">
-            <h1 class="CookieConsent__title" id="cookieconsent-title">$SiteConfig.CookieConsentTitle</h1>
+            <h2 class="CookieConsent__title" id="cookieconsent-title">$SiteConfig.CookieConsentTitle</h2>
         </div>
         <div class="CookieConsent__bd">
             <div class="CookieConsent__content">
