@@ -2,10 +2,6 @@
   "name": "silverstripe-cookie-consent",
   "version": "2.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "Florian Thoma",
   "license": "BSD-3-Clause",
   "dependencies": {},
@@ -22,5 +18,12 @@
     "gulp-strip-debug": "^4.0.0",
     "gulp-uglify": "^3.0.2",
     "sass": "^1.51.0"
+  },
+  "engines" : {
+    "node" : "^18.0.0"
+  },
+  "scripts": {
+    "watch": "gulp",
+    "build": "gulp build"
   }
 }
