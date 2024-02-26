@@ -1,0 +1,11 @@
+---
+Name: cookieconsent-fluent
+Only:
+  moduleexists: 'tractorcow/silverstripe-fluent'
+---
+Innoweb\CookieConsent\Model\CookieGroup:
+  extensions:
+    - TractorCow\Fluent\Extension\FluentExtension
+Innoweb\CookieConsent\Model\CookieDescription:
+  extensions:
+    - TractorCow\Fluent\Extension\FluentExtension
