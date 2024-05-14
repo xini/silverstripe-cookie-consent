@@ -3,6 +3,7 @@ de:
     ManageCookies: 'Cookie-Einstellungen verwalten'
     AcceptAllCookies: 'Alle Cookies akzeptieren'
     AcceptNecessaryCookies: 'Notwendige Cookies akzeptieren'
+    ReviewCookiePolicy: 'Cookie-Richtlinie anzeigen'
   Innoweb\CookieConsent\Model\CookieGroup:
     Title: 'Cookie-Name'
     Provider: 'Platziert von'

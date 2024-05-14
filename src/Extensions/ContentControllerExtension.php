@@ -91,6 +91,17 @@ class ContentControllerExtension extends Extension
     }
 
     /**
+     * Check if site only uses necessary cookies
+     *
+     * @return bool
+     */
+    public function SiteUsesNecessaryCookiesOnly()
+    {
+        $categories = array_keys(Config::inst()->get(CookieConsent::class, 'cookies'));
+        return count($categories) === 1 && $categories[0] === CookieConsent::NECESSARY;
+    }
+
+    /**
      * Get an instance of the cookie policy page
      *
      * @return CookiePolicyPage|DataObject

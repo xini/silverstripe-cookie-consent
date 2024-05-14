@@ -9,15 +9,24 @@
             </div>
         </div>
         <div class="CookieConsent__ft">
-            <a class="CookieConsent__button CookieConsent__button--highlight js-cookie-consent-button" href="$AcceptAllCookiesLink" rel="nofollow" data-cookie-groups="$AcceptAllCookiesGroups">
-                <%t Innoweb\\CookieConsent\\CookieConsent.AcceptAllCookies 'Accept all cookies' %>
-            </a>
-            <a class="CookieConsent__button js-cookie-consent-button" href="$AcceptNecessaryCookiesLink" rel="nofollow" data-cookie-groups="Necessary">
-                <%t Innoweb\\CookieConsent\\CookieConsent.AcceptNecessaryCookies 'Accept necessary cookies' %>
-            </a>
-            <a class="CookieConsent__button js-cookie-info-button" href="$CookiePolicyPage.Link" rel="nofollow">
-                <%t Innoweb\\CookieConsent\\CookieConsent.ManageCookies 'Manage cookie settings' %>
-            </a>
+            <% if $SiteUsesNecessaryCookiesOnly %>
+                <a class="CookieConsent__button CookieConsent__button--highlight js-cookie-consent-button" href="$AcceptNecessaryCookiesLink" rel="nofollow" data-cookie-groups="Necessary">
+                    <%t Innoweb\\CookieConsent\\CookieConsent.AcceptNecessaryCookies 'Accept necessary cookies' %>
+                </a>
+                <a class="CookieConsent__button js-cookie-info-button" href="$CookiePolicyPage.Link" rel="nofollow">
+                    <%t Innoweb\\CookieConsent\\CookieConsent.ReviewCookiePolicy 'Review cookie policy' %>
+                </a>
+            <% else %>
+                <a class="CookieConsent__button CookieConsent__button--highlight js-cookie-consent-button" href="$AcceptAllCookiesLink" rel="nofollow" data-cookie-groups="$AcceptAllCookiesGroups">
+                    <%t Innoweb\\CookieConsent\\CookieConsent.AcceptAllCookies 'Accept all cookies' %>
+                </a>
+                <a class="CookieConsent__button js-cookie-consent-button" href="$AcceptNecessaryCookiesLink" rel="nofollow" data-cookie-groups="Necessary">
+                    <%t Innoweb\\CookieConsent\\CookieConsent.AcceptNecessaryCookies 'Accept necessary cookies' %>
+                </a>
+                <a class="CookieConsent__button js-cookie-info-button" href="$CookiePolicyPage.Link" rel="nofollow">
+                    <%t Innoweb\\CookieConsent\\CookieConsent.ManageCookies 'Manage cookie settings' %>
+                </a>
+            <% end_if %>
         </div>
     </div>
     <script>

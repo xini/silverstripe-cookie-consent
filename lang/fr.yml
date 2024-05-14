@@ -3,6 +3,7 @@ fr:
     ManageCookies: 'Gérer les paramètres des cookies'
     AcceptAllCookies: 'Accepter tous les cookies'
     AcceptNecessaryCookies: 'Accepter les cookies nécessaires'
+    ReviewCookiePolicy: 'Voir la politique'
   Innoweb\CookieConsent\Model\CookieGroup:
     Title: 'Nom du cookie'
     Provider: 'Place par'
@@ -22,8 +23,8 @@ fr:
     Save: 'Enregistrer'
     FormMessage: 'Vos préférences ont été enregistrées'
   Innoweb\CookieConsent\Pages\CookiePolicyPage:
-    SINGULARNAME: 'Page Politique relative aux cookies'
-    PLURALNAME: 'Pages relatives à la politique relative aux cookies'
+    SINGULARNAME: 'Page politique en matière de cookies'
+    PLURALNAME: 'Pages relatives à la politique en matière de cookies'
     PLURALS:
       one: 'Une page de politique en matière de cookies'
       other: '{count} pages de politique en matière de cookies'
