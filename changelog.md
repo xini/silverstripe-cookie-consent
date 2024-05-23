@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.4.1]
+
+* fix typos in language files
+* fix <p> in <span> in field content
+
 ## [3.4.0]
 
 * simplify popup if only necessary cookies are configured
