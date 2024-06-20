@@ -1,29 +1,30 @@
 {
-  "name": "silverstripe-cookie-consent",
-  "version": "2.0.0",
-  "description": "",
-  "author": "Florian Thoma",
-  "license": "BSD-3-Clause",
-  "dependencies": {},
-  "devDependencies": {
-    "del": "^6.0.0",
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^8.0.0",
-    "gulp-clean-css": "^4.3.0",
-    "gulp-concat-util": "^0.5.5",
-    "gulp-cssimport": "^7.0.0",
-    "gulp-plumber": "^1.2.1",
-    "gulp-sass": "^5.0.0",
-    "gulp-sourcemaps": "^3.0.0",
-    "gulp-strip-debug": "^4.0.0",
-    "gulp-uglify": "^3.0.2",
-    "sass": "^1.51.0"
-  },
-  "engines" : {
-    "node" : "^18.0.0"
-  },
-  "scripts": {
-    "watch": "gulp",
-    "build": "gulp build"
-  }
+    "name": "silverstripe-cookie-consent",
+    "version": "2.0.0",
+    "description": "",
+    "author": "Florian Thoma",
+    "license": "BSD-3-Clause",
+    "devDependencies": {
+        "del": "^7.1.0",
+        "gulp": "^5.0.0",
+        "gulp-autoprefixer": "^9.0.0",
+        "gulp-clean-css": "^4.3.0",
+        "gulp-cssimport": "^7.0.0",
+        "gulp-plumber": "^1.2.1",
+        "gulp-sass": "^5.1.0",
+        "gulp-sourcemaps": "^3.0.0",
+        "sass": "^1.77.6"
+    },
+    "engines": {
+        "node": "^18.0.0"
+    },
+    "browserslist": [
+        "> 1%",
+        "last 5 versions",
+        "Firefox ESR",
+        "not dead"
+    ],
+    "scripts": {
+        "build": "gulp"
+    }
 }
