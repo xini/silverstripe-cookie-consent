@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.6.0]
+
+* wait for DOMContentLoaded before attaching acceptance event in case custom links have been added to dom
+
 ## [3.5.0]
 
 * update frontend dependencies to gulp 5

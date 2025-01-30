@@ -37,25 +37,27 @@
             if (document.cookie.match(new RegExp('(^| )' + cookieName + '=([^;]+)'))) {
                 popup.style.display = 'none';
             }
-            const buttons = document.querySelectorAll('.js-cookie-consent-button');
-            if (buttons.length > 0) {
-                Array.prototype.forEach.call(buttons, function (button) {
-                    button.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        const xhr = new XMLHttpRequest();
-                        xhr.open('GET', this.href);
-                        xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
-                        xhr.send();
-                        const d = new Date;
-                        d.setTime(d.getTime() + 24*60*60*1000*cookieExpiry);
-                        const cookieGroups = this.getAttribute('data-cookie-groups');
-                        document.cookie = cookieName + "=" + cookieGroups + ";path=/;expires=" + d.toGMTString();
-                        let event = new CustomEvent("updateCookieConsent");
-                        document.dispatchEvent(event);
-                        popup.style.display = 'none';
+            document.addEventListener('DOMContentLoaded', function() {
+                const buttons = document.querySelectorAll('.js-cookie-consent-button');
+                if (buttons.length > 0) {
+                    Array.prototype.forEach.call(buttons, function (button) {
+                        button.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            const xhr = new XMLHttpRequest();
+                            xhr.open('GET', this.href);
+                            xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
+                            xhr.send();
+                            const d = new Date;
+                            d.setTime(d.getTime() + 24*60*60*1000*cookieExpiry);
+                            const cookieGroups = this.getAttribute('data-cookie-groups');
+                            document.cookie = cookieName + "=" + cookieGroups + ";path=/;expires=" + d.toGMTString();
+                            let event = new CustomEvent("updateCookieConsent");
+                            document.dispatchEvent(event);
+                            popup.style.display = 'none';
+                        });
                     });
-                });
-            }
+                }
+            });
         }
     </script>
 <% end_if %>
