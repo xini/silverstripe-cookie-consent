@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.7.1]
+
+* fix redirect after form submit to update cookies for additional hosts
+
 ## [3.7.0]
 
 * add setting of consent cookies for all hosts allowed through SS_ALLOWED_HOSTS config

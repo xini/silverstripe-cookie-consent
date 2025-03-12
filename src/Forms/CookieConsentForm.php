@@ -5,6 +5,7 @@ namespace Innoweb\CookieConsent\Forms;
 use Innoweb\CookieConsent\CookieConsent;
 use Innoweb\CookieConsent\Model\CookieGroup;
 use SilverStripe\Control\Controller;
+use SilverStripe\Control\Director;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormAction;
@@ -54,6 +55,16 @@ class CookieConsentForm extends Form
         }
 
         $form->sessionMessage(_t(__CLASS__ . '.FormMessage', 'Your preferences have been saved'), 'good');
-        $this->getController()->redirectBack();
+
+        // get redirectBack URL like in RequestHandler::redirectBack()
+        $controller = $this->getController();
+        $url = $controller->getBackURL()
+            ?: $controller->getReturnReferer()
+                ?: Director::baseURL();
+
+        // Only direct to absolute urls
+        $url = Director::absoluteURL((string) $url);
+        $url = Controller::join_links($url, '?acceptCookies=' . implode(',', CookieConsent::getConsent()));
+        return $controller->redirect($url);
     }
 }
