@@ -88,6 +88,17 @@ Innoweb\CookieConsent\CookieConsent:
   include_css: true
 ```
 
+If your site uses multiple domains (e.g. domain.com and domain.de), you can configure the module to set consent 
+cookies for all hosts allowed through SS_ALLOWED_HOSTS config:
+
+```yaml
+Innoweb\CookieConsent\CookieConsent:
+  include_all_allowed_hosts: true
+```
+
+Caution: If you are using the `CookieConsent.cookie_domain` setting, `CookieConsent.include_all_allowed_hosts` will 
+be ignored. 
+
 ## Usage
 
 Then you can check for consent in your PHP code by calling
@@ -187,6 +198,10 @@ Innoweb\CookieConsent\CookieConsent:
 The page created is filled with bare-bones content. 
 _Of course, it is your or your CMS users responsibility to alter these texts to make them fit your use case!_
 
+## todo
+
+* [ ] Remove `Innoweb\CookieConsent\Control\CookieJar` workaround for SS6
+ 
 ## License
 
 BSD 3-Clause License, see [License](license.md)

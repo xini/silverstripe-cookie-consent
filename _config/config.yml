@@ -23,3 +23,10 @@ SilverStripe\CMS\Controllers\ContentController:
 SilverStripe\SiteConfig\SiteConfig:
   extensions:
     - Innoweb\CookieConsent\Extensions\SiteConfigExtension
+
+---
+Name: cookieconsent-cookie
+After: cookie
+---
+SilverStripe\Core\Injector\Injector:
+  SilverStripe\Control\Cookie_Backend: Innoweb\CookieConsent\Control\CookieJar

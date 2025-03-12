@@ -2,23 +2,19 @@
 
 namespace Innoweb\CookieConsent\Model;
 
+use Exception;
 use Innoweb\CookieConsent\CookieConsent;
 use Innoweb\CookieConsent\Forms\CookieConsentCheckBoxField;
 use Innoweb\CookieConsent\Gridfield\GridFieldConfigCookies;
-use Exception;
-use SilverStripe\Control\Director;
-use SilverStripe\Core\Environment;
-use SilverStripe\Core\Config\Config;
-use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\DB;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
-use SilverStripe\ORM\HasManyList;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\Tab;
 use SilverStripe\Forms\TabSet;
 use SilverStripe\Forms\TextField;
-use SilverStripe\View\SSViewer;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\DB;
+use SilverStripe\ORM\HasManyList;
 
 /**
  * CookieGroup that holds type of cookies

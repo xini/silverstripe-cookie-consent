@@ -4,7 +4,6 @@ namespace Innoweb\CookieConsent\Forms;
 
 use Innoweb\CookieConsent\CookieConsent;
 use Innoweb\CookieConsent\Model\CookieGroup;
-use SilverStripe\Core\Config\Config;
 use SilverStripe\Control\Controller;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;

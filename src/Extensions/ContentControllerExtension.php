@@ -10,7 +10,9 @@ use SilverStripe\CMS\Controllers\ContentController;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
+use SilverStripe\Core\Environment;
 use SilverStripe\Core\Extension;
+use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Security;
 use SilverStripe\View\Requirements;
@@ -23,6 +25,7 @@ use SilverStripe\View\Requirements;
 class ContentControllerExtension extends Extension
 {
     private static $allowed_actions = [
+        'acceptCookies',
         'acceptAllCookies',
         'acceptNecessaryCookies',
     ];
@@ -101,6 +104,52 @@ class ContentControllerExtension extends Extension
         return count($categories) === 1 && $categories[0] === CookieConsent::NECESSARY;
     }
 
+    public function AdditionalDomainsCookiesEnabled(): bool
+    {
+        $includeHosts = Config::inst()->get(CookieConsent::class, 'include_all_allowed_hosts');
+        $additionalExist = $this->getAdditionalHosts() && $this->getAdditionalHosts()->count();
+        return ($includeHosts && $additionalExist);
+    }
+
+    /**
+     * Check if cookies for all allowed domains should be set.
+     * Used in template to load images for additional domains.
+     */
+    public function SetAdditionalDomainsCookies(): string|false
+    {
+        $includeHosts = Config::inst()->get(CookieConsent::class, 'include_all_allowed_hosts');
+        $additionalExist = $this->getAdditionalHosts() && $this->getAdditionalHosts()->count();
+        $acceptParam = $this->owner->getRequest()->getVar('acceptCookies') ?? false;
+        return ($includeHosts && $additionalExist && $acceptParam !== false) ? $acceptParam : false;
+    }
+
+    public function getAdditionalHosts(): ?ArrayList
+    {
+        if (Environment::hasEnv('SS_ALLOWED_HOSTS')) {
+            $data = [];
+            $hosts = explode(',', Environment::getEnv('SS_ALLOWED_HOSTS'));
+            $hosts = array_diff($hosts, [Director::host()]);
+            foreach ($hosts as $host) {
+                $data[] = [
+                    'Host' => $host,
+                    'BaseURL' => Director::protocol() . $host,
+                    'BaseLink' => Controller::join_links(
+                        Director::protocol() . $host,
+                        Director::makeRelative($this->getOwner()->Link('acceptCookies')),
+                        '?acceptCookies='
+                    ),
+                    'FullLink' => Controller::join_links(
+                        Director::protocol() . $host,
+                        Director::makeRelative($this->getOwner()->Link('acceptCookies')),
+                        '?acceptCookies=' . $this->owner->getRequest()->getVar('acceptCookies')
+                    ),
+                ];
+            }
+            return ArrayList::create($data);
+        }
+        return null;
+    }
+
     /**
      * Get an instance of the cookie policy page
      *
@@ -124,10 +173,11 @@ class ContentControllerExtension extends Extension
                     ?: Director::baseURL();
 
             $cachebust = uniqid();
+            $consent = implode(',', CookieConsent::getConsent());
             if (parse_url($url, PHP_URL_QUERY)) {
-                $url = Director::absoluteURL("$url&acceptCookies=$cachebust");
+                $url = Director::absoluteURL("$url&acceptCookies=$consent&cachebust=$cachebust");
             } else {
-                $url = Director::absoluteURL("$url?acceptCookies=$cachebust");
+                $url = Director::absoluteURL("$url?acceptCookies=$consent&cachebust=$cachebust");
             }
 
             $this->owner->redirect($url);
@@ -157,10 +207,11 @@ class ContentControllerExtension extends Extension
                     ?: Director::baseURL();
 
             $cachebust = uniqid();
+            $consent = implode(',', CookieConsent::getConsent());
             if (parse_url($url, PHP_URL_QUERY)) {
-                $url = Director::absoluteURL("$url&acceptCookies=$cachebust");
+                $url = Director::absoluteURL("$url&acceptCookies=$consent&cachebust=$cachebust");
             } else {
-                $url = Director::absoluteURL("$url?acceptCookies=$cachebust");
+                $url = Director::absoluteURL("$url?acceptCookies=$consent&cachebust=$cachebust");
             }
 
             $this->owner->redirect($url);
@@ -170,5 +221,22 @@ class ContentControllerExtension extends Extension
     public function getAcceptNecessaryCookiesLink()
     {
         return Controller::join_links($this->getOwner()->Link(), 'acceptNecessaryCookies');
+    }
+
+    /**
+     * This action is used as an image source when setting cookies for multiple allowed hosts
+     */
+    public function acceptCookies()
+    {
+        if (($var = $this->getOwner()->getRequest()->getVar('acceptCookies'))
+            && ($parts = explode(',', $var))
+            && ($groups = array_intersect($parts, array_keys(Config::inst()->get(CookieConsent::class, 'cookies'))))
+            && count($groups)
+        ) {
+            CookieConsent::grant($groups);
+
+            return "ok";
+        }
+        return $this->getOwner()->httpError(404, 'not found');
     }
 }

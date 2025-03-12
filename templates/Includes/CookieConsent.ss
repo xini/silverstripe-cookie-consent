@@ -1,5 +1,12 @@
 <% if $PromptCookieConsent %>
-    <div role="dialog" aria-labelledby="cookieconsent-title" class="CookieConsent" id="CookieConsent" data-cookie="$CookieConsentCookieName" data-expiry="$CookieConsentCookieExpiry">
+    <div role="dialog"
+         aria-labelledby="cookieconsent-title"
+         class="CookieConsent"
+         id="CookieConsent"
+         data-cookie="$CookieConsentCookieName"
+         data-expiry="$CookieConsentCookieExpiry"
+         <% if $AdditionalDomainsCookiesEnabled %>data-additional-host-links="<% loop $AdditionalHosts %>$BaseLink<% if not $IsLast %>,<% end_if %><% end_loop %>"<% end_if %>
+     >
         <div class="CookieConsent__hd">
             <h2 class="CookieConsent__title" id="cookieconsent-title">$SiteConfig.CookieConsentTitle</h2>
         </div>
@@ -34,6 +41,7 @@
         if (typeof(popup) != 'undefined' && popup != null) {
             const cookieName = popup.getAttribute('data-cookie');
             const cookieExpiry = popup.getAttribute('data-expiry');
+            const additionalHostLinks = popup.getAttribute('data-additional-host-links');
             if (document.cookie.match(new RegExp('(^| )' + cookieName + '=([^;]+)'))) {
                 popup.style.display = 'none';
             }
@@ -51,6 +59,17 @@
                             d.setTime(d.getTime() + 24*60*60*1000*cookieExpiry);
                             const cookieGroups = this.getAttribute('data-cookie-groups');
                             document.cookie = cookieName + "=" + cookieGroups + ";path=/;expires=" + d.toGMTString();
+                            if (typeof(additionalHostLinks) != 'undefined' && additionalHostLinks != null) {
+                                additionalHostLinks.split(',').forEach(function (url) {
+                                    let img = document.createElement("img");
+                                    img.src = url + cookieGroups;
+                                    img.width = 1;
+                                    img.height = 1;
+                                    img.alt = "";
+                                    img.className = "CookieConsent__host-image";
+                                    document.body.appendChild(img);
+                                });
+                            }
                             let event = new CustomEvent("updateCookieConsent");
                             document.dispatchEvent(event);
                             popup.style.display = 'none';
@@ -60,4 +79,9 @@
             });
         }
     </script>
+<% end_if %>
+<% if $SetAdditionalDomainsCookies %>
+    <% loop $AdditionalHosts %>
+        <img src="$FullLink" width="1" height="1" alt="" class="CookieConsent__host-image"/>
+    <% end_loop %>
 <% end_if %>

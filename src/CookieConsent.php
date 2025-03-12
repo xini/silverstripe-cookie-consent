@@ -76,6 +76,14 @@ class CookieConsent
     private static $cookie_http_only = false;
 
     /**
+     * Set consent cookies for all hosts allowed through SS_ALLOWED_HOSTS config
+     *
+     * @config
+     * @var bool
+     */
+    private static $include_all_allowed_hosts = false;
+
+    /**
      * Check if there is consent for the given cookie
      *
      * @param $group

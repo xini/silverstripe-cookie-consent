@@ -5,12 +5,11 @@ namespace Innoweb\CookieConsent\Model;
 use Innoweb\CookieConsent\CookieConsent;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
-use SilverStripe\Core\Environment;
-use SilverStripe\ORM\DataObject;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Tab;
 use SilverStripe\Forms\TabSet;
 use SilverStripe\Forms\TextField;
+use SilverStripe\ORM\DataObject;
 
 /**
  * A description for a used cookie

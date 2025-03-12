@@ -13,7 +13,7 @@
         "gulp-plumber": "^1.2.1",
         "gulp-sass": "^5.1.0",
         "gulp-sourcemaps": "^3.0.0",
-        "sass": "^1.77.6"
+        "sass": "^1.85.1"
     },
     "engines": {
         "node": "^18.0.0"

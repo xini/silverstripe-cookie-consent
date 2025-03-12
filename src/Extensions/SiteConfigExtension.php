@@ -3,12 +3,12 @@
 namespace Innoweb\CookieConsent\Extensions;
 
 use Innoweb\CookieConsent\Model\CookieGroup;
-use SilverStripe\ORM\DataExtension;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
-use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
-use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\TextField;
+use SilverStripe\ORM\DataExtension;
 use SilverStripe\SiteConfig\SiteConfig;
 
 /**
