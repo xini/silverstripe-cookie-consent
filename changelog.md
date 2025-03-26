@@ -23,7 +23,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [3.4.1]
 
 * fix typos in language files
-* fix <p> in <span> in field content
+* fix p in span tags in field content
 
 ## [3.4.0]
 
