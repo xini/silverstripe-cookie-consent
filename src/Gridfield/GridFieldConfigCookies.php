@@ -31,6 +31,6 @@ class GridFieldConfigCookies extends GridFieldConfig
         $sort->setThrowExceptionOnBadDataType(false);
         $filter->setThrowExceptionOnBadDataType(false);
 
-        $this->extend('updateConfig');
+        $this->extend('updateConfig', $this);
     }
 }
