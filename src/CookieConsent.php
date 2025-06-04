@@ -162,7 +162,10 @@ class CookieConsent
      */
     public static function getConsent()
     {
-        return explode(',', Cookie::get(self::config()->get('cookie_name')) ?? '');
+        if ($value = Cookie::get(self::config()->get('cookie_name'))) {
+            return explode(',', $value);
+        }
+        return [];
     }
 
     /**
