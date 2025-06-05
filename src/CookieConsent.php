@@ -141,14 +141,39 @@ class CookieConsent
         $key = array_search($group, $consent);
         $cookies = Config::inst()->get(CookieConsent::class, 'cookies');
         if (isset($cookies[$group])) {
-            foreach ($cookies[$group] as $host => $cookies) {
-                $host = ($host === CookieGroup::LOCAL_PROVIDER)
-                    ? Director::host()
-                    : str_replace('_', '.', $host);
-                foreach ($cookies as $cookie) {
-                    Cookie::force_expiry($cookie, null, $host);
+
+            // go through cookies set on request and check if they are set for this group
+            foreach ($_COOKIE as $cookieName => $value) {
+
+                // check if the cookie is set for this group
+                foreach ($cookies[$group] as $configuredHost => $configuredCookies) {
+
+                    // get host and host without subdomain
+                    $hosts = [];
+                    $hosts[] = ($configuredHost === CookieGroup::LOCAL_PROVIDER)
+                        ? Director::host()
+                        : str_replace('_', '.', $configuredHost);
+
+                    if (substr_count($hosts[0], '.') > 1) {
+                        $hostParts = explode('.', $hosts[0]);
+                        $count = count($hostParts);
+                        for ($i = 1; $i < ($count - 1); $i++) {
+                            array_shift($hostParts);
+                            $hosts[] = implode('.', $hostParts);
+                        }
+                    }
+
+                    foreach ($configuredCookies as $configuredCookie) {
+                        if (preg_match('/^' . str_replace('*', '.*', $configuredCookie) . '$/', $cookieName)) {
+                            foreach ($hosts as $host) {
+                                Cookie::force_expiry($cookieName, null, $host);
+                            }
+                        }
+                    }
                 }
+
             }
+
         }
 
         unset($consent[$key]);
