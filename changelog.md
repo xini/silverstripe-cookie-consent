@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.7.5]
+
+* change wording of 'Accept necessary cookies' to 'Necessary cookies only'
+
 ## [3.7.4]
 
 * improve removal of cookies when consent is withdrawn, covering cookies for higher level domains and cookies configured as wildcards (e.g. Google Analytics _ga_* cookies)

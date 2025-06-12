@@ -2,7 +2,7 @@ de:
   Innoweb\CookieConsent\CookieConsent:
     ManageCookies: 'Cookie-Einstellungen verwalten'
     AcceptAllCookies: 'Alle Cookies akzeptieren'
-    AcceptNecessaryCookies: 'Notwendige Cookies akzeptieren'
+    AcceptNecessaryCookies: 'Nur notwendige Cookies'
     ReviewCookiePolicy: 'Cookie-Richtlinie anzeigen'
   Innoweb\CookieConsent\Model\CookieGroup:
     Title: 'Cookie-Name'

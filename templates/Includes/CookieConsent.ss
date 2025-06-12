@@ -18,7 +18,7 @@
         <div class="CookieConsent__ft">
             <% if $SiteUsesNecessaryCookiesOnly %>
                 <a class="CookieConsent__button CookieConsent__button--highlight js-cookie-consent-button" href="$AcceptNecessaryCookiesLink" rel="nofollow" data-cookie-groups="Necessary">
-                    <%t Innoweb\\CookieConsent\\CookieConsent.AcceptNecessaryCookies 'Accept necessary cookies' %>
+                    <%t Innoweb\\CookieConsent\\CookieConsent.AcceptNecessaryCookies 'Necessary cookies only' %>
                 </a>
                 <a class="CookieConsent__button js-cookie-info-button" href="$CookiePolicyPage.Link" rel="nofollow">
                     <%t Innoweb\\CookieConsent\\CookieConsent.ReviewCookiePolicy 'Review cookie policy' %>
@@ -28,7 +28,7 @@
                     <%t Innoweb\\CookieConsent\\CookieConsent.AcceptAllCookies 'Accept all cookies' %>
                 </a>
                 <a class="CookieConsent__button js-cookie-consent-button" href="$AcceptNecessaryCookiesLink" rel="nofollow" data-cookie-groups="Necessary">
-                    <%t Innoweb\\CookieConsent\\CookieConsent.AcceptNecessaryCookies 'Accept necessary cookies' %>
+                    <%t Innoweb\\CookieConsent\\CookieConsent.AcceptNecessaryCookies 'Necessary cookies only' %>
                 </a>
                 <a class="CookieConsent__button js-cookie-info-button" href="$CookiePolicyPage.Link" rel="nofollow">
                     <%t Innoweb\\CookieConsent\\CookieConsent.ManageCookies 'Manage cookie settings' %>
