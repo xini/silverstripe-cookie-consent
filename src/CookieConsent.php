@@ -2,8 +2,8 @@
 
 namespace Innoweb\CookieConsent;
 
-use Exception;
 use Innoweb\CookieConsent\Model\CookieGroup;
+use Psr\Log\LoggerInterface;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Cookie;
 use SilverStripe\Control\Director;
@@ -12,6 +12,7 @@ use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Config\Configurable;
 use SilverStripe\Core\Extensible;
 use SilverStripe\Core\Injector\Injectable;
+use SilverStripe\Core\Injector\Injector;
 
 class CookieConsent
 {
@@ -88,17 +89,17 @@ class CookieConsent
      *
      * @param $group
      * @return bool
-     * @throws Exception
      */
     public static function check($group = CookieConsent::NECESSARY)
     {
         $cookies = self::config()->get('cookies');
         if (!isset($cookies[$group])) {
-            throw new Exception(sprintf(
+            Injector::inst()->get(LoggerInterface::class)->error(sprintf(
                 "The cookie group '%s' is not configured. You need to add it to the cookies config on %s",
                 $group,
                 self::class
             ));
+            return false;
         }
 
         $consent = self::getConsent();

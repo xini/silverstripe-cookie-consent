@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.8.0]
+
+* fail silently and log error instead of throwing exception when checked cookie category is not defined
+
 ## [3.7.5]
 
 * change wording of 'Accept necessary cookies' to 'Necessary cookies only'
