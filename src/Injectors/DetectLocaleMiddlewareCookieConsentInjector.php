@@ -1,5 +1,7 @@
 <?php
 
+namespace Innoweb\CookieConsent\Injectors;
+
 use Innoweb\CookieConsent\CookieConsent;
 use SilverStripe\Control\HTTPRequest;
 use TractorCow\Fluent\Middleware\DetectLocaleMiddleware;
