@@ -11,4 +11,4 @@ Innoweb\CookieConsent\Model\CookieDescription:
     - TractorCow\Fluent\Extension\FluentExtension
 SilverStripe\Core\Injector\Injector:
   TractorCow\Fluent\Middleware\DetectLocaleMiddleware:
-    class: DetectLocaleMiddlewareCookieConsentInjector
+    class: Innoweb\CookieConsent\Injectors\DetectLocaleMiddlewareCookieConsentInjector
