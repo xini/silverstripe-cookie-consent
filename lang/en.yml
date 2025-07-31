@@ -18,7 +18,7 @@ en:
     External: 'External Content'
     External_Content: '<p>External cookies are placed by third-party platforms and allow you to view and interact with content hosted on external platforms directly from the pages of this website.</p>'
     Preferences: 'Preferences'
-    Preferences_Content: 'p>Preference cookies are used to store browser settings and optimize the user's browsing experience. These cookies include, for example, those used to set language and currency preferences.</p>'
+    Preferences_Content: 'p>Preference cookies are used to store browser settings and optimize the user''s browsing experience. These cookies include, for example, those used to set language and currency preferences.</p>'
   Innoweb\CookieConsent\Forms\CookieConsentForm:
     Save: 'Save'
     FormMessage: 'Your preferences have been saved'
