@@ -2,6 +2,10 @@
 
 namespace Innoweb\CookieConsent\Middleware;
 
+if (!class_exists('TractorCow\Fluent\Middleware\DetectLocaleMiddleware')) {
+    return;
+}
+
 use Innoweb\CookieConsent\CookieConsent;
 use SilverStripe\Control\HTTPRequest;
 use TractorCow\Fluent\Middleware\DetectLocaleMiddleware;
