@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.10.0]
+
+* Set "FluentLocale" cookie only when user has accepted the necessary cookies (thanks to @moritz-sauer-13)
+
 ## [3.9.1]
 
 * fix formatting
