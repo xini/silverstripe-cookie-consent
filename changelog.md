@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.9.0]
+
+* update default texts for cookie policy page and cookie categories after external review
+
 ## [3.8.0]
 
 * fail silently and log error instead of throwing exception when checked cookie category is not defined

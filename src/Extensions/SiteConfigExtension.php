@@ -54,7 +54,7 @@ class SiteConfigExtension extends DataExtension
             }
 
             if (empty($config->CookieConsentContent)) {
-                $config->CookieConsentContent = _t(__CLASS__ . '.DefaultCookieConsentContent', '<p>We use cookies to personalise content, to provide social media features and to analyse our traffic. We also share information about your use of our site with our social media and analytics partners who may combine it with other information that you’ve provided to them or that they’ve collected from your use of their services. You consent to our cookies if you continue to use our website.</p>');
+                $config->CookieConsentContent = _t(__CLASS__ . '.DefaultCookieConsentContent', '<p>We processes your personal data using cookies to ensure the proper functioning of the website. With your consent, we may also use cookies for analytical or marketing purposes. You can adjust your consent to these non-essential cookies by clicking "Manage cookie settings" or you can reject them by clicking "Necessary cookies only". Your consent may be withdrawn at any time through the link to the cookie policy in the footer of the website and changing to your preferred settings. For more information on the use of cookies, please click "Manage cookie settings".</p>');
             }
 
             $config->write();
