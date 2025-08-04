@@ -201,8 +201,8 @@ class CookieConsent
             return explode(',', $value);
         }
         // get consent data from http header (for example when in use behind CDN)
-        if (($request = Controller::curr()->getRequest()) && $value = $request->getHeader(self::config()->get('header_name'))) {
-            return explode(',', $value);
+        if (($request = Controller::curr()->getRequest()) && ($value = $request->getHeader(self::config()->get('header_name')))) {
+            return explode(',', urldecode($value));
         }
         return [];
     }
