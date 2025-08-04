@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.11.0]
+
+* determine consent settings using http header, useful when site is behind a CDN and cookies are being replaced by headers
+
 ## [3.10.3]
 
 * only check for cookie setting if cookie persistance is enabled

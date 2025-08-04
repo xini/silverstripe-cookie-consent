@@ -77,6 +77,14 @@ class CookieConsent
     private static $cookie_http_only = false;
 
     /**
+     * Use this name when using the cookie consent http header
+     *
+     * @config
+     * @var string
+     */
+    private static $header_name = 'X-Cookie-Consent';
+
+    /**
      * Set consent cookies for all hosts allowed through SS_ALLOWED_HOSTS config
      *
      * @config
@@ -188,7 +196,12 @@ class CookieConsent
      */
     public static function getConsent()
     {
+        // get consent data from cookie
         if ($value = Cookie::get(self::config()->get('cookie_name'))) {
+            return explode(',', $value);
+        }
+        // get consent data from http header (for example when in use behind CDN)
+        if (($request = Controller::curr()->getRequest()) && $value = $request->getHeader(self::config()->get('header_name'))) {
             return explode(',', $value);
         }
         return [];
