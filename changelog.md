@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.10.2]
+
+* fix setting multiple cookies when updating consent through the form
+
 ## [3.10.1]
 
 * fix missing class when fluent is not installed: only define middleware class if fluent class exists

@@ -45,14 +45,16 @@ class CookieConsentForm extends Form
      */
     public function submitConsent($data, Form $form)
     {
-        CookieConsent::grant(CookieConsent::config()->get('required_groups'));
+        $consent = [];
+        $consent = array_merge($consent, CookieConsent::config()->get('required_groups'));
         foreach (CookieConsent::config()->get('cookies') as $group => $cookies) {
             if (isset($data[$group]) && $data[$group]) {
-                CookieConsent::grant($group);
+                array_push($consent, $group);
             } elseif ($group !== CookieGroup::REQUIRED_DEFAULT) {
-                CookieConsent::remove($group);
+                $consent = array_diff($consent, [$group]);
             }
         }
+        CookieConsent::setConsent($consent);
 
         $form->sessionMessage(_t(__CLASS__ . '.FormMessage', 'Your preferences have been saved'), 'good');
 
