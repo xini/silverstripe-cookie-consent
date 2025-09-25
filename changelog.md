@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.12.0]
+
+* add consent data to emitted updateCookieConsent js event
+
 ## [3.11.1]
 
 * urldecode value received via http header

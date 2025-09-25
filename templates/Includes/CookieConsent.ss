@@ -70,7 +70,11 @@
                                     document.body.appendChild(img);
                                 });
                             }
-                            let event = new CustomEvent("updateCookieConsent");
+                            const event = new CustomEvent("updateCookieConsent", {
+                                detail: {
+                                    groups: cookieGroups.split(',')
+                                }
+                            });
                             document.dispatchEvent(event);
                             popup.style.display = 'none';
                         });
