@@ -15,9 +15,11 @@ class DetectLocaleWithCookieConsentMiddleware extends DetectLocaleMiddleware
     protected function setPersistLocale(HTTPRequest $request, $locale)
     {
         if(DetectLocaleMiddleware::config()->get('persist_cookie')
-            && CookieConsent::check(CookieConsent::PREFERENCES)
+            && !CookieConsent::check(CookieConsent::PREFERENCES)
         ){
-            parent::setPersistLocale($request, $locale);
+            DetectLocaleMiddleware::config()->set('persist_cookie', false);
         }
+
+        parent::setPersistLocale($request, $locale);
     }
 }

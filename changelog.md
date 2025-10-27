@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.12.2]
+
+* fix check for persistance cookie, making sure that locale is still written to session
+
 ## [3.12.1]
 
 * fix wording of necessary cookie buttons
