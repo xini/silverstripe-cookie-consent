@@ -37,10 +37,16 @@ class ContentControllerExtension extends Extension
      */
     public function onAfterInit()
     {
-        if (!($this->owner instanceof Security) && !CookieConsent::check()) {
-            if (Config::inst()->get(CookieConsent::class, 'include_css')) {
-                Requirements::css('innoweb/silverstripe-cookie-consent:client/dist/css/cookieconsent.css');
-            }
+        if (!($this->owner instanceof Security)
+            && !CookieConsent::check()
+            && Config::inst()->get(CookieConsent::class, 'include_css')
+        ) {
+            Requirements::css('innoweb/silverstripe-cookie-consent:client/dist/css/cookieconsent.css');
+        }
+        if (!($this->owner instanceof Security)
+            && Config::inst()->get(CookieConsent::class, 'include_js')
+        ) {
+            Requirements::javascript('innoweb/silverstripe-cookie-consent:client/dist/js/cookieconsent.js');
         }
     }
 
@@ -67,9 +73,9 @@ class ContentControllerExtension extends Extension
     }
 
     /**
-     * Get consent cookie name
+     * Get consent cookie expiry in days
      *
-     * @return string
+     * @return int
      */
     public function getCookieConsentCookieExpiry()
     {

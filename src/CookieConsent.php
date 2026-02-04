@@ -33,6 +33,7 @@ class CookieConsent
     private static $cookies = [];
 
     private static $include_css = true;
+    private static $include_js = true;
 
     private static $create_default_pages = true;
 

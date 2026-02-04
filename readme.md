@@ -15,8 +15,6 @@ This is an amended and simplified version of [TheBnl's cookie consent module](ht
 
 * Silverstripe CMS 5.x
 
-Note: this version is compatible with Silverstripe 5. For Silverstripe 4, please see the [2 release line](https://github.com/xini/silverstripe-cookie-consent/tree/2).
-
 ## Installation
 
 Install the module using composer:
@@ -81,11 +79,12 @@ en:
     _track_Expiry: 'Cookie expire time'
 ```
 
-You can also configure the requirement of the default css styles.
+You can also configure the requirement of the default css styles and js.
 
 ```yaml
 Innoweb\CookieConsent\CookieConsent:
   include_css: true
+  include_js: true
 ```
 
 If your site uses multiple domains (e.g. domain.com and domain.de), you can configure the module to set consent 

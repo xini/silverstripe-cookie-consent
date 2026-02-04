@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.0.0]
+
+* change frontend build to vite
+* split js into separate requirement instead of inline script
+* improve saving of cookie consent settings when additional acceptance buttons are used for e.g. embeds
+
 ## [3.12.2]
 
 * fix check for persistance cookie, making sure that locale is still written to session
