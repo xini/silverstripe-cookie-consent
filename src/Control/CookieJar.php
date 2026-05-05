@@ -14,15 +14,16 @@ use SilverStripe\Control\Session;
  */
 class CookieJar extends CoreCookieJar {
 
-    protected function outputCookie(
-        $name,
-        $value,
-        $expiry = 90,
-        $path = null,
-        $domain = null,
-        $secure = false,
-        $httpOnly = true
-    ) {
+    public function outputCookie(
+        string $name,
+        string|false $value,
+        int $expiry,
+        ?string $path = null,
+        ?string $domain = null,
+        bool $secure = false,
+        bool $httpOnly = true,
+        string $sameSite = ''
+    ): bool
         $sameSite = $this->getSameSite($name);
         Cookie::validateSameSite($sameSite);
         // if headers aren't sent, we can set the cookie
