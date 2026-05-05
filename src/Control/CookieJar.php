@@ -23,7 +23,7 @@ class CookieJar extends CoreCookieJar {
         bool $secure = false,
         bool $httpOnly = true,
         string $sameSite = ''
-    ): bool
+    ): bool {
         $sameSite = $this->getSameSite($name);
         Cookie::validateSameSite($sameSite);
         // if headers aren't sent, we can set the cookie
