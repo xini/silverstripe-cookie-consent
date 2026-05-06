@@ -7,12 +7,12 @@
 	"homepage": "http://github.com/xini/silverstripe-cookie-consent",
 	"authors": [{
 		"name": "Florian Thoma",
-		"homepage": "http://www.innoweb.com.au"
+		"homepage": "https://www.innoweb.com.au"
 	}],
 	"require": {
-		"silverstripe/cms": "^5",
-        "silverstripe/vendor-plugin": "^2",
-        "symbiote/silverstripe-gridfieldextensions": "^4"
+		"silverstripe/cms": "^6",
+        "silverstripe/vendor-plugin": "^3",
+        "symbiote/silverstripe-gridfieldextensions": "^5"
     },
 	"autoload": {
 		"psr-4": {

@@ -21,9 +21,13 @@ class CookieConsent
     use Configurable;
 
     const NECESSARY = 'Necessary';
+
     const ANALYTICS = 'Analytics';
+
     const MARKETING = 'Marketing';
+
     const EXTERNAL = 'External';
+
     const PREFERENCES = 'Preferences';
 
     private static $required_groups = [
@@ -33,6 +37,7 @@ class CookieConsent
     private static $cookies = [];
 
     private static $include_css = true;
+
     private static $include_js = true;
 
     private static $create_default_pages = true;
@@ -112,7 +117,7 @@ class CookieConsent
         }
 
         $consent = self::getConsent();
-        return array_search($group, $consent) !== false;
+        return in_array($group, $consent);
     }
 
     /**
@@ -126,8 +131,9 @@ class CookieConsent
         if (is_array($group)) {
             $consent = array_merge($consent, $group);
         } else {
-            array_push($consent, $group);
+            $consent[] = $group;
         }
+
         self::setConsent($consent);
     }
 
@@ -148,16 +154,13 @@ class CookieConsent
     public static function remove($group)
     {
         $consent = self::getConsent();
-        $key = array_search($group, $consent);
+        $key = array_search($group, $consent, true);
         $cookies = Config::inst()->get(CookieConsent::class, 'cookies');
         if (isset($cookies[$group])) {
-
             // go through cookies set on request and check if they are set for this group
-            foreach ($_COOKIE as $cookieName => $value) {
-
+            foreach (array_keys($_COOKIE) as $cookieName) {
                 // check if the cookie is set for this group
                 foreach ($cookies[$group] as $configuredHost => $configuredCookies) {
-
                     // get host and host without subdomain
                     $hosts = [];
                     $hosts[] = ($configuredHost === CookieGroup::LOCAL_PROVIDER)
@@ -174,16 +177,14 @@ class CookieConsent
                     }
 
                     foreach ($configuredCookies as $configuredCookie) {
-                        if (preg_match('/^' . str_replace('*', '.*', $configuredCookie) . '$/', $cookieName)) {
+                        if (preg_match('/^' . str_replace('*', '.*', $configuredCookie) . '$/', (string) $cookieName)) {
                             foreach ($hosts as $host) {
                                 Cookie::force_expiry($cookieName, null, $host);
                             }
                         }
                     }
                 }
-
             }
-
         }
 
         unset($consent[$key]);
@@ -201,10 +202,12 @@ class CookieConsent
         if ($value = Cookie::get(self::config()->get('cookie_name'))) {
             return explode(',', $value);
         }
+
         // get consent data from http header (for example when in use behind CDN)
         if (($request = Controller::curr()->getRequest()) && ($value = $request->getHeader(self::config()->get('header_name')))) {
-            return explode(',', urldecode($value));
+            return explode(',', urldecode((string) $value));
         }
+
         return [];
     }
 
@@ -216,7 +219,7 @@ class CookieConsent
     public static function setConsent($consent)
     {
         $consent = array_filter(array_unique(array_merge($consent, self::config()->get('required_groups'))));
-		$request = Controller::curr()->getRequest();
+        $request = Controller::curr()->getRequest();
         $secure = Director::is_https($request) && Session::config()->get('cookie_secure');
         Cookie::set(
             self::config()->get('cookie_name'),

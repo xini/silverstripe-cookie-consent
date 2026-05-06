@@ -4,8 +4,8 @@ namespace Innoweb\CookieConsent\Forms;
 
 use Innoweb\CookieConsent\CookieConsent;
 use Innoweb\CookieConsent\Model\CookieGroup;
+use Override;
 use SilverStripe\Core\Config\Config;
-use SilverStripe\Core\Manifest\ModuleLoader;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\View\Requirements;
 
@@ -33,6 +33,7 @@ class CookieConsentCheckBoxField extends CheckboxField
         $this->setDisabled($cookieGroup->isRequired());
     }
 
+    #[Override]
     public function Field($properties = [])
     {
         if (Config::inst()->get(CookieConsent::class, 'include_css')) {

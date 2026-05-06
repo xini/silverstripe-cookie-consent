@@ -3,6 +3,7 @@
 namespace Innoweb\CookieConsent\Model;
 
 use Innoweb\CookieConsent\CookieConsent;
+use Override;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Forms\FieldList;
@@ -27,43 +28,44 @@ class CookieDescription extends DataObject
 {
     private static $table_name = 'CookieDescription';
 
-    private static $db = array(
+    private static $db = [
         'ConfigName' => 'Varchar(255)',
         'Title' => 'Varchar(255)',
         'Provider' => 'Varchar(255)',
         'Purpose' => 'Varchar(255)',
         'Expiry' => 'Varchar(255)'
-    );
+    ];
 
-    private static $has_one = array(
+    private static $has_one = [
         'Group' => CookieGroup::class
-    );
+    ];
 
-    private static $summary_fields = array(
+    private static $summary_fields = [
         'Title',
         'Provider',
         'Purpose',
         'Expiry'
-    );
+    ];
 
-    private static $translate = array(
+    private static $translate = [
         'Purpose',
         'Expiry'
-    );
+    ];
 
     private static $singular_name = 'Cookie description';
 
     private static $plural_name = 'Cookie descriptions';
 
+    #[Override]
     public function getCMSFields()
     {
         $fields = FieldList::create(TabSet::create('Root', $mainTab = Tab::create('Main')));
-        $fields->addFieldsToTab('Root.Main', array(
+        $fields->addFieldsToTab('Root.Main', [
             TextField::create('Title', $this->fieldLabel('Title')),
             TextField::create('Provider', $this->fieldLabel('Provider')),
             TextField::create('Purpose', $this->fieldLabel('Purpose')),
             TextField::create('Expiry', $this->fieldLabel('Expiry'))
-        ));
+        ]);
 
         $this->extend('updateCMSFields', $fields);
         return $fields;
@@ -74,6 +76,7 @@ class CookieDescription extends DataObject
         if ($this->Provider == CookieGroup::LOCAL_PROVIDER) {
             return Director::host();
         }
+
         return $this->Provider;
     }
 
@@ -83,14 +86,21 @@ class CookieDescription extends DataObject
      * @param null $member
      * @return bool
      */
+    #[Override]
     public function canDelete($member = null)
     {
         $cookieConfig = Config::inst()->get(CookieConsent::class, 'cookies');
         $found = false;
         foreach ($cookieConfig as $group => $domains) {
-            if ($found) break;
+            if ($found) {
+                break;
+            }
+
             foreach ($domains as $cookies) {
-                if ($found) break;
+                if ($found) {
+                    break;
+                }
+
                 $found = in_array($this->ConfigName, $cookies);
             }
         }

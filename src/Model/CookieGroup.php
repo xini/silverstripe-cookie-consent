@@ -6,6 +6,7 @@ use Exception;
 use Innoweb\CookieConsent\CookieConsent;
 use Innoweb\CookieConsent\Forms\CookieConsentCheckBoxField;
 use Innoweb\CookieConsent\Gridfield\GridFieldConfigCookies;
+use Override;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
@@ -29,40 +30,42 @@ use SilverStripe\ORM\HasManyList;
 class CookieGroup extends DataObject
 {
     const REQUIRED_DEFAULT = 'Necessary';
+
     const LOCAL_PROVIDER = 'local';
 
     private static $table_name = 'CookieGroup';
 
-    private static $db = array(
+    private static $db = [
         'ConfigName' => 'Varchar(255)',
         'Title' => 'Varchar(255)',
         'Content' => 'HTMLText',
-    );
+    ];
 
-    private static $indexes = array(
+    private static $indexes = [
         'ConfigName' => true
-    );
+    ];
 
-    private static $has_many = array(
+    private static $has_many = [
         'Cookies' => CookieDescription::class . '.Group'
-    );
+    ];
 
-    private static $translate = array(
+    private static $translate = [
         'Title',
         'Content'
-    );
+    ];
 
     /**
      * @return FieldList|mixed
      */
+    #[Override]
     public function getCMSFields()
     {
         $fields = FieldList::create(TabSet::create('Root', $mainTab = Tab::create('Main')));
-        $fields->addFieldsToTab('Root.Main', array(
+        $fields->addFieldsToTab('Root.Main', [
             TextField::create('Title', $this->fieldLabel('Title')),
             HtmlEditorField::create('Content', $this->fieldLabel('Content')),
             GridField::create('Cookies', $this->fieldLabel('Cookies'), $this->Cookies(), GridFieldConfigCookies::create())
-        ));
+        ]);
 
         $this->extend('updateCMSFields', $fields);
         return $fields;
@@ -85,12 +88,13 @@ class CookieGroup extends DataObject
      */
     public function createField()
     {
-        return new CookieConsentCheckBoxField($this);
+        return CookieConsentCheckBoxField::create($this);
     }
 
     /**
      * @throws Exception
      */
+    #[Override]
     public function requireDefaultRecords()
     {
         parent::requireDefaultRecords();
@@ -99,43 +103,39 @@ class CookieGroup extends DataObject
         if ($cookiesConfig && $necessaryGroups) {
             foreach (array_unique($necessaryGroups) as $necessary) {
                 if (!isset($cookiesConfig[$necessary])) {
-                    throw new Exception("The required default cookie set is missing, make sure to set the '{$necessary}' group");
+                    throw new Exception(sprintf("The required default cookie set is missing, make sure to set the '%s' group", $necessary));
                 }
             }
 
             foreach ($cookiesConfig as $groupName => $providers) {
                 if (!$group = self::get()->find('ConfigName', $groupName)) {
-                    $group = self::create(array(
+                    $group = self::create([
                         'ConfigName' => $groupName,
-                        'Title' => _t(__CLASS__ . ".{$groupName}", $groupName),
-                        'Content' => _t(__CLASS__ . ".{$groupName}_Content", $groupName)
-                    ));
+                        'Title' => _t(self::class . ('.' . $groupName), $groupName),
+                        'Content' => _t(self::class . sprintf('.%s_Content', $groupName), $groupName)
+                    ]);
 
                     $group->write();
                     DB::alteration_message(sprintf('Cookie group "%s" created', $groupName), 'created');
                 }
 
                 foreach ($providers as $providerName => $cookies) {
-                    if ($providerName === self::LOCAL_PROVIDER) {
-                        $providerLabel = self::LOCAL_PROVIDER;
-                    } else {
-                        $providerLabel = str_replace('_', '.', $providerName);
-                    }
+                    $providerLabel = $providerName === self::LOCAL_PROVIDER ? self::LOCAL_PROVIDER : str_replace('_', '.', $providerName);
 
                     foreach ($cookies as $cookieName) {
-                        $cookie = CookieDescription::get()->filter(array(
+                        $cookie = CookieDescription::get()->filter([
                             'ConfigName' => $cookieName,
                             'Provider' => $providerLabel
-                        ))->first();
+                        ])->first();
 
                         if (!$cookie) {
-                            $cookie = CookieDescription::create(array(
+                            $cookie = CookieDescription::create([
                                 'ConfigName' => $cookieName,
                                 'Title' => $cookieName,
                                 'Provider' => $providerLabel,
-                                'Purpose' => _t("CookieConsent_{$providerName}.{$cookieName}_Purpose", "$cookieName"),
-                                'Expiry' => _t("CookieConsent_{$providerName}.{$cookieName}_Expiry", 'Session')
-                            ));
+                                'Purpose' => _t(sprintf('CookieConsent_%s.%s_Purpose', $providerName, $cookieName), $cookieName),
+                                'Expiry' => _t(sprintf('CookieConsent_%s.%s_Expiry', $providerName, $cookieName), 'Session')
+                            ]);
 
                             $group->Cookies()->add($cookie);
                             $cookie->flushCache();
@@ -149,6 +149,7 @@ class CookieGroup extends DataObject
         }
     }
 
+    #[Override]
     public function canCreate($member = null, $context = [])
     {
         return false;
@@ -160,6 +161,7 @@ class CookieGroup extends DataObject
      * @param null $member
      * @return bool
      */
+    #[Override]
     public function canDelete($member = null)
     {
         $cookieConfig = CookieConsent::config()->get('cookies');

@@ -20,13 +20,13 @@ class GridFieldConfigCookies extends GridFieldConfig
     public function __construct()
     {
         parent::__construct();
-        $this->addComponent(new GridFieldToolbarHeader());
-        $this->addComponent(new GridFieldButtonRow('before'));
-        $this->addComponent($sort = new GridFieldSortableHeader());
-        $this->addComponent($filter = new GridFieldFilterHeader());
-        $this->addComponent(new GridFieldEditableColumns());
-        $this->addComponent(new GridFieldDeleteAction());
-        $this->addComponent(new GridFieldAddNewInlineButton('toolbar-header-right'));
+        $this->addComponent(GridFieldToolbarHeader::create());
+        $this->addComponent(GridFieldButtonRow::create('before'));
+        $this->addComponent($sort = GridFieldSortableHeader::create());
+        $this->addComponent($filter = GridFieldFilterHeader::create());
+        $this->addComponent(GridFieldEditableColumns::create());
+        $this->addComponent(GridFieldDeleteAction::create());
+        $this->addComponent(GridFieldAddNewInlineButton::create('toolbar-header-right'));
 
         $sort->setThrowExceptionOnBadDataType(false);
         $filter->setThrowExceptionOnBadDataType(false);

@@ -13,7 +13,7 @@ This is an amended and simplified version of [TheBnl's cookie consent module](ht
 
 ## Requirements
 
-* Silverstripe CMS 5.x
+* Silverstripe CMS 6.x
 
 ## Installation
 
@@ -197,10 +197,6 @@ Innoweb\CookieConsent\CookieConsent:
 The page created is filled with bare-bones content. 
 _Of course, it is your or your CMS users responsibility to alter these texts to make them fit your use case!_
 
-## todo
-
-* [ ] Remove `Innoweb\CookieConsent\Control\CookieJar` workaround for SS6
- 
 ## License
 
 BSD 3-Clause License, see [License](license.md)

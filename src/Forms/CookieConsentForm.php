@@ -17,7 +17,7 @@ use SilverStripe\Forms\FormAction;
  */
 class CookieConsentForm extends Form
 {
-    protected $extraClasses = array('cookie-consent-form');
+    protected $extraClasses = ['cookie-consent-form'];
 
     public function __construct(Controller $controller, $name)
     {
@@ -33,7 +33,7 @@ class CookieConsentForm extends Form
             }
         }
 
-        $actions = FieldList::create(FormAction::create('submitConsent', _t(__CLASS__ . '.Save', 'Save')));
+        $actions = FieldList::create(FormAction::create('submitConsent', _t(self::class . '.Save', 'Save')));
         parent::__construct($controller, $name, $fields, $actions);
     }
 
@@ -49,14 +49,15 @@ class CookieConsentForm extends Form
         $consent = array_merge($consent, CookieConsent::config()->get('required_groups'));
         foreach (CookieConsent::config()->get('cookies') as $group => $cookies) {
             if (isset($data[$group]) && $data[$group]) {
-                array_push($consent, $group);
+                $consent[] = $group;
             } elseif ($group !== CookieGroup::REQUIRED_DEFAULT) {
                 $consent = array_diff($consent, [$group]);
             }
         }
+
         CookieConsent::setConsent($consent);
 
-        $form->sessionMessage(_t(__CLASS__ . '.FormMessage', 'Your preferences have been saved'), 'good');
+        $form->sessionMessage(_t(self::class . '.FormMessage', 'Your preferences have been saved'), 'good');
 
         // get redirectBack URL like in RequestHandler::redirectBack()
         $controller = $this->getController();
