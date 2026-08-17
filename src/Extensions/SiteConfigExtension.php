@@ -2,9 +2,7 @@
 
 namespace Innoweb\CookieConsent\Extensions;
 
-use Innoweb\CookieConsent\CookieConsent;
 use Innoweb\CookieConsent\Model\CookieGroup;
-use SilverStripe\Forms\FieldGroup;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;

@@ -93,6 +93,25 @@ class ContentControllerExtension extends Extension
     }
 
     /**
+     * Method for checking cookie consent type in template
+     * @return string
+     */
+    public function ConsentType()
+    {
+        return CookieConsent::getConsentType();
+    }
+
+    /**
+     * Check if only necessary cookies are accepted
+     * @return bool
+     */
+    public function OnlyNecessaryCookiesAccepted()
+    {
+        $consent = CookieConsent::getConsent();
+        return $consent && count($consent) === 1 && $consent[0] === CookieConsent::NECESSARY;
+    }
+
+    /**
      * Get consent cookie name
      *
      * @return string

@@ -2,6 +2,9 @@
     <h1>$Title</h1>
     $Content
     <h2><%t Innoweb\\CookieConsent\\Pages\\CookiePolicyPage.ManageCookies 'Manage Cookies' %></h2>
+    <% if $ConsentType == "gpc" && $OnlyNecessaryCookiesAccepted %>
+        <p class="message good"><%t Innoweb\\CookieConsent\\Pages\\CookiePolicyPage.GPCSignalHonored 'Your opt-out preference signal is honored.' %></p>
+    <% end_if %>
     $Form
     <% if $SiteConfig.CookieGroups %>
         <h3><%t Innoweb\\CookieConsent\\Pages\\CookiePolicyPage.CookiesUsed 'Cookies used on this website' %></h3>

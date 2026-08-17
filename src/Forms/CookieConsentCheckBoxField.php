@@ -5,7 +5,6 @@ namespace Innoweb\CookieConsent\Forms;
 use Innoweb\CookieConsent\CookieConsent;
 use Innoweb\CookieConsent\Model\CookieGroup;
 use SilverStripe\Core\Config\Config;
-use SilverStripe\Core\Manifest\ModuleLoader;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\View\Requirements;
 
