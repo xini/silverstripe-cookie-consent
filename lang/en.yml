@@ -1,15 +1,49 @@
 en:
   Innoweb\CookieConsent\CookieConsent:
-    ManageCookies: 'Manage cookie settings'
     AcceptAllCookies: 'Accept all cookies'
     AcceptNecessaryCookies: 'Accept necessary cookies'
     AcceptOnlyNecessaryCookies: 'Accept only necessary cookies'
+    ManageCookies: 'Manage cookie settings'
     ReviewCookiePolicy: 'Review cookie policy'
+  Innoweb\CookieConsent\Extensions\SiteConfigExtension:
+    CookieConsent: 'Cookie Consent'
+    CookieConsentContent: 'Cookie Consent Content'
+    CookieConsentTitle: 'Cookie Consent Title'
+    Cookies: Cookies
+    DefaultCookieConsentContent: '<p>We processes your personal data using cookies to ensure the proper functioning of the website. With your consent, we may also use cookies for analytical or marketing purposes. You can adjust your consent to these non-essential cookies by clicking "Manage cookie settings" or you can reject them by clicking "Necessary cookies only". Your consent may be withdrawn at any time through the link to the cookie policy in the footer of the website and changing to your preferred settings. For more information on the use of cookies, please click "Manage cookie settings".</p>'
+    DefaultCookieConsentTitle: 'This website uses cookies'
+    OptInGDPRPopup: 'Opt-In / GDPR Popup'
+    db_CookieConsentContent: 'Cookie consent content'
+    db_CookieConsentTitle: 'Cookie consent title'
+  Innoweb\CookieConsent\Forms\CookieConsentForm:
+    FormMessage: 'Your preferences have been saved'
+    Save: Save
+  Innoweb\CookieConsent\Model\CookieDescription:
+    PLURALNAME: 'Cookie descriptions'
+    PLURALS:
+      one: 'A Cookie description'
+      other: '{count} Cookie descriptions'
+    SINGULARNAME: 'Cookie description'
+    db_ConfigName: 'Config name'
+    db_Expiry: Expiry
+    db_Provider: Provider
+    db_Purpose: Purpose
+    db_Title: Title
+    has_one_Group: Group
   Innoweb\CookieConsent\Model\CookieGroup:
-    Title: 'Cookie name'
+    Expiry: Expiry
+    PLURALNAME: 'Cookie Groups'
+    PLURALS:
+      one: 'A Cookie Group'
+      other: '{count} Cookie Groups'
     Provider: 'Placed by'
-    Purpose: 'Purpose'
-    Expiry: 'Expiry'
+    Purpose: Purpose
+    SINGULARNAME: 'Cookie Group'
+    Title: 'Cookie Name'
+    db_ConfigName: 'Config name'
+    db_Content: Content
+    db_Title: Title
+    has_many_Cookies: Cookies
     Necessary: 'Necessary'
     Necessary_Content: '<p>Necessary cookies are essential for the website to function properly and cannot be disabled. They are set to enable core functionality, such as accessibility, security, and to enable us to keep track of your cookie choices.</p>'
     Analytics: 'Analytics'
@@ -20,35 +54,27 @@ en:
     External_Content: '<p>External cookies are placed by third-party platforms and allow you to view and interact with content hosted on external platforms directly from the pages of this website.</p>'
     Preferences: 'Preferences'
     Preferences_Content: 'p>Preference cookies are used to store browser settings and optimize the user''s browsing experience. These cookies include, for example, those used to set language and currency preferences.</p>'
-  Innoweb\CookieConsent\Forms\CookieConsentForm:
-    Save: 'Save'
-    FormMessage: 'Your preferences have been saved'
   Innoweb\CookieConsent\Pages\CookiePolicyPage:
-    SINGULARNAME: 'Cookie Policy Page'
+    CLASS_DESCRIPTION: 'Cookie Policy Page'
+    CookiesUsed: 'Cookies used on this website'
+    DESCRIPTION: 'Cookie Policy Page'
+    DefaultContent: '<p>Cookies are small text files that may be stored on your computer or other device when you visit a website. Cookies are generally used to make websites work or work more efficiently, to keep track of your movements on the website, to display embedded videos, and for similar activities.</p><p>This website uses first-party cookies (cookies placed by this website), meaning only this website can read them. In addition, this website uses external services, which also set their own cookies, known as third-party cookies, to display content from external providers.</p><p>We use multiple categories of cookies on this website. Please see below their definitions. You can change your cookie preferences in the "Manage Cookies" section below by adjusting the respective checkbox for the selected category and clicking "Save".</p>'
+    DefaultFooterContent: '<h2>How to provide or withdraw cookie consent</h2><p>In addition to using the "Manage Cookies" form provided above, the user can manage preferences for cookies directly from within their browser and prevent, for example, third parties from installing cookies.</p><p>Through browser preferences, it is also possible to delete cookies installed in the past, including the cookies that may have saved the initial consent for the installation of cookies by this website.</p><p>Users can, for example, find information about how to manage cookies in the most commonly used browsers at the following addresses: <a rel="noopener nofollow" href="https://support.google.com/chrome/answer/95647" target="_blank">Google Chrome</a>, <a rel="noopener nofollow" href="https://support.mozilla.org/en-US/kb/enable-and-disable-cookies-website-preferences" target="_blank">Mozilla Firefox</a>, <a rel="noopener nofollow" href="https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/" target="_blank">Apple Safari</a> and <a rel="noopener nofollow" href="https://support.microsoft.com/en-us/windows/delete-and-manage-cookies-168dab11-0753-043d-7c16-ede5947fc64d" target="_blank">Microsoft Edge</a>.</p><h2>Owner and Data Controller</h2><p>[Name and address]</p><h3>Contact details:</h3><p>The Privacy Officer<br>[Name, email, phone, address]</p><p>Since the installation of third-party cookies and other tracking systems through the services used within this website cannot be technically controlled by the owner, any specific references to cookies installed by third parties are to be considered indicative. To obtain complete information, the user is kindly requested to consult the privacy policy for the respective third-party cookies listed in this notice.</p><p>Given the objective complexity surrounding the identification of technologies based on cookies, you are encouraged to contact us should you wish to receive any further information on the use of cookies by this website.</p>'
+    ManageCookies: 'Manage Cookies'
     PLURALNAME: 'Cookie Policy Pages'
     PLURALS:
       one: 'A Cookie Policy Page'
       other: '{count} Cookie Policy Pages'
-    DESCRIPTION: 'Cookie Policy Page'
-    ManageCookies: 'Manage Cookies'
-    CookiesUsed: 'Cookies used on this website'
-    Title: 'Cookie Policy Page'
-    DefaultContent: '<p>Cookies are small text files that may be stored on your computer or other device when you visit a website. Cookies are generally used to make websites work or work more efficiently, to keep track of your movements on the website, to display embedded videos, and for similar activities.</p><p>This website uses first-party cookies (cookies placed by this website), meaning only this website can read them. In addition, this website uses external services, which also set their own cookies, known as third-party cookies, to display content from external providers.</p><p>We use multiple categories of cookies on this website. Please see below their definitions. You can change your cookie preferences in the "Manage Cookies" section below by adjusting the respective checkbox for the selected category and clicking "Save".</p>'
-    DefaultFooterContent: '<h2>How to provide or withdraw cookie consent</h2><p>In addition to using the "Manage Cookies" form provided above, the user can manage preferences for cookies directly from within their browser and prevent, for example, third parties from installing cookies.</p><p>Through browser preferences, it is also possible to delete cookies installed in the past, including the cookies that may have saved the initial consent for the installation of cookies by this website.</p><p>Users can, for example, find information about how to manage cookies in the most commonly used browsers at the following addresses: <a rel="noopener nofollow" href="https://support.google.com/chrome/answer/95647" target="_blank">Google Chrome</a>, <a rel="noopener nofollow" href="https://support.mozilla.org/en-US/kb/enable-and-disable-cookies-website-preferences" target="_blank">Mozilla Firefox</a>, <a rel="noopener nofollow" href="https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/" target="_blank">Apple Safari</a> and <a rel="noopener nofollow" href="https://support.microsoft.com/en-us/windows/delete-and-manage-cookies-168dab11-0753-043d-7c16-ede5947fc64d" target="_blank">Microsoft Edge</a>.</p><h2>Owner and Data Controller</h2><p>[Name and address]</p><h3>Contact details:</h3><p>The Privacy Officer<br>[Name, email, phone, address]</p><p>Since the installation of third-party cookies and other tracking systems through the services used within this website cannot be technically controlled by the owner, any specific references to cookies installed by third parties are to be considered indicative. To obtain complete information, the user is kindly requested to consult the privacy policy for the respective third-party cookies listed in this notice.</p><p>Given the objective complexity surrounding the identification of technologies based on cookies, you are encouraged to contact us should you wish to receive any further information on the use of cookies by this website.</p>'
-  Innoweb\CookieConsent\Extensions\SiteConfigExtension:
-    CookieConsent: 'Cookie Consent'
-    CookieConsentTitle: 'Cookie Consent Title'
-    CookieConsentContent: 'Cookie Consent Content'
-    Cookies: 'Cookies'
-    DefaultCookieConsentTitle: 'This website uses cookies'
-    DefaultCookieConsentContent: '<p>We processes your personal data using cookies to ensure the proper functioning of the website. With your consent, we may also use cookies for analytical or marketing purposes. You can adjust your consent to these non-essential cookies by clicking "Manage cookie settings" or you can reject them by clicking "Necessary cookies only". Your consent may be withdrawn at any time through the link to the cookie policy in the footer of the website and changing to your preferred settings. For more information on the use of cookies, please click "Manage cookie settings".</p>'
+    SINGULARNAME: 'Cookie Policy Page'
+    Title: 'Cookie Policy'
+    db_FooterContent: 'Footer content'
 
   # general cookie content
   CookieConsent_local:
     PHPSESSID_Purpose: 'Assigns each user an anonymous session ID, to, for example, secure form submissions'
     PHPSESSID_Expiry: 'Session'
     CookieConsent_Purpose: 'Stores your cookie preferences'
-    CookieConsent_Expiry: '2 months'
+    CookieConsent_Expiry: '12 months'
     FluentLocale_Purpose: 'Stores your language preferences'
     FluentLocale_Expiry: '2 months'
     ipcountry_Purpose: 'Language select default'

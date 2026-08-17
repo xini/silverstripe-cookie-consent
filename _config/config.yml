@@ -7,10 +7,50 @@ Innoweb\CookieConsent\CookieConsent:
       local:
         - PHPSESSID
         - CookieConsent
-    #Analytics
-    #Marketing
-    #External
-    #Preferences
+  global_privacy_control: true
+  opt_in:
+    - AT
+    - BE
+    - BG
+    - BR
+    - CA
+    - CH
+    - CY
+    - CZ
+    - DE
+    - DK
+    - EE
+    - ES
+    - FI
+    - FR
+    - GB
+    - GR
+    - HR
+    - HU
+    - IE
+    - IN
+    - IS
+    - IT
+    - KR
+    - LI
+    - LT
+    - LU
+    - LV
+    - MT
+    - MX
+    - NL
+    - NO
+    - PL
+    - PT
+    - RO
+    - SE
+    - SI
+    - SK
+    - ZA
+  opt_out:
+    - JP
+  do_not_sell:
+    - US
 
 SilverStripe\Control\Director:
   rules:

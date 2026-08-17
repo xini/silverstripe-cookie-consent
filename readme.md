@@ -5,11 +5,13 @@
 
 ## Overview
 
-Creates a cookie consent popup and cookie policy page. 
+This module provides cookie consent popups and a cookie policy page. 
 
-While we try to tick as many legal boxes as we can, we give no warranty for this module to adhere to any legislation, including GDPR.
+This module is based on [TheBnl's cookie consent module](https://github.com/TheBnl/silverstripe-cookie-consent). Thanks for your work and inspiration!
 
-This is an amended and simplified version of [TheBnl's cookie consent module](https://github.com/TheBnl/silverstripe-cookie-consent). Thanks for your work and inspiration!
+> [!WARNING]
+> While we try to tick as many legal boxes as we can, we give no warranty for this module to adhere to any legislation, including GDPR.
+> We are not lawyers and we are not responsible for any legal consequences of using this module.
 
 ## Requirements
 
@@ -30,6 +32,7 @@ Include the popup template in your base Page.ss
 ```
 
 ## Configuration
+
 You can configure the cookies and cookie groups trough the yml config. You need to configure by provider, 
 for providers the dots are converted to underscores e.g. ads.marketingcompany.com becomes ads_marketingcompany_com.
 
@@ -57,6 +60,69 @@ Innoweb\CookieConsent\CookieConsent:
         - _ga
         - _gid
 ```
+
+The following cookie groups are available by default:
+- Necessary
+- Analytics
+- Marketing
+- Preferences
+- External
+
+## Geo location and juristiction specific consent solutions
+
+This module covers multiple solutions for multiple jurtistictions. The module itself doesn't provide geo location.
+To use your CDN's geo location capability, you can configure the HTTP header that should be used to retrieve the country
+code transmitted by the CDN request:
+
+```yaml
+Innoweb\CookieConsent\CookieConsent:
+  geolocation_header_name: 'X-Country-Code'
+```
+
+Once a geo location header is configured, the following options are enabled:
+
+**1. Global Privacy Control (GPC): Adheres to the Sec-GPC HTTP header when set**
+
+By default, this is enabled globally. If you wish to only use this for specific countries, you can chnage the setting 
+as follows:
+
+```yaml
+Innoweb\CookieConsent\CookieConsent:
+  global_privacy_control:
+    - US
+```
+
+**2. Opt-In Cookie Consent**
+
+Adheres to the EU Cookie Law (GDPR).
+
+By default this is enabled for all European countries, as well as Brazil, Canada, India, Mexico, South Africa, and South 
+Korea (see [config.yml](_config/config.yml) for the full list). 
+
+Make sure you have a link in the footer to the privacy policy and cookie policy pages.
+
+**3. Opt-Out Cookie Consent**
+
+By default this is enabled for Japan (see [config.yml](_config/config.yml) for the full list).
+
+Make sure you have a link in the footer to the cookie policy page, labelled "Your privacy choices" or similar.
+
+**4. Do-Not-Sell**
+
+By default this is enabled for the US (see [config.yml](_config/config.yml) for the full list).
+
+Make sure you have a link in the footer to the cookie policy page, labelled "Do not sell or share my personal information" or "Your privacy choices".
+
+### Default consent behaviour if geo location is enabled
+
+If the geo location is set to a country that is not covered by any of the above options, the default behaviour is to 
+enable all cookies and not show any consent popup.
+
+### Country override for testing
+
+In Dev and Test mode, you can test the country specific consent by adding a `?country=XX` query parameter to the URL.
+
+## Default Content
 
 This module comes with some default content for cookies we've encountered before. If you want to set default content 
 for these cookies yourself that is possible trough the lang files. If you have cookie descriptions that are not in 
@@ -100,7 +166,7 @@ be ignored.
 
 ## Usage
 
-Then you can check for consent in your PHP code by calling
+You can check for consent given in your PHP code by calling
 
 ```php
 if (CookieConsent::check('Analytics')) {
@@ -108,7 +174,7 @@ if (CookieConsent::check('Analytics')) {
 }
 ```
 
-In templates, you can check for consent using
+In templates, you can check for consent given using
 
 ```html
 <% if $CookieConsent(Analytics) %>

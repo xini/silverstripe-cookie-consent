@@ -30,6 +30,36 @@ class ContentControllerExtension extends Extension
         'acceptNecessaryCookies',
     ];
 
+    public function onBeforeInit()
+    {
+        // if no consent is set, check if we should set it based on geolocation/consent type
+        if (!CookieConsent::check() && $type = CookieConsent::getConsentType()) {
+
+            // check GPC
+            if ($type == CookieConsent::CONSENT_TYPE_GPC) {
+                // allow only necessary cookies and don't show popup
+                CookieConsent::grant(CookieConsent::NECESSARY);
+            }
+
+            // check opt-in / GDPR
+            if ($type == CookieConsent::CONSENT_TYPE_OPT_IN) {
+                // don't allow anything and show popup
+            }
+
+            // check opt-out
+            if ($type == CookieConsent::CONSENT_TYPE_OPT_OUT) {
+                // allow all cookies and don't show popup
+                CookieConsent::grantAll();
+            }
+
+            // check do-not-sell
+            if ($type == CookieConsent::CONSENT_TYPE_DO_NOT_SELL) {
+                // allow all cookies and don't show popup
+                CookieConsent::grantAll();
+            }
+        }
+    }
+
     /**
      * Place the necessary js and css
      *
@@ -83,18 +113,18 @@ class ContentControllerExtension extends Extension
     }
 
     /**
-     * Check if we can promt for concent
-     * We're not on a Securty or Cooky policy page and have no concent set
+     * Check if we should show opt-in popup
      *
      * @return bool
      */
     public function PromptCookieConsent()
     {
         $controller = Controller::curr();
+        $type = CookieConsent::getConsentType();
         $securiy = $controller ? $controller instanceof Security : false;
         $cookiePolicy = $controller ? $controller instanceof CookiePolicyPageController : false;
         $hasConsent = CookieConsent::check();
-        $prompt = !$securiy && !$cookiePolicy && !$hasConsent;
+        $prompt = ($type == CookieConsent::CONSENT_TYPE_OPT_IN) && !$securiy && !$cookiePolicy && !$hasConsent;
         $this->owner->extend('updatePromptCookieConsent', $prompt);
         return $prompt;
     }
@@ -202,7 +232,7 @@ class ContentControllerExtension extends Extension
 
     public function acceptNecessaryCookies()
     {
-        CookieConsent::grant(CookieConsent::NECESSARY);
+        CookieConsent::setConsent(CookieConsent::NECESSARY);
 
         if (Director::is_ajax()) {
             return "ok";

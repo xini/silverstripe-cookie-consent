@@ -62,6 +62,18 @@ import Cookies from "js-cookie";
                     });
                 });
             }
+
+            const closeButtons = document.querySelectorAll('.js-cookie-close-button');
+            if (buttons.length > 0) {
+                Array.prototype.forEach.call(buttons, function (button) {
+                    button.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        if (typeof (popup) != 'undefined' && popup != null) {
+                            popup.style.display = 'none';
+                        }
+                    });
+                });
+            }
         }
     });
 

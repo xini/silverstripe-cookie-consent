@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.1.0]
+
+* add ability to use CDN geolocation header for consent targeting
+* adhere to global privacy control header if geolocation is enabled
+* extend CookieConset cookie expiry from 2 to 12 months
+
 ## [4.0.0]
 
 * change frontend build to vite

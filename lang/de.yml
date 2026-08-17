@@ -1,15 +1,49 @@
 de:
   Innoweb\CookieConsent\CookieConsent:
-    ManageCookies: 'Cookie-Einstellungen verwalten'
     AcceptAllCookies: 'Alle Cookies akzeptieren'
     AcceptNecessaryCookies: 'Notwendige Cookies akzeptieren'
     AcceptOnlyNecessaryCookies: 'Nur notwendige Cookies akzeptieren'
+    ManageCookies: 'Cookie-Einstellungen verwalten'
     ReviewCookiePolicy: 'Cookie-Richtlinie anzeigen'
+  Innoweb\CookieConsent\Extensions\SiteConfigExtension:
+    CookieConsent: 'Cookie-Einwilligung'
+    CookieConsentContent: 'Inhalt der Cookie-Einwilligung'
+    CookieConsentTitle: 'Titel der Cookie-Einwilligung'
+    Cookies: 'Cookies'
+    DefaultCookieConsentContent: '<p>Wir verarbeiten Ihre personenbezogenen Daten mithilfe von Cookies, um das ordnungsgemäße Funktionieren der Website zu gewährleisten. Mit Ihrer Einwilligung können wir Cookies auch zu Analyse- oder Marketingzwecken verwenden. Sie können Ihre Einwilligung zu diesen nicht notwendigen Cookies anpassen, indem Sie auf „Cookie-Einstellungen verwalten“ klicken, oder sie ablehnen, indem Sie auf „Nur notwendige Cookies“ klicken. Ihre Einwilligung können Sie jederzeit widerrufen, indem Sie auf den Link zur Cookie-Richtlinie in der Fußzeile der Website klicken und Ihre bevorzugten Einstellungen ändern. Weitere Informationen zur Verwendung von Cookies finden Sie unter „Cookie-Einstellungen verwalten“.</p>'
+    DefaultCookieConsentTitle: 'Diese Website verwendet Cookies'
+    OptInGDPRPopup: 'Opt-in / DSGVO-Popup'
+    db_CookieConsentContent: 'Inhalt der Cookie-Einwilligung'
+    db_CookieConsentTitle: 'Titel der Cookie-Einwilligung'
+  Innoweb\CookieConsent\Forms\CookieConsentForm:
+    FormMessage: 'Ihre Einstellungen wurden gespeichert'
+    Save: 'Speichern'
+  Innoweb\CookieConsent\Model\CookieDescription:
+    PLURALNAME: 'Cookie Beschreibungen'
+    PLURALS:
+      one: 'Eine Cookie Beschreibung'
+      other: '{count} Cookie Beschreibungen'
+    SINGULARNAME: 'Cookie Beschreibung'
+    db_ConfigName: 'Konfigurationsname'
+    db_Expiry: Verfall
+    db_Provider: Anbieter
+    db_Purpose: Zweck
+    db_Title: Titel
+    has_one_Group: Gruppe
   Innoweb\CookieConsent\Model\CookieGroup:
-    Title: 'Cookie-Name'
-    Provider: 'Platziert von'
-    Purpose: 'Zweck'
     Expiry: 'Ablauf'
+    PLURALNAME: 'Cookie-Gruppen'
+    PLURALS:
+      one: 'Eine Cookie-Gruppe'
+      other: '{count} Cookie-Gruppen'
+    Provider: Anbieter
+    Purpose: 'Zweck'
+    SINGULARNAME: 'Cookie-Gruppe'
+    Title: 'Cookie-Name'
+    db_ConfigName: 'Konfigurationsname'
+    db_Content: Inhalt
+    db_Title: Titel
+    has_many_Cookies: Cookies
     Necessary: 'Notwendig'
     Necessary_Content: '<p>Notwendige Cookies sind für das ordnungsgemäße Funktionieren der Website unerlässlich und können nicht deaktiviert werden. Sie werden gesetzt, um Kernfunktionen wie Zugang und Sicherheit zu ermöglichen und es uns zu ermöglichen, Ihre Cookie-Auswahl zu verfolgen.</p>'
     Analytics: 'Analytics'
@@ -20,35 +54,27 @@ de:
     External_Content: '<p>Externe Cookies werden von Plattformen Dritter gesetzt und ermöglichen Ihnen, Inhalte, die auf externen Plattformen gehostet werden, direkt von den Seiten dieser Website aus anzuzeigen und mit ihnen zu interagieren.</p>'
     Preferences: 'Einstellungen'
     Preferences_Content: '<p>Einstellungscookies werden verwendet, um Browsereinstellungen zu speichern und das Surferlebnis des Benutzers zu optimieren. Zu diesen Cookies gehören beispielsweise solche, die für die Einstellung von Sprach- und Währungseinstellungen verwendet werden.</p>'
-  Innoweb\CookieConsent\Forms\CookieConsentForm:
-    Save: 'Speichern'
-    FormMessage: 'Ihre Einstellungen wurden gespeichert'
   Innoweb\CookieConsent\Pages\CookiePolicyPage:
-    SINGULARNAME: 'Cookie-Richtlinienseite'
+    CLASS_DESCRIPTION: 'Cookie-Richtlinienseite'
+    CookiesUsed: 'Auf dieser Website verwendete Cookies'
+    DESCRIPTION: 'Cookie-Richtlinienseite'
+    DefaultContent: '<p>Cookies sind kleine Textdateien, die beim Besuch einer Website auf Ihrem Computer oder einem anderen Gerät gespeichert werden können. Cookies werden im Allgemeinen verwendet, um die Funktionsfähigkeit von Websites zu gewährleisten oder deren Effizienz zu steigern, Ihre Bewegungen auf der Website zu verfolgen, eingebettete Videos anzuzeigen und für ähnliche Aktivitäten.</p><p>Diese Website verwendet Erstanbieter-Cookies (von dieser Website gesetzte Cookies), d. h. nur diese Website kann sie lesen. Darüber hinaus nutzt diese Website externe Dienste, die ebenfalls eigene Cookies, sogenannte Drittanbieter-Cookies, setzen, um Inhalte von externen Anbietern anzuzeigen.</p><p>Wir verwenden auf dieser Website mehrere Kategorien von Cookies. Die jeweiligen Definitionen finden Sie weiter unten. Sie können Ihre Cookie-Einstellungen im Abschnitt „Cookies verwalten“ weiter unten ändern, indem Sie das jeweilige Kontrollkästchen für die ausgewählte Kategorie aktivieren und auf „Speichern“ klicken.</p>'
+    DefaultFooterContent: '<h2>So erteilen oder widerrufen Sie die Cookie-Einwilligung</h2><p>Neben der Verwendung des oben bereitgestellten Formulars „Cookies verwalten“ kann der Benutzer die Einstellungen für Cookies direkt in seinem Browser verwalten und beispielsweise verhindern, dass Dritte Cookies installieren.</p><p>Über die Browsereinstellungen ist es auch möglich, in der Vergangenheit installierte Cookies zu löschen, einschließlich der Cookies, die möglicherweise die ursprüngliche Zustimmung zur Installation von Cookies durch diese Website gespeichert haben.</p><p>Informationen zur Verwaltung von Cookies in den gängigsten Browsern finden Benutzer beispielsweise unter den folgenden Adressen: <a rel="noopener nofollow" href="https://support.google.com/chrome/answer/95647" target="_blank">Google Chrome</a>, <a rel="noopener nofollow" href="https://support.mozilla.org/en-US/kb/enable-and-disable-cookies-website-preferences" target="_blank">Mozilla Firefox</a>, <a rel="noopener nofollow" href="https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/" target="_blank">Apple Safari</a> und <a rel="noopener nofollow" href="https://support.microsoft.com/en-us/windows/delete-and-manage-cookies-168dab11-0753-043d-7c16-ede5947fc64d" target="_blank">Microsoft Edge</a>.</p><h2>Eigentümer und Datenverantwortlicher</h2><p>[Name und Adresse]</p><h3>Kontaktdaten:</h3><p>Der Datenschutzbeauftragte<br>[Name, E-Mail, Telefonnummer, Adresse]</p><p>Da die Installation von Cookies von Drittanbietern und anderen Tracking-Systemen über die auf dieser Website verwendeten Dienste technisch nicht vom Eigentümer kontrolliert werden kann, sind alle spezifischen Hinweise auf von Drittanbietern installierte Cookies als indikativ. Um vollständige Informationen zu erhalten, wird der Benutzer gebeten, die Datenschutzrichtlinien für die jeweiligen Cookies von Drittanbietern zu konsultieren, die in dieser Mitteilung aufgeführt sind.</p><p>Angesichts der objektiven Komplexität, die mit der Identifizierung von Technologien auf der Grundlage von Cookies verbunden ist, werden Sie gebeten, uns zu kontaktieren, wenn Sie weitere Informationen zur Verwendung von Cookies durch diese Website erhalten möchten.</p>'
+    ManageCookies: 'Cookies verwalten'
     PLURALNAME: 'Cookie-Richtlinienseiten'
     PLURALS:
       one: 'Eine Cookie-Richtlinienseite'
       other: '{count} Cookie-Richtlinienseiten'
-    DESCRIPTION: 'Cookie-Richtlinienseite'
-    ManageCookies: 'Cookies verwalten'
-    CookiesUsed: 'Auf dieser Website verwendete Cookies'
+    SINGULARNAME: 'Cookie-Richtlinienseite'
     Title: 'Cookie-Richtlinie'
-    DefaultContent: '<p>Cookies sind kleine Textdateien, die beim Besuch einer Website auf Ihrem Computer oder einem anderen Gerät gespeichert werden können. Cookies werden im Allgemeinen verwendet, um die Funktionsfähigkeit von Websites zu gewährleisten oder deren Effizienz zu steigern, Ihre Bewegungen auf der Website zu verfolgen, eingebettete Videos anzuzeigen und für ähnliche Aktivitäten.</p><p>Diese Website verwendet Erstanbieter-Cookies (von dieser Website gesetzte Cookies), d. h. nur diese Website kann sie lesen. Darüber hinaus nutzt diese Website externe Dienste, die ebenfalls eigene Cookies, sogenannte Drittanbieter-Cookies, setzen, um Inhalte von externen Anbietern anzuzeigen.</p><p>Wir verwenden auf dieser Website mehrere Kategorien von Cookies. Die jeweiligen Definitionen finden Sie weiter unten. Sie können Ihre Cookie-Einstellungen im Abschnitt „Cookies verwalten“ weiter unten ändern, indem Sie das jeweilige Kontrollkästchen für die ausgewählte Kategorie aktivieren und auf „Speichern“ klicken.</p>'
-    DefaultFooterContent: '<h2>So erteilen oder widerrufen Sie die Cookie-Einwilligung</h2><p>Neben der Verwendung des oben bereitgestellten Formulars „Cookies verwalten“ kann der Benutzer die Einstellungen für Cookies direkt in seinem Browser verwalten und beispielsweise verhindern, dass Dritte Cookies installieren.</p><p>Über die Browsereinstellungen ist es auch möglich, in der Vergangenheit installierte Cookies zu löschen, einschließlich der Cookies, die möglicherweise die ursprüngliche Zustimmung zur Installation von Cookies durch diese Website gespeichert haben.</p><p>Informationen zur Verwaltung von Cookies in den gängigsten Browsern finden Benutzer beispielsweise unter den folgenden Adressen: <a rel="noopener nofollow" href="https://support.google.com/chrome/answer/95647" target="_blank">Google Chrome</a>, <a rel="noopener nofollow" href="https://support.mozilla.org/en-US/kb/enable-and-disable-cookies-website-preferences" target="_blank">Mozilla Firefox</a>, <a rel="noopener nofollow" href="https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/" target="_blank">Apple Safari</a> und <a rel="noopener nofollow" href="https://support.microsoft.com/en-us/windows/delete-and-manage-cookies-168dab11-0753-043d-7c16-ede5947fc64d" target="_blank">Microsoft Edge</a>.</p><h2>Eigentümer und Datenverantwortlicher</h2><p>[Name und Adresse]</p><h3>Kontaktdaten:</h3><p>Der Datenschutzbeauftragte<br>[Name, E-Mail, Telefonnummer, Adresse]</p><p>Da die Installation von Cookies von Drittanbietern und anderen Tracking-Systemen über die auf dieser Website verwendeten Dienste technisch nicht vom Eigentümer kontrolliert werden kann, sind alle spezifischen Hinweise auf von Drittanbietern installierte Cookies als indikativ. Um vollständige Informationen zu erhalten, wird der Benutzer gebeten, die Datenschutzrichtlinien für die jeweiligen Cookies von Drittanbietern zu konsultieren, die in dieser Mitteilung aufgeführt sind.</p><p>Angesichts der objektiven Komplexität, die mit der Identifizierung von Technologien auf der Grundlage von Cookies verbunden ist, werden Sie gebeten, uns zu kontaktieren, wenn Sie weitere Informationen zur Verwendung von Cookies durch diese Website erhalten möchten.</p>'
-  Innoweb\CookieConsent\Extensions\SiteConfigExtension:
-    CookieConsent: 'Cookie-Einwilligung'
-    CookieConsentTitle: 'Titel der Cookie-Einwilligung'
-    CookieConsentContent: 'Inhalt der Cookie-Einwilligung'
-    Cookies: 'Cookies'
-    DefaultCookieConsentTitle: 'Diese Website verwendet Cookies'
-    DefaultCookieConsentContent: '<p>Wir verarbeiten Ihre personenbezogenen Daten mithilfe von Cookies, um das ordnungsgemäße Funktionieren der Website zu gewährleisten. Mit Ihrer Einwilligung können wir Cookies auch zu Analyse- oder Marketingzwecken verwenden. Sie können Ihre Einwilligung zu diesen nicht notwendigen Cookies anpassen, indem Sie auf „Cookie-Einstellungen verwalten“ klicken, oder sie ablehnen, indem Sie auf „Nur notwendige Cookies“ klicken. Ihre Einwilligung können Sie jederzeit widerrufen, indem Sie auf den Link zur Cookie-Richtlinie in der Fußzeile der Website klicken und Ihre bevorzugten Einstellungen ändern. Weitere Informationen zur Verwendung von Cookies finden Sie unter „Cookie-Einstellungen verwalten“.</p>'
+    db_FooterContent: 'Seitenfußinhalt'
 
   # allgemeiner Cookie-Inhalt
   CookieConsent_local:
     PHPSESSID_Purpose: 'Weist jedem Benutzer eine anonyme Sitzungs-ID zu, um beispielsweise Formulareinreichungen zu sichern'
     PHPSESSID_Expiry: 'Sitzung'
     CookieConsent_Purpose: 'Speichert Ihre Cookie-Einstellungen'
-    CookieConsent_Expiry: '2 Monate'
+    CookieConsent_Expiry: '12 Monate'
     FluentLocale_Purpose: 'Speichert Ihre Spracheinstellungen'
     FluentLocale_Expiry: '2 Monate'
     ipcountry_Purpose: 'Sprachauswahl Standard'

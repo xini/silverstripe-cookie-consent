@@ -26,6 +26,11 @@ class CookieConsent
     const EXTERNAL = 'External';
     const PREFERENCES = 'Preferences';
 
+    const CONSENT_TYPE_GPC = 'gpc';
+    const CONSENT_TYPE_OPT_IN = 'optin';
+    const CONSENT_TYPE_OPT_OUT = 'optout';
+    const CONSENT_TYPE_DO_NOT_SELL = 'donotsell';
+
     private static $required_groups = [
         self::NECESSARY
     ];
@@ -51,7 +56,7 @@ class CookieConsent
      * @config
      * @var int
      */
-    private static $cookie_expiry = 60;
+    private static $cookie_expiry = 365;
 
     /**
      * Use this path when setting the consent cookie
@@ -94,7 +99,15 @@ class CookieConsent
     private static $include_all_allowed_hosts = false;
 
     /**
-     * Check if there is consent for the given cookie
+     * Set the name of the geolocation header to check for consent
+     *
+     * @config
+     * @var string
+     */
+    private static $geolocation_header_name = null;
+
+    /**
+     * Check if there is consent for the given cookie type
      *
      * @param $group
      * @return bool
@@ -238,5 +251,71 @@ class CookieConsent
     public static function isRequired($group)
     {
         return in_array($group, self::config()->get('required_groups'));
+    }
+
+    /**
+     * Get country from configured header
+     * @return string|null
+     */
+    public static function getCountry()
+    {
+        if ($header = self::config()->get('geolocation_header_name')) {
+            // get current request
+            $request = Controller::curr()->getRequest();
+
+            // return country from configured header
+            if ($country = $request->getHeader($header)) {
+                return strtoupper((string) $country);
+            }
+
+            if ((Director::isDev() || Director::isTest()) && $request->getVar('country')) {
+                return strtoupper((string) $request->getVar('country'));
+            }
+        }
+
+        return null;
+    }
+
+    public static function getConsentType()
+    {
+        // check if geo location based consent is enabled
+        if ($country = self::getCountry()) {
+
+            // check GPC
+            if ($gpcConfig = self::config()->get('global_privacy_control')
+                && ($request = Controller::curr()->getRequest())
+                && (int) $request->getHeader('Sec-GPC') === 1
+                && ($gpcConfig === true || (is_array($gpcConfig) && in_array($country, $gpcConfig)))
+            ) {
+                return self::CONSENT_TYPE_GPC;
+            }
+
+            // check opt-in
+            if ($optinConfig = self::config()->get('opt_in')
+                && is_array($optinConfig)
+                && in_array($country, $optinConfig)
+            ) {
+                return self::CONSENT_TYPE_OPT_IN;
+            }
+
+            // check opt-out
+            if ($optoutConfig = self::config()->get('opt_out')
+                && is_array($optoutConfig)
+                && in_array($country, $optoutConfig)
+            ) {
+                return self::CONSENT_TYPE_OPT_OUT;
+            }
+
+            // check do-not-sell
+            if ($donotsellConfig = self::config()->get('do_not_sell')
+                && is_array($donotsellConfig)
+                && in_array($country, $donotsellConfig)
+            ) {
+                return self::CONSENT_TYPE_DO_NOT_SELL;
+            }
+        }
+
+        // default is GDPR opt in
+        return self::CONSENT_TYPE_OPT_IN;
     }
 }
