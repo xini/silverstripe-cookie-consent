@@ -282,7 +282,7 @@ class CookieConsent
         if ($country = self::getCountry()) {
 
             // check GPC
-            if ($gpcConfig = self::config()->get('global_privacy_control')
+            if (($gpcConfig = self::config()->get('global_privacy_control'))
                 && ($request = Controller::curr()->getRequest())
                 && (int) $request->getHeader('Sec-GPC') === 1
                 && ($gpcConfig === true || (is_array($gpcConfig) && in_array($country, $gpcConfig)))
@@ -291,7 +291,7 @@ class CookieConsent
             }
 
             // check opt-in
-            if ($optinConfig = self::config()->get('opt_in')
+            if (($optinConfig = self::config()->get('opt_in'))
                 && is_array($optinConfig)
                 && in_array($country, $optinConfig)
             ) {
@@ -299,7 +299,7 @@ class CookieConsent
             }
 
             // check opt-out
-            if ($optoutConfig = self::config()->get('opt_out')
+            if (($optoutConfig = self::config()->get('opt_out'))
                 && is_array($optoutConfig)
                 && in_array($country, $optoutConfig)
             ) {
@@ -307,7 +307,7 @@ class CookieConsent
             }
 
             // check do-not-sell
-            if ($donotsellConfig = self::config()->get('do_not_sell')
+            if (($donotsellConfig = self::config()->get('do_not_sell'))
                 && is_array($donotsellConfig)
                 && in_array($country, $donotsellConfig)
             ) {
