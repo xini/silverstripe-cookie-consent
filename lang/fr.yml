@@ -1,9 +1,12 @@
 fr:
   Innoweb\CookieConsent\CookieConsent:
     AcceptAllCookies: 'Accepter tous les cookies'
+    AcceptAndClose: 'Accepter et fermer'
     AcceptNecessaryCookies: 'Accepter les cookies nécessaires'
     AcceptOnlyNecessaryCookies: 'Cookies nécessaires uniquement'
+    DoNotSellOrShareMyPersonalInformation: 'Ne vendez ni ne partagez mes informations personnelles'
     ManageCookies: 'Gérer les paramètres des cookies'
+    OptOut: 'Désinscrire'
     ReviewCookiePolicy: 'Voir la politique'
   Innoweb\CookieConsent\Extensions\SiteConfigExtension:
     CookieConsent: 'Consentement aux cookies'
@@ -12,7 +15,17 @@ fr:
     Cookies: 'Cookies'
     DefaultCookieConsentContent: '<p>Nous traitons vos données personnelles à l''aide de cookies pour assurer le bon fonctionnement du site web. Avec votre consentement, nous pouvons également utiliser des cookies à des fins d''analyse ou de marketing. Vous pouvez modifier votre consentement à ces cookies non essentiels en cliquant sur « Gérer les paramètres des cookies » ou les refuser en cliquant sur « Cookies nécessaires uniquement ». Vous pouvez retirer votre consentement à tout moment via le lien vers la politique relative aux cookies en bas de page du site web et en modifiant vos paramètres préférés. Pour plus d''informations sur l''utilisation des cookies, veuillez cliquer sur « Gérer les paramètres des cookies ».</p>'
     DefaultCookieConsentTitle: 'Ce site Web utilise des cookies'
-    OptInGDPRPopup: 'Fenêtre contextuelle d'inscription / RGPD'
+    DefaultCookieDoNotSellContent: '<p>Nous utilisons des cookies pour traiter vos données personnelles afin d''assurer le bon fonctionnement du site web. Vous pouvez vous opposer à la vente ou au partage de vos données personnelles en cliquant ci-dessous.</p>'
+    DefaultCookieDoNotSellTitle: 'Nous respectons votre vie privée'
+    DefaultCookieOptOutContent: '<p>Nous utilisons des cookies pour traiter vos données personnelles afin d''assurer le bon fonctionnement du site web. Vous pouvez vous opposer à la vente ou au partage de vos données personnelles en cliquant ci-dessous.</p>'
+    DefaultCookieOptOutTitle: 'Ce site Web utilise des cookies'
+    DoNotSellPopup: '«Ne pas vendre»'
+    DoNotSellPopupContent: 'Contenue'
+    DoNotSellPopupTitle: 'Titre'
+    OptInGDPRPopup: 'Inscription / RGPD'
+    OptOutPopup: 'Désinscription'
+    OptOutPopupContent': 'Contenue'
+    OptOutPopupTitle: 'Titre'
     db_CookieConsentContent: 'Contenu de consentement aux cookies'
     db_CookieConsentTitle: 'Titre de consentement au cookie'
   Innoweb\CookieConsent\Forms\CookieConsentForm:
@@ -60,7 +73,7 @@ fr:
     DESCRIPTION: 'Page Politique relative aux cookies'
     DefaultContent: '<p>Les cookies sont de petits fichiers texte qui peuvent être stockés sur votre ordinateur ou autre appareil lorsque vous consultez un site web. Ils sont généralement utilisés pour améliorer le fonctionnement des sites web, pour suivre vos déplacements sur le site, pour afficher des vidéos intégrées et pour des activités similaires.</p><p>Ce site web utilise des cookies internes (cookies placés par ce site web), ce qui signifie que seul ce site web peut les lire. De plus, ce site web utilise des services externes, qui installent également leurs propres cookies, appelés cookies tiers, pour afficher du contenu provenant de fournisseurs externes.</p><p>Nous utilisons plusieurs catégories de cookies sur ce site web. Veuillez consulter leurs définitions ci-dessous. Vous pouvez modifier vos préférences en matière de cookies dans la section « Gérer les cookies » ci-dessous en cochant la case correspondante à la catégorie sélectionnée et en cliquant sur « Enregistrer ».</p>'
     DefaultFooterContent: '<h2>Comment donner ou retirer son consentement aux cookies</h2><p>Outre le formulaire « Gérer les cookies » fourni ci-dessus, l''utilisateur peut gérer ses préférences en matière de cookies directement depuis son navigateur et empêcher, par exemple, l''installation de cookies par des tiers.</p><p>Grâce aux préférences du navigateur, il est également possible de supprimer les cookies installés précédemment, y compris ceux qui ont pu enregistrer le consentement initial à l''installation de cookies par ce site web.</p><p>Les utilisateurs peuvent, par exemple, trouver des informations sur la gestion des cookies dans les navigateurs les plus courants aux adresses suivantes : <a rel="noopener nofollow" href="https://support.google.com/chrome/answer/95647" target="_blank">Google Chrome</a>, <a rel="noopener nofollow" href="https://support.mozilla.org/en-US/kb/enable-and-disable-cookies-website-preferences" target="_blank">Mozilla Firefox</a>, <a rel="noopener nofollow" href="https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/" target="_blank">Apple Safari</a> et <a rel="noopener nofollow" href="https://support.microsoft.com/en-us/windows/delete-and-manage-cookies-168dab11-0753-043d-7c16-ede5947fc64d" target="_blank">Microsoft Edge</a>.</p><h2>Propriétaire et responsable du traitement des données</h2><p>[Nom et adresse]</p><h3>Coordonnées :</h3><p>Le responsable de la confidentialité<br>[Nom, adresse e-mail, téléphone, adresse]</p><p>Étant donné que l''installation de cookies tiers et d''autres systèmes de suivi via les services utilisés sur ce site web ne peut pas être techniquement contrôlée par le propriétaire, toute référence spécifique à Les cookies installés par des tiers sont donnés à titre indicatif. Pour obtenir des informations complètes, l''utilisateur est invité à consulter la politique de confidentialité des cookies tiers mentionnés dans la présente notice.</p><p>Compte tenu de la complexité objective de l''identification des technologies basées sur les cookies, nous vous invitons à nous contacter pour toute information complémentaire sur l''utilisation des cookies par ce site web.</p>'
-    GPCSignalHonored: 'Votre signal de préférence de refus est pris en compte.'
+    GPCSignalHonored: 'Votre choix de désabonnement a été pris en compte.'
     ManageCookies: 'Gérer les cookies'
     PLURALNAME: 'Pages relatives à la politique en matière de cookies'
     PLURALS:

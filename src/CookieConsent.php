@@ -31,6 +31,9 @@ class CookieConsent
     const CONSENT_TYPE_OPT_OUT = 'optout';
     const CONSENT_TYPE_DO_NOT_SELL = 'donotsell';
 
+    const CONSENT_ORIGIN_AUTO = 'auto';
+    const CONSENT_ORIGIN_USER = 'user';
+
     private static $required_groups = [
         self::NECESSARY
     ];
@@ -129,11 +132,11 @@ class CookieConsent
     }
 
     /**
-     * Grant consent for the given cookie group
+     * Grant consent for the given cookie group, keeping existing consent
      *
      * @param $group
      */
-    public static function grant($group)
+    public static function grant($group, $origin = CookieConsent::CONSENT_ORIGIN_USER)
     {
         $consent = self::getConsent();
         if (is_array($group)) {
@@ -141,33 +144,29 @@ class CookieConsent
         } else {
             array_push($consent, $group);
         }
-        self::setConsent($consent);
+        self::setConsent($consent, $origin);
     }
 
     /**
      * Grant consent for all the configured cookie groups
      */
-    public static function grantAll()
+    public static function grantAll($origin = CookieConsent::CONSENT_ORIGIN_USER)
     {
         $consent = array_keys(Config::inst()->get(CookieConsent::class, 'cookies'));
-        self::setConsent($consent);
+        self::setConsent($consent, $origin);
     }
 
     /**
-     * Remove consent for the given cookie group
+     * Remove the cookies for the given cookie group
      *
      * @param $group
      */
-    public static function remove($group)
+    public static function removeCookiesForGroup($group)
     {
-        $consent = self::getConsent();
-        $key = array_search($group, $consent);
         $cookies = Config::inst()->get(CookieConsent::class, 'cookies');
         if (isset($cookies[$group])) {
-
             // go through cookies set on request and check if they are set for this group
             foreach ($_COOKIE as $cookieName => $value) {
-
                 // check if the cookie is set for this group
                 foreach ($cookies[$group] as $configuredHost => $configuredCookies) {
 
@@ -194,13 +193,8 @@ class CookieConsent
                         }
                     }
                 }
-
             }
-
         }
-
-        unset($consent[$key]);
-        self::setConsent($consent);
     }
 
     /**
@@ -210,15 +204,53 @@ class CookieConsent
      */
     public static function getConsent()
     {
+        $consent = [];
         // get consent data from cookie
         if ($value = Cookie::get(self::config()->get('cookie_name'))) {
-            return explode(',', $value);
+            $consent = explode(',', $value);
         }
         // get consent data from http header (for example when in use behind CDN)
-        if (($request = Controller::curr()->getRequest()) && ($value = $request->getHeader(self::config()->get('header_name')))) {
-            return explode(',', urldecode($value));
+        if (Controller::has_curr()
+            && ($request = Controller::curr()->getRequest())
+            && ($value = $request->getHeader(self::config()->get('header_name')))
+        ) {
+            $consent = explode(',', urldecode($value));
         }
-        return [];
+        // remove first token showing origin
+        if (isset($consent[0])
+            && ($consent[0] === self::CONSENT_ORIGIN_AUTO || $consent[0] === self::CONSENT_ORIGIN_USER)
+        ) {
+            $consent = array_slice($consent, 1);
+        }
+        return $consent;
+    }
+
+    /**
+     * Get the origin of the consent
+     *
+     * @return string|null
+     */
+    public static function getConsentOrigin()
+    {
+        $origin = null;
+        // get consent data from cookie
+        if ($value = Cookie::get(self::config()->get('cookie_name'))) {
+            $consent = explode(',', $value);
+        }
+        // get consent data from http header (for example when in use behind CDN)
+        if (Controller::has_curr()
+            && ($request = Controller::curr()->getRequest())
+            && ($value = $request->getHeader(self::config()->get('header_name')))
+        ) {
+            $consent = explode(',', urldecode($value));
+        }
+        // get first token showing origin
+        if (isset($consent[0])
+            && ($consent[0] === self::CONSENT_ORIGIN_AUTO || $consent[0] === self::CONSENT_ORIGIN_USER)
+        ) {
+            $origin = $consent[0];
+        }
+        return $origin;
     }
 
     /**
@@ -226,11 +258,28 @@ class CookieConsent
      *
      * @param $consent
      */
-    public static function setConsent($consent)
+    public static function setConsent($consent, $origin = self::CONSENT_ORIGIN_USER)
     {
+        // gather the new consent to be set
+        $consent = is_array($consent) ? $consent : [$consent];
         $consent = array_filter(array_unique(array_merge($consent, self::config()->get('required_groups'))));
-		$request = Controller::curr()->getRequest();
-        $secure = Director::is_https($request) && Session::config()->get('cookie_secure');
+        // get currently set consent
+        $currentConsent = self::getConsent();
+        // get the diff and remove consent to the ones that are not required anymore
+        $obsoleteConsent = array_diff($currentConsent, $consent);
+        foreach ($obsoleteConsent as $group) {
+            self::removeCookiesForGroup($group);
+        }
+        // add type to first position of consent array
+        array_unshift($consent, $origin);
+        // check whether the cookie is secure
+        $secure = false;
+        if (Controller::has_curr()
+            && ($request = Controller::curr()->getRequest())
+        ) {
+            $secure = Director::is_https($request) && Session::config()->get('cookie_secure');
+        }
+        // set the new cookie
         Cookie::set(
             self::config()->get('cookie_name'),
             implode(',', $consent),
@@ -259,17 +308,19 @@ class CookieConsent
      */
     public static function getCountry()
     {
-        if ($header = self::config()->get('geolocation_header_name')) {
-            // get current request
-            $request = Controller::curr()->getRequest();
-
-            // return country from configured header
-            if ($country = $request->getHeader($header)) {
-                return strtoupper((string) $country);
-            }
-
+        if (Controller::has_curr()
+            && ($request = Controller::curr()->getRequest())
+        ) {
             if ((Director::isDev() || Director::isTest()) && $request->getVar('country')) {
                 return strtoupper((string) $request->getVar('country'));
+            }
+
+            if ($header = self::config()->get('geolocation_header_name')) {
+
+                // return country from configured header
+                if ($country = $request->getHeader($header)) {
+                    return strtoupper((string) $country);
+                }
             }
         }
 
@@ -278,17 +329,18 @@ class CookieConsent
 
     public static function getConsentType()
     {
+        // check GPC
+        if (($gpcConfig = self::config()->get('global_privacy_control'))
+            && Controller::has_curr()
+            && ($request = Controller::curr()->getRequest())
+            && (int) $request->getHeader('Sec-GPC') === 1
+            && ($gpcConfig === true || (is_array($gpcConfig) && in_array($country, $gpcConfig)))
+        ) {
+            return self::CONSENT_TYPE_GPC;
+        }
+
         // check if geo location based consent is enabled
         if ($country = self::getCountry()) {
-
-            // check GPC
-            if (($gpcConfig = self::config()->get('global_privacy_control'))
-                && ($request = Controller::curr()->getRequest())
-                && (int) $request->getHeader('Sec-GPC') === 1
-                && ($gpcConfig === true || (is_array($gpcConfig) && in_array($country, $gpcConfig)))
-            ) {
-                return self::CONSENT_TYPE_GPC;
-            }
 
             // check opt-in
             if (($optinConfig = self::config()->get('opt_in'))
@@ -315,7 +367,7 @@ class CookieConsent
             }
         }
 
-        // default is GDPR opt in
+        // fall back is GDPR opt in
         return self::CONSENT_TYPE_OPT_IN;
     }
 }

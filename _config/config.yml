@@ -9,12 +9,14 @@ Innoweb\CookieConsent\CookieConsent:
         - CookieConsent
   global_privacy_control: true
   opt_in:
+    - AD
     - AT
     - BE
     - BG
     - BR
     - CA
     - CH
+    - CN
     - CY
     - CZ
     - DE
@@ -31,11 +33,13 @@ Innoweb\CookieConsent\CookieConsent:
     - IN
     - IS
     - IT
+    - JP
     - KR
     - LI
     - LT
     - LU
     - LV
+    - MC
     - MT
     - MX
     - NL
@@ -44,11 +48,15 @@ Innoweb\CookieConsent\CookieConsent:
     - PT
     - RO
     - SE
+    - SG
     - SI
     - SK
+    - SM
+    - TH
+    - TR
+    - VA
     - ZA
-  opt_out:
-    - JP
+  opt_out: false
   do_not_sell:
     - US
 

@@ -10,10 +10,9 @@ import Cookies from "js-cookie";
             const cookieExpiry = dataElement.getAttribute('data-expiry');
             const additionalHostLinks = dataElement.getAttribute('data-additional-host-links');
 
-
             const popup = document.getElementById('CookieConsent');
             if (typeof (popup) != 'undefined' && popup != null) {
-                if (document.cookie.match(new RegExp('(^| )' + cookieName + '=([^;]+)'))) {
+                if (document.cookie.match(new RegExp('(^| )' + cookieName + '=user([^;]+)'))) {
                     popup.style.display = 'none';
                 }
             }
@@ -35,6 +34,10 @@ import Cookies from "js-cookie";
                             const currentCookieGroupsArray = currentCookieGroups.split(",");
                             const newCookieGroupsArray = newCookieGroups.split(",");
                             const updatedCookieGroupsArray = [...new Set([...currentCookieGroupsArray, ...newCookieGroupsArray])];
+                            // remove 'auto' from updatedCookieGroupsArray
+                            updatedCookieGroupsArray = updatedCookieGroupsArray.filter(group => group !== 'auto');
+                            // add consent origin
+                            updatedCookieGroupsArray.unshift('user');
                             updatedCookieGroups = updatedCookieGroupsArray.join(",");
                         }
                         // set cookie
@@ -56,18 +59,6 @@ import Cookies from "js-cookie";
                             }
                         });
                         document.dispatchEvent(event);
-                        if (typeof (popup) != 'undefined' && popup != null) {
-                            popup.style.display = 'none';
-                        }
-                    });
-                });
-            }
-
-            const closeButtons = document.querySelectorAll('.js-cookie-close-button');
-            if (buttons.length > 0) {
-                Array.prototype.forEach.call(buttons, function (button) {
-                    button.addEventListener('click', function (e) {
-                        e.preventDefault();
                         if (typeof (popup) != 'undefined' && popup != null) {
                             popup.style.display = 'none';
                         }

@@ -1,9 +1,12 @@
 de:
   Innoweb\CookieConsent\CookieConsent:
     AcceptAllCookies: 'Alle Cookies akzeptieren'
+    AcceptAndClose: 'Akzeptieren & schliessen'
     AcceptNecessaryCookies: 'Notwendige Cookies akzeptieren'
     AcceptOnlyNecessaryCookies: 'Nur notwendige Cookies akzeptieren'
+    DoNotSellOrShareMyPersonalInformation: 'Meine persönlichen Daten dürfen nicht verkauft oder weitergegeben werden.'
     ManageCookies: 'Cookie-Einstellungen verwalten'
+    OptOut: 'Ablehnen'
     ReviewCookiePolicy: 'Cookie-Richtlinie anzeigen'
   Innoweb\CookieConsent\Extensions\SiteConfigExtension:
     CookieConsent: 'Cookie-Einwilligung'
@@ -12,7 +15,17 @@ de:
     Cookies: 'Cookies'
     DefaultCookieConsentContent: '<p>Wir verarbeiten Ihre personenbezogenen Daten mithilfe von Cookies, um das ordnungsgemäße Funktionieren der Website zu gewährleisten. Mit Ihrer Einwilligung können wir Cookies auch zu Analyse- oder Marketingzwecken verwenden. Sie können Ihre Einwilligung zu diesen nicht notwendigen Cookies anpassen, indem Sie auf „Cookie-Einstellungen verwalten“ klicken, oder sie ablehnen, indem Sie auf „Nur notwendige Cookies“ klicken. Ihre Einwilligung können Sie jederzeit widerrufen, indem Sie auf den Link zur Cookie-Richtlinie in der Fußzeile der Website klicken und Ihre bevorzugten Einstellungen ändern. Weitere Informationen zur Verwendung von Cookies finden Sie unter „Cookie-Einstellungen verwalten“.</p>'
     DefaultCookieConsentTitle: 'Diese Website verwendet Cookies'
+    DefaultCookieDoNotSellContent: '<p>Wir verarbeiten Ihre personenbezogenen Daten mithilfe von Cookies, um die einwandfreie Funktion der Website zu gewährleisten. Sie haben das Recht, der Weitergabe Ihrer personenbezogenen Daten zu widersprechen, indem Sie unten klicken.</p>'
+    DefaultCookieDoNotSellTitle: 'Wir respektieren Ihre Privatsphäre.'
+    DefaultCookieOptOutContent: '<p>Wir verarbeiten Ihre personenbezogenen Daten mithilfe von Cookies, um die einwandfreie Funktion der Website zu gewährleisten. Sie haben das Recht, der Weitergabe Ihrer personenbezogenen Daten zu widersprechen, indem Sie unten klicken.</p>'
+    DefaultCookieOptOutTitle: 'Diese Website verwendet Cookies'
+    DoNotSellPopup: '„Nicht verkaufen“-Popup'
+    DoNotSellPopupContent: 'Opt-out-Popup-Inhalt'
+    DoNotSellPopupTitle: '„Nicht verkaufen“-Popup-Titel'
     OptInGDPRPopup: 'Opt-in / DSGVO-Popup'
+    OptOutPopup: 'Opt-out-Popup'
+    OptOutPopupContent': 'Opt-out-Popup-Inhalt'
+    OptOutPopupTitle: 'Opt-out-Popup-Titel'
     db_CookieConsentContent: 'Inhalt der Cookie-Einwilligung'
     db_CookieConsentTitle: 'Titel der Cookie-Einwilligung'
   Innoweb\CookieConsent\Forms\CookieConsentForm:
@@ -60,7 +73,7 @@ de:
     DESCRIPTION: 'Cookie-Richtlinienseite'
     DefaultContent: '<p>Cookies sind kleine Textdateien, die beim Besuch einer Website auf Ihrem Computer oder einem anderen Gerät gespeichert werden können. Cookies werden im Allgemeinen verwendet, um die Funktionsfähigkeit von Websites zu gewährleisten oder deren Effizienz zu steigern, Ihre Bewegungen auf der Website zu verfolgen, eingebettete Videos anzuzeigen und für ähnliche Aktivitäten.</p><p>Diese Website verwendet Erstanbieter-Cookies (von dieser Website gesetzte Cookies), d. h. nur diese Website kann sie lesen. Darüber hinaus nutzt diese Website externe Dienste, die ebenfalls eigene Cookies, sogenannte Drittanbieter-Cookies, setzen, um Inhalte von externen Anbietern anzuzeigen.</p><p>Wir verwenden auf dieser Website mehrere Kategorien von Cookies. Die jeweiligen Definitionen finden Sie weiter unten. Sie können Ihre Cookie-Einstellungen im Abschnitt „Cookies verwalten“ weiter unten ändern, indem Sie das jeweilige Kontrollkästchen für die ausgewählte Kategorie aktivieren und auf „Speichern“ klicken.</p>'
     DefaultFooterContent: '<h2>So erteilen oder widerrufen Sie die Cookie-Einwilligung</h2><p>Neben der Verwendung des oben bereitgestellten Formulars „Cookies verwalten“ kann der Benutzer die Einstellungen für Cookies direkt in seinem Browser verwalten und beispielsweise verhindern, dass Dritte Cookies installieren.</p><p>Über die Browsereinstellungen ist es auch möglich, in der Vergangenheit installierte Cookies zu löschen, einschließlich der Cookies, die möglicherweise die ursprüngliche Zustimmung zur Installation von Cookies durch diese Website gespeichert haben.</p><p>Informationen zur Verwaltung von Cookies in den gängigsten Browsern finden Benutzer beispielsweise unter den folgenden Adressen: <a rel="noopener nofollow" href="https://support.google.com/chrome/answer/95647" target="_blank">Google Chrome</a>, <a rel="noopener nofollow" href="https://support.mozilla.org/en-US/kb/enable-and-disable-cookies-website-preferences" target="_blank">Mozilla Firefox</a>, <a rel="noopener nofollow" href="https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/" target="_blank">Apple Safari</a> und <a rel="noopener nofollow" href="https://support.microsoft.com/en-us/windows/delete-and-manage-cookies-168dab11-0753-043d-7c16-ede5947fc64d" target="_blank">Microsoft Edge</a>.</p><h2>Eigentümer und Datenverantwortlicher</h2><p>[Name und Adresse]</p><h3>Kontaktdaten:</h3><p>Der Datenschutzbeauftragte<br>[Name, E-Mail, Telefonnummer, Adresse]</p><p>Da die Installation von Cookies von Drittanbietern und anderen Tracking-Systemen über die auf dieser Website verwendeten Dienste technisch nicht vom Eigentümer kontrolliert werden kann, sind alle spezifischen Hinweise auf von Drittanbietern installierte Cookies als indikativ. Um vollständige Informationen zu erhalten, wird der Benutzer gebeten, die Datenschutzrichtlinien für die jeweiligen Cookies von Drittanbietern zu konsultieren, die in dieser Mitteilung aufgeführt sind.</p><p>Angesichts der objektiven Komplexität, die mit der Identifizierung von Technologien auf der Grundlage von Cookies verbunden ist, werden Sie gebeten, uns zu kontaktieren, wenn Sie weitere Informationen zur Verwendung von Cookies durch diese Website erhalten möchten.</p>'
-    GPCSignalHonored: 'Ihr Opt-out-Präferenzsignal wird respektiert.'
+    GPCSignalHonored: 'Ihr Widerspruchswunsch wird respektiert.'
     ManageCookies: 'Cookies verwalten'
     PLURALNAME: 'Cookie-Richtlinienseiten'
     PLURALS:

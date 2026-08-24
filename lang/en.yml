@@ -1,18 +1,31 @@
 en:
   Innoweb\CookieConsent\CookieConsent:
     AcceptAllCookies: 'Accept all cookies'
+    AcceptAndClose: 'Accept & close'
     AcceptNecessaryCookies: 'Accept necessary cookies'
     AcceptOnlyNecessaryCookies: 'Accept only necessary cookies'
+    DoNotSellOrShareMyPersonalInformation: 'Do not sell or share my personal information'
     ManageCookies: 'Manage cookie settings'
+    OptOut: 'Opt out'
     ReviewCookiePolicy: 'Review cookie policy'
   Innoweb\CookieConsent\Extensions\SiteConfigExtension:
     CookieConsent: 'Cookie Consent'
     CookieConsentContent: 'Cookie Consent Content'
     CookieConsentTitle: 'Cookie Consent Title'
     Cookies: Cookies
-    DefaultCookieConsentContent: '<p>We processes your personal data using cookies to ensure the proper functioning of the website. With your consent, we may also use cookies for analytical or marketing purposes. You can adjust your consent to these non-essential cookies by clicking "Manage cookie settings" or you can reject them by clicking "Necessary cookies only". Your consent may be withdrawn at any time through the link to the cookie policy in the footer of the website and changing to your preferred settings. For more information on the use of cookies, please click "Manage cookie settings".</p>'
+    DefaultCookieConsentContent: '<p>We process your personal data using cookies to ensure the proper functioning of the website. With your consent, we may also use cookies for analytical or marketing purposes. You can adjust your consent to these non-essential cookies by clicking "Manage cookie settings" or you can reject them by clicking "Necessary cookies only". Your consent may be withdrawn at any time through the link to the cookie policy in the footer of the website and changing to your preferred settings. For more information on the use of cookies, please click "Manage cookie settings".</p>'
     DefaultCookieConsentTitle: 'This website uses cookies'
+    DefaultCookieDoNotSellContent: '<p>We process your personal data using cookies to ensure the proper functioning of the website. You have the right to opt out of the sale or sharing of your personal information by clicking below.</p>'
+    DefaultCookieDoNotSellTitle: 'We value your privacy'
+    DefaultCookieOptOutContent: '<p>We process your personal data using cookies to ensure the proper functioning of the website. You have the right to opt out of the sale or sharing of your personal information by clicking below.</p>'
+    DefaultCookieOptOutTitle: 'This website uses cookies'
+    DoNotSellPopup: 'Do-Not-Sell Popup'
+    DoNotSellPopupContent: 'Opt-Out Popup Content'
+    DoNotSellPopupTitle: 'Do-Not-Sell Popup Title'
     OptInGDPRPopup: 'Opt-In / GDPR Popup'
+    OptOutPopup: 'Opt-Out Popup'
+    OptOutPopupContent': 'Opt-Out Popup Content'
+    OptOutPopupTitle: 'Opt-Out Popup Title'
     db_CookieConsentContent: 'Cookie consent content'
     db_CookieConsentTitle: 'Cookie consent title'
   Innoweb\CookieConsent\Forms\CookieConsentForm:
@@ -31,11 +44,21 @@ en:
     db_Title: Title
     has_one_Group: Group
   Innoweb\CookieConsent\Model\CookieGroup:
+    Analytics: Analytics
+    Analytics_Content: '<p>Analytics cookies allow us to measure and report on website activity by tracking page visits, visitor locations and how visitors move around the website.</p>'
     Expiry: Expiry
+    External: 'External Content'
+    External_Content: '<p>External cookies are placed by third-party platforms and allow you to view and interact with content hosted on external platforms directly from the pages of this website.</p>'
+    Marketing: Marketing
+    Marketing_Content: '<p>Marketing cookies are used to track visitors across websites. The intention is to display ads that are relevant and engaging for the individual user. Marketing cookies are also used to display embedded content from other websites on our website.</p>'
+    Necessary: Necessary
+    Necessary_Content: '<p>Necessary cookies are essential for the website to function properly and cannot be disabled. They are set to enable core functionality, such as accessibility, security, and to enable us to keep track of your cookie choices.</p>'
     PLURALNAME: 'Cookie Groups'
     PLURALS:
       one: 'A Cookie Group'
       other: '{count} Cookie Groups'
+    Preferences: Preferences
+    Preferences_Content: "p>Preference cookies are used to store browser settings and optimize the user's browsing experience. These cookies include, for example, those used to set language and currency preferences.</p>"
     Provider: 'Placed by'
     Purpose: Purpose
     SINGULARNAME: 'Cookie Group'
@@ -44,16 +67,6 @@ en:
     db_Content: Content
     db_Title: Title
     has_many_Cookies: Cookies
-    Necessary: 'Necessary'
-    Necessary_Content: '<p>Necessary cookies are essential for the website to function properly and cannot be disabled. They are set to enable core functionality, such as accessibility, security, and to enable us to keep track of your cookie choices.</p>'
-    Analytics: 'Analytics'
-    Analytics_Content: '<p>Analytics cookies allow us to measure and report on website activity by tracking page visits, visitor locations and how visitors move around the website.</p>'
-    Marketing: 'Marketing'
-    Marketing_Content: '<p>Marketing cookies are used to track visitors across websites. The intention is to display ads that are relevant and engaging for the individual user. Marketing cookies are also used to display embedded content from other websites on our website.</p>'
-    External: 'External Content'
-    External_Content: '<p>External cookies are placed by third-party platforms and allow you to view and interact with content hosted on external platforms directly from the pages of this website.</p>'
-    Preferences: 'Preferences'
-    Preferences_Content: 'p>Preference cookies are used to store browser settings and optimize the user''s browsing experience. These cookies include, for example, those used to set language and currency preferences.</p>'
   Innoweb\CookieConsent\Pages\CookiePolicyPage:
     CLASS_DESCRIPTION: 'Cookie Policy Page'
     CookiesUsed: 'Cookies used on this website'

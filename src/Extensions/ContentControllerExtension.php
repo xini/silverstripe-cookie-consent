@@ -49,13 +49,13 @@ class ContentControllerExtension extends Extension
             // check opt-out
             if ($type == CookieConsent::CONSENT_TYPE_OPT_OUT) {
                 // allow all cookies and don't show popup
-                CookieConsent::grantAll();
+                CookieConsent::grantAll(CookieConsent::CONSENT_ORIGIN_AUTO);
             }
 
             // check do-not-sell
             if ($type == CookieConsent::CONSENT_TYPE_DO_NOT_SELL) {
                 // allow all cookies and don't show popup
-                CookieConsent::grantAll();
+                CookieConsent::grantAll(CookieConsent::CONSENT_ORIGIN_AUTO);
             }
         }
     }
@@ -145,6 +145,42 @@ class ContentControllerExtension extends Extension
         $hasConsent = CookieConsent::check();
         $prompt = ($type == CookieConsent::CONSENT_TYPE_OPT_IN) && !$securiy && !$cookiePolicy && !$hasConsent;
         $this->owner->extend('updatePromptCookieConsent', $prompt);
+        return $prompt;
+    }
+
+    /**
+     * Check if we should show opt-out popup
+     *
+     * @return bool
+     */
+    public function PromptOptOutPopup()
+    {
+        $controller = Controller::curr();
+        $type = CookieConsent::getConsentType();
+        $securiy = $controller ? $controller instanceof Security : false;
+        $cookiePolicy = $controller ? $controller instanceof CookiePolicyPageController : false;
+        $hasConsent = CookieConsent::check();
+        $origin = CookieConsent::getConsentOrigin();
+        $prompt = ($type == CookieConsent::CONSENT_TYPE_OPT_OUT) && !$securiy && !$cookiePolicy && $hasConsent && $origin === CookieConsent::CONSENT_ORIGIN_AUTO;
+        $this->owner->extend('updateOptOutPopup', $prompt);
+        return $prompt;
+    }
+
+    /**
+     * Check if we should show do-not-sell popup
+     *
+     * @return bool
+     */
+    public function PromptDoNotSellPopup()
+    {
+        $controller = Controller::curr();
+        $type = CookieConsent::getConsentType();
+        $securiy = $controller ? $controller instanceof Security : false;
+        $cookiePolicy = $controller ? $controller instanceof CookiePolicyPageController : false;
+        $hasConsent = CookieConsent::check();
+        $origin = CookieConsent::getConsentOrigin();
+        $prompt = ($type == CookieConsent::CONSENT_TYPE_DO_NOT_SELL) && !$securiy && !$cookiePolicy && $hasConsent && $origin === CookieConsent::CONSENT_ORIGIN_AUTO;
+        $this->owner->extend('updateDoNotSellPopup', $prompt);
         return $prompt;
     }
 

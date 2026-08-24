@@ -68,9 +68,24 @@ The following cookie groups are available by default:
 - Preferences
 - External
 
+## Global Privacy Control (GPC)
+
+Adheres to the Sec-GPC HTTP header and sets consent to necessary cookies only.
+
+By default, this is enabled globally. If you wish to only use this for specific countries, you can chnage the setting
+as follows:
+
+```yaml
+Innoweb\CookieConsent\CookieConsent:
+  global_privacy_control:
+    - US
+```
+
 ## Geo location and juristiction specific consent solutions
 
-This module covers multiple solutions for multiple jurtistictions. The module itself doesn't provide geo location.
+This module covers multiple solutions for multiple jurtistictions. 
+
+The module itself doesn't provide geo location, but relies on your CDN to provide the country code in a HTTP header. 
 To use your CDN's geo location capability, you can configure the HTTP header that should be used to retrieve the country
 code transmitted by the CDN request:
 
@@ -81,35 +96,24 @@ Innoweb\CookieConsent\CookieConsent:
 
 Once a geo location header is configured, the following options are enabled:
 
-**1. Global Privacy Control (GPC): Adheres to the Sec-GPC HTTP header when set**
-
-By default, this is enabled globally. If you wish to only use this for specific countries, you can chnage the setting 
-as follows:
-
-```yaml
-Innoweb\CookieConsent\CookieConsent:
-  global_privacy_control:
-    - US
-```
-
-**2. Opt-In Cookie Consent**
+**1. Opt-In Cookie Consent Popup**
 
 Adheres to the EU Cookie Law (GDPR).
 
-By default this is enabled for all European countries, as well as Brazil, Canada, India, Mexico, South Africa, and South 
-Korea (see [config.yml](_config/config.yml) for the full list). 
+By default this is enabled for all European countries, as well as Brazil, Canada, China, India, Japan, Mexico, Singapore, 
+South Africa, South Korea and Türkiye. 
 
 Make sure you have a link in the footer to the privacy policy and cookie policy pages.
 
-**3. Opt-Out Cookie Consent**
+**2. Opt-Out Popup**
 
-By default this is enabled for Japan (see [config.yml](_config/config.yml) for the full list).
+By default this is not enabled for any country.
 
 Make sure you have a link in the footer to the cookie policy page, labelled "Your privacy choices" or similar.
 
-**4. Do-Not-Sell**
+**3. Do-Not-Sell Popup**
 
-By default this is enabled for the US (see [config.yml](_config/config.yml) for the full list).
+By default this is enabled for the US.
 
 Make sure you have a link in the footer to the cookie policy page, labelled "Do not sell or share my personal information" or "Your privacy choices".
 
