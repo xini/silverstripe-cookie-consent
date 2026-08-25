@@ -121,7 +121,7 @@ If you're using the CDN's geo location (see below), do the same for the geo loca
 
 Adheres to the Sec-GPC HTTP header and sets consent to necessary cookies only.
 
-By default, this is enabled globally. If you wish to only use this for specific countries, you can chnage the setting
+By default, this is enabled globally. If you wish to only use this for specific countries, you can change the setting
 as follows:
 
 ```yaml
@@ -132,7 +132,7 @@ Innoweb\CookieConsent\CookieConsent:
 
 ## Geo location and juristiction specific consent
 
-This module covers multiple solutions for multiple jurtistictions. 
+This module shows three different popups for different jurtistictions. 
 
 The module itself doesn't provide geo location, but relies on your CDN to provide the country code in a HTTP header. 
 To use your CDN's geo location capability, you can configure the HTTP header that should be used to retrieve the country
@@ -171,13 +171,15 @@ Make sure you have a link in the footer to the cookie policy page, labelled "Do 
 If the geo location is set to a country that is not covered by any of the above options, the default behaviour is to 
 enable all cookies and not show any consent popup.
 
+If no country has been recognised, the opt-in/GDPR cookie consent popup will be shown.
+
 ### Country override for testing
 
 In Dev and Test mode, you can test the country specific consent by adding a `?country=XX` query parameter to the URL.
 
 ## Usage
 
-## check consent in PHP
+### check consent in PHP
 
 You can check for consent given in your PHP code by calling
 
@@ -198,7 +200,7 @@ In templates, you can check for consent given using
 The CookieConsent popup fires a custom JavaScript event `updateCookieConsent` when the acceptance buttons in the popup
 are clicked. You can use that event to conditionally load parts of your site depending on what cookies have been set.
 
-### JavaScript example
+### check consent in JavaScript
 
 Here an example that lazy-loads a video embed only if marketing cookies have been accepted:
 
