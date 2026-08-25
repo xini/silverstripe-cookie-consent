@@ -34,28 +34,10 @@ class ContentControllerExtension extends Extension
     {
         // if no consent is set, check if we should set it based on geolocation/consent type
         if (!CookieConsent::check() && $type = CookieConsent::getConsentType()) {
-
             // check GPC
             if ($type == CookieConsent::CONSENT_TYPE_GPC) {
                 // allow only necessary cookies and don't show popup
                 CookieConsent::grant(CookieConsent::NECESSARY);
-            }
-
-            // check opt-in / GDPR
-            if ($type == CookieConsent::CONSENT_TYPE_OPT_IN) {
-                // don't allow anything and show popup
-            }
-
-            // check opt-out
-            if ($type == CookieConsent::CONSENT_TYPE_OPT_OUT) {
-                // allow all cookies and don't show popup
-                CookieConsent::grantAll(CookieConsent::CONSENT_ORIGIN_AUTO);
-            }
-
-            // check do-not-sell
-            if ($type == CookieConsent::CONSENT_TYPE_DO_NOT_SELL) {
-                // allow all cookies and don't show popup
-                CookieConsent::grantAll(CookieConsent::CONSENT_ORIGIN_AUTO);
             }
         }
     }
@@ -78,27 +60,6 @@ class ContentControllerExtension extends Extension
         ) {
             Requirements::javascript('innoweb/silverstripe-cookie-consent:client/dist/js/cookieconsent.js');
         }
-    }
-
-    /**
-     * Method for checking cookie consent in template
-     *
-     * @param $group
-     * @return bool
-     * @throws Exception
-     */
-    public function CookieConsent($group = CookieConsent::NECESSARY)
-    {
-        return CookieConsent::check($group);
-    }
-
-    /**
-     * Method for checking cookie consent type in template
-     * @return string
-     */
-    public function ConsentType()
-    {
-        return CookieConsent::getConsentType();
     }
 
     /**
@@ -142,7 +103,7 @@ class ContentControllerExtension extends Extension
         $type = CookieConsent::getConsentType();
         $securiy = $controller ? $controller instanceof Security : false;
         $cookiePolicy = $controller ? $controller instanceof CookiePolicyPageController : false;
-        $hasConsent = CookieConsent::check();
+        $hasConsent = count(CookieConsent::getConsent()) > 0;
         $prompt = ($type == CookieConsent::CONSENT_TYPE_OPT_IN) && !$securiy && !$cookiePolicy && !$hasConsent;
         $this->owner->extend('updatePromptCookieConsent', $prompt);
         return $prompt;
@@ -159,9 +120,8 @@ class ContentControllerExtension extends Extension
         $type = CookieConsent::getConsentType();
         $securiy = $controller ? $controller instanceof Security : false;
         $cookiePolicy = $controller ? $controller instanceof CookiePolicyPageController : false;
-        $hasConsent = CookieConsent::check();
-        $origin = CookieConsent::getConsentOrigin();
-        $prompt = ($type == CookieConsent::CONSENT_TYPE_OPT_OUT) && !$securiy && !$cookiePolicy && $hasConsent && $origin === CookieConsent::CONSENT_ORIGIN_AUTO;
+        $hasConsent = count(CookieConsent::getConsent()) > 0;
+        $prompt = ($type == CookieConsent::CONSENT_TYPE_OPT_OUT) && !$securiy && !$cookiePolicy && !$hasConsent;
         $this->owner->extend('updateOptOutPopup', $prompt);
         return $prompt;
     }
@@ -177,9 +137,8 @@ class ContentControllerExtension extends Extension
         $type = CookieConsent::getConsentType();
         $securiy = $controller ? $controller instanceof Security : false;
         $cookiePolicy = $controller ? $controller instanceof CookiePolicyPageController : false;
-        $hasConsent = CookieConsent::check();
-        $origin = CookieConsent::getConsentOrigin();
-        $prompt = ($type == CookieConsent::CONSENT_TYPE_DO_NOT_SELL) && !$securiy && !$cookiePolicy && $hasConsent && $origin === CookieConsent::CONSENT_ORIGIN_AUTO;
+        $hasConsent = count(CookieConsent::getConsent()) > 0;
+        $prompt = ($type == CookieConsent::CONSENT_TYPE_DO_NOT_SELL) && !$securiy && !$cookiePolicy && !$hasConsent;
         $this->owner->extend('updateDoNotSellPopup', $prompt);
         return $prompt;
     }
@@ -277,7 +236,21 @@ class ContentControllerExtension extends Extension
 
     public function getAcceptAllCookiesLink()
     {
-        return Controller::join_links($this->getOwner()->Link(), 'acceptAllCookies');
+        // add testing country param
+        $countryParam = '';
+        if ((Director::isDev() || Director::isTest())
+            && Controller::has_curr()
+            && ($request = Controller::curr()->getRequest())
+            && $request->getVar('country')
+        ) {
+            $countryParam = '?country=' . strtoupper((string) $request->getVar('country'));
+        }
+
+        return Controller::join_links(
+            $this->getOwner()->Link(),
+            'acceptAllCookies',
+            $countryParam
+        );
     }
 
     public function getAcceptAllCookiesGroups()
@@ -311,7 +284,21 @@ class ContentControllerExtension extends Extension
 
     public function getAcceptNecessaryCookiesLink()
     {
-        return Controller::join_links($this->getOwner()->Link(), 'acceptNecessaryCookies');
+        // add testing country param
+        $countryParam = '';
+        if ((Director::isDev() || Director::isTest())
+            && Controller::has_curr()
+            && ($request = Controller::curr()->getRequest())
+            && $request->getVar('country')
+        ) {
+            $countryParam = '?country=' . strtoupper((string) $request->getVar('country'));
+        }
+
+        return Controller::join_links(
+            $this->getOwner()->Link(),
+            'acceptNecessaryCookies',
+            $countryParam
+        );
     }
 
     /**

@@ -68,6 +68,55 @@ The following cookie groups are available by default:
 - Preferences
 - External
 
+You can also configure the requirement of the default css styles and js.
+
+```yaml
+Innoweb\CookieConsent\CookieConsent:
+  include_css: true
+  include_js: true
+```
+
+If your site uses multiple domains (e.g. domain.com and domain.de), you can configure the module to set consent
+cookies for all hosts allowed through SS_ALLOWED_HOSTS config:
+
+```yaml
+Innoweb\CookieConsent\CookieConsent:
+  include_all_allowed_hosts: true
+```
+
+Caution: If you are using the `CookieConsent.cookie_domain` setting, `CookieConsent.include_all_allowed_hosts` will
+be ignored.
+
+## Use with a CDN
+
+If you're using this module with a CDN, make sure, you add a cookie header to vary the page caching:
+
+```yaml
+SilverStripe\Control\Middleware\HTTPCacheControlMiddleware:
+  defaultVary:
+    ...
+    X-Cookie-Consent: true
+```
+
+And in your page controller, add the consent to the header:
+
+```php
+    protected function init()
+    {
+        parent::init();
+
+        if ($response = $this->getResponse()) {
+            // set cookie categories for caching vary
+            if ($consent = implode(',', !empty(CookieConsent::getConsent()) ? CookieConsent::getConsent() : ['None'])) {
+                $response->addHeader('X-Cookie-Consent', $consent);
+            }
+        }
+        ...
+    }
+```
+
+If you're using the CDN's geo location (see below), do the same for the geo location header.
+
 ## Global Privacy Control (GPC)
 
 Adheres to the Sec-GPC HTTP header and sets consent to necessary cookies only.
@@ -81,7 +130,7 @@ Innoweb\CookieConsent\CookieConsent:
     - US
 ```
 
-## Geo location and juristiction specific consent solutions
+## Geo location and juristiction specific consent
 
 This module covers multiple solutions for multiple jurtistictions. 
 
@@ -107,7 +156,7 @@ Make sure you have a link in the footer to the privacy policy and cookie policy 
 
 **2. Opt-Out Popup**
 
-By default this is not enabled for any country.
+By default this is not enabled for any country. 
 
 Make sure you have a link in the footer to the cookie policy page, labelled "Your privacy choices" or similar.
 
@@ -126,49 +175,9 @@ enable all cookies and not show any consent popup.
 
 In Dev and Test mode, you can test the country specific consent by adding a `?country=XX` query parameter to the URL.
 
-## Default Content
-
-This module comes with some default content for cookies we've encountered before. If you want to set default content 
-for these cookies yourself that is possible trough the lang files. If you have cookie descriptions that are not in 
-this module, contributions to the lang files are much appreciated!
-
-The files are structured as such:
-
-```yaml
-en:
-  CookieConsent_{provider}:
-    {cookie}_Purpose: 'Cookie description'
-    {cookie}_Expiry: 'Cookie expire time'
-  # for cookies from your own domain:
-  CookieConsent_local:
-    PHPSESSID_Purpose: 'Session'
-    PHPSESSID_Expiry: 'Session'
-  # for cookies from an external domain:
-  CookieConsent_ads_marketingcompany_com:
-    _track_Purpose: 'Cookie description'
-    _track_Expiry: 'Cookie expire time'
-```
-
-You can also configure the requirement of the default css styles and js.
-
-```yaml
-Innoweb\CookieConsent\CookieConsent:
-  include_css: true
-  include_js: true
-```
-
-If your site uses multiple domains (e.g. domain.com and domain.de), you can configure the module to set consent 
-cookies for all hosts allowed through SS_ALLOWED_HOSTS config:
-
-```yaml
-Innoweb\CookieConsent\CookieConsent:
-  include_all_allowed_hosts: true
-```
-
-Caution: If you are using the `CookieConsent.cookie_domain` setting, `CookieConsent.include_all_allowed_hosts` will 
-be ignored. 
-
 ## Usage
+
+## check consent in PHP
 
 You can check for consent given in your PHP code by calling
 
@@ -196,7 +205,7 @@ Here an example that lazy-loads a video embed only if marketing cookies have bee
 Template:
 ```html
 <% if $EmbedCode %>
-<div class="VideoEmbed js-load-video" data-required-cookies="Marketing">
+<div class="VideoEmbed js-load-video" data-required-cookies="Marketing" data-cookie-consent-required="$CookieConsentRequired">
     <p class="message warning">Please accept marketing cookies to view this video.</p>
     <noscript><p class="message warning">Please enable JavaScript to view this video.</p></noscript>
 	<div hidden>
@@ -214,9 +223,17 @@ let loadVideos = function() {
     
     // unwraps hidden embed code if correct cookie value is set
     let showVideo = function(video) {
-        let requiredCookies = video.getAttribute('data-required-cookies');
-        let cookieValue = Cookies.get('CookieConsent');
-        if (requiredCookies === null || requiredCookies === '' || (cookieValue !== null && cookieValue.indexOf(requiredCookies) !== -1)) {
+        const requiredCookies = video.getAttribute('data-required-cookies');
+        const cookieConsentRequired = video.getAttribute('data-cookie-consent-required');
+        const cookieValue = Cookies.get('CookieConsent');
+        if (
+            // no cookies required
+            requiredCookies === null || requiredCookies === ''
+            // cookie is set and matches the requirement
+            || (cookieValue !== null && cookieValue.indexOf(requiredCookies) !== -1)
+            // cookie is not set and cookie consent is not required
+            || (cookieValue === null && cookieConsentRequired === 'false')
+        ) {
             let hidden = video.querySelector('[hidden]');
             let content = hidden.innerHTML;
             // get content from within html comment
@@ -251,6 +268,29 @@ let loadVideos = function() {
 loadVideos();
 // load videos when JavaScript event is fired
 document.addEventListener('updateCookieConsent', loadVideos);
+```
+
+## Default Cookie Content
+
+This module comes with some default content for cookies we've encountered before. If you want to set default content
+for these cookies yourself that is possible trough the lang files. If you have cookie descriptions that are not in
+this module, contributions to the lang files are much appreciated!
+
+The files are structured as such:
+
+```yaml
+en:
+  CookieConsent_{provider}:
+    {cookie}_Purpose: 'Cookie description'
+    {cookie}_Expiry: 'Cookie expire time'
+  # for cookies from your own domain:
+  CookieConsent_local:
+    PHPSESSID_Purpose: 'Session'
+    PHPSESSID_Expiry: 'Session'
+  # for cookies from an external domain:
+  CookieConsent_ads_marketingcompany_com:
+    _track_Purpose: 'Cookie description'
+    _track_Expiry: 'Cookie expire time'
 ```
 
 ## Default Pages
