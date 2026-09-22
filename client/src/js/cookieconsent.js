@@ -34,8 +34,23 @@ import Cookies from "js-cookie";
                             updatedCookieGroups = updatedCookieGroupsArray.join(",");
                         }
                         // send cookie setting request to backend
+                        let requestURL = new URL(window.location.origin);
+                        if (this.hasAttribute('href')) {
+                            // element is a anchor link
+                            const url = new URL(this.href, window.location.origin);
+                            requestURL.pathname = url.pathname;
+                        } else if (this.hasAttribute('data-cookie-policy-page')) {
+                            // element is a button
+                            const url = new URL(this.getAttribute('data-cookie-policy-page'), window.location.origin);
+                            requestURL.pathname = url.pathname;
+                        }
+                        if (requestURL.pathname === '/') {
+                            requestURL.pathname = '/home';
+                        }
+                        requestURL.pathname = `${requestURL.pathname.replace(/\/$/, "")}/acceptCookies`;
+                        requestURL.searchParams.append("acceptCookies", encodeURIComponent(newCookieGroups));
                         const xhr = new XMLHttpRequest();
-                        xhr.open('GET', this.href);
+                        xhr.open('GET', requestURL.href);
                         xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
                         xhr.onload = function() {
                             if (xhr.status >= 200 && xhr.status < 300) {
