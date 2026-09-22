@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Innoweb\CookieConsent\Pages;
 
 use Innoweb\CookieConsent\CookieConsent;
@@ -17,19 +19,19 @@ use SilverStripe\Versioned\Versioned;
  */
 class CookiePolicyPage extends Page
 {
-    private static $table_name = 'CookiePolicyPage';
+    private static string $table_name = 'CookiePolicyPage';
 
-    private static $singular_name = 'Cookie Policy Page';
+    private static string $singular_name = 'Cookie Policy Page';
 
-    private static $plural_name = 'Cookie Policy Pages';
+    private static string $plural_name = 'Cookie Policy Pages';
 
-    private static $class_description = 'Cookie Policy Page';
+    private static string $class_description = 'Cookie Policy Page';
 
-    private static $db = [
+    private static array $db = [
         'FooterContent' => 'HTMLText',
     ];
 
-    private static $defaults = [
+    private static array $defaults = [
         'ShowInMenus' => 0
     ];
 
@@ -55,7 +57,7 @@ class CookiePolicyPage extends Page
     }
 
     #[Override]
-    public function requireDefaultRecords()
+    public function requireDefaultRecords(): void
     {
         parent::requireDefaultRecords();
 
@@ -69,7 +71,7 @@ class CookiePolicyPage extends Page
     }
 
     #[Override]
-    public function populateDefaults()
+    public function populateDefaults(): void
     {
         parent::populateDefaults();
 
@@ -83,7 +85,7 @@ class CookiePolicyPage extends Page
      *
      * @return CookiePolicyPage|DataObject
      */
-    public static function instance()
+    public static function instance(): ?DataObject
     {
         return self::get()->first();
     }
@@ -93,13 +95,12 @@ class CookiePolicyPage extends Page
     {
         if (self::get()->exists()) {
             return false;
-        } else {
-            return parent::canCreate($member);
         }
+        return parent::canCreate($member);
     }
 
     #[Override]
-    public function canDelete($member = null)
+    public function canDelete($member = null): bool
     {
         return true;
     }

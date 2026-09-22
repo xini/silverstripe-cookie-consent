@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Innoweb\CookieConsent\Model;
 
 use Exception;
@@ -33,23 +35,23 @@ class CookieGroup extends DataObject
 
     const LOCAL_PROVIDER = 'local';
 
-    private static $table_name = 'CookieGroup';
+    private static string $table_name = 'CookieGroup';
 
-    private static $db = [
+    private static array $db = [
         'ConfigName' => 'Varchar(255)',
         'Title' => 'Varchar(255)',
         'Content' => 'HTMLText',
     ];
 
-    private static $indexes = [
+    private static array $indexes = [
         'ConfigName' => true
     ];
 
-    private static $has_many = [
+    private static array $has_many = [
         'Cookies' => CookieDescription::class . '.Group'
     ];
 
-    private static $translate = [
+    private static array $translate = [
         'Title',
         'Content'
     ];
@@ -95,7 +97,7 @@ class CookieGroup extends DataObject
      * @throws Exception
      */
     #[Override]
-    public function requireDefaultRecords()
+    public function requireDefaultRecords(): void
     {
         parent::requireDefaultRecords();
         $cookiesConfig = CookieConsent::config()->get('cookies');
@@ -150,19 +152,16 @@ class CookieGroup extends DataObject
     }
 
     #[Override]
-    public function canCreate($member = null, $context = [])
+    public function canCreate($member = null, $context = []): bool
     {
         return false;
     }
 
     /**
      * Make deletable if not defined in config
-     *
-     * @param null $member
-     * @return bool
      */
     #[Override]
-    public function canDelete($member = null)
+    public function canDelete($member = null): bool
     {
         $cookieConfig = CookieConsent::config()->get('cookies');
         return !isset($cookieConfig[$this->ConfigName]);

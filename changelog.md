@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.1.0]
+
+* add ability to use CDN geolocation header for consent targeting
+* add opt-out and do-not-sell popups for configured countries
+* adhere to global privacy control header
+* extend CookieConset cookie default expiry from 2 to 12 months
+* fix removal of cookies if consent is withdrawn
+
 ## [5.0.0]
 
 * upgrade to Silverstripe 6

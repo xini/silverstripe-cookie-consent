@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Innoweb\CookieConsent\Middleware;
 
 if (!class_exists('TractorCow\Fluent\Middleware\DetectLocaleMiddleware')) {

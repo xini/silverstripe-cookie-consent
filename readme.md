@@ -5,11 +5,13 @@
 
 ## Overview
 
-Creates a cookie consent popup and cookie policy page. 
+This module provides cookie consent popups and a cookie policy page.
 
-While we try to tick as many legal boxes as we can, we give no warranty for this module to adhere to any legislation, including GDPR.
+This module is based on [TheBnl's cookie consent module](https://github.com/TheBnl/silverstripe-cookie-consent). Thanks for your work and inspiration!
 
-This is an amended and simplified version of [TheBnl's cookie consent module](https://github.com/TheBnl/silverstripe-cookie-consent). Thanks for your work and inspiration!
+> [!WARNING]
+> While we try to tick as many legal boxes as we can, we give no warranty for this module to adhere to any legislation, including GDPR.
+> We are not lawyers and we are not responsible for any legal consequences of using this module.
 
 ## Requirements
 
@@ -30,6 +32,7 @@ Include the popup template in your base Page.ss
 ```
 
 ## Configuration
+
 You can configure the cookies and cookie groups trough the yml config. You need to configure by provider, 
 for providers the dots are converted to underscores e.g. ads.marketingcompany.com becomes ads_marketingcompany_com.
 
@@ -58,26 +61,12 @@ Innoweb\CookieConsent\CookieConsent:
         - _gid
 ```
 
-This module comes with some default content for cookies we've encountered before. If you want to set default content 
-for these cookies yourself that is possible trough the lang files. If you have cookie descriptions that are not in 
-this module, contributions to the lang files are much appreciated!
-
-The files are structured as such:
-
-```yaml
-en:
-  CookieConsent_{provider}:
-    {cookie}_Purpose: 'Cookie description'
-    {cookie}_Expiry: 'Cookie expire time'
-  # for cookies from your own domain:
-  CookieConsent_local:
-    PHPSESSID_Purpose: 'Session'
-    PHPSESSID_Expiry: 'Session'
-  # for cookies from an external domain:
-  CookieConsent_ads_marketingcompany_com:
-    _track_Purpose: 'Cookie description'
-    _track_Expiry: 'Cookie expire time'
-```
+The following cookie groups are available by default:
+- Necessary
+- Analytics
+- Marketing
+- Preferences
+- External
 
 You can also configure the requirement of the default css styles and js.
 
@@ -87,7 +76,7 @@ Innoweb\CookieConsent\CookieConsent:
   include_js: true
 ```
 
-If your site uses multiple domains (e.g. domain.com and domain.de), you can configure the module to set consent 
+If your site uses multiple domains (e.g. domain.com and domain.de), you can configure the module to set consent
 cookies for all hosts allowed through SS_ALLOWED_HOSTS config:
 
 ```yaml
@@ -95,12 +84,103 @@ Innoweb\CookieConsent\CookieConsent:
   include_all_allowed_hosts: true
 ```
 
-Caution: If you are using the `CookieConsent.cookie_domain` setting, `CookieConsent.include_all_allowed_hosts` will 
-be ignored. 
+Caution: If you are using the `CookieConsent.cookie_domain` setting, `CookieConsent.include_all_allowed_hosts` will
+be ignored.
+
+## Use with a CDN
+
+If you're using this module with a CDN, make sure, you add a cookie header to vary the page caching:
+
+```yaml
+SilverStripe\Control\Middleware\HTTPCacheControlMiddleware:
+  defaultVary:
+    ...
+    X-Cookie-Consent: true
+```
+
+And in your page controller, add the consent to the header:
+
+```php
+    protected function init()
+    {
+        parent::init();
+        if ($response = $this->getResponse()) {
+            // set cookie categories for caching vary
+            if ($consent = implode(',', !empty(CookieConsent::getConsent()) ? CookieConsent::getConsent() : ['None'])) {
+                $response->addHeader('X-Cookie-Consent', $consent);
+            }
+        }
+        ...
+    }
+```
+
+If you're using the CDN's geo location (see below), do the same for the geo location header.
+
+## Global Privacy Control (GPC)
+
+Adheres to the Sec-GPC HTTP header and sets consent to necessary cookies only.
+
+By default, this is enabled globally. If you wish to only use this for specific countries, you can change the setting
+as follows:
+
+```yaml
+Innoweb\CookieConsent\CookieConsent:
+  global_privacy_control:
+    - US
+```
+
+## Geo location and juristiction specific consent
+
+This module shows three different popups for different jurtistictions.
+
+The module itself doesn't provide geo location, but relies on your CDN to provide the country code in a HTTP header.
+To use your CDN's geo location capability, you can configure the HTTP header that should be used to retrieve the country
+code transmitted by the CDN request:
+
+```yaml
+Innoweb\CookieConsent\CookieConsent:
+  geolocation_header_name: 'X-Country-Code'
+```
+
+Once a geo location header is configured, the following options are enabled:
+
+**1. Opt-In Cookie Consent Popup**
+
+Adheres to the EU Cookie Law (GDPR).
+
+By default this is enabled for all European countries, as well as Brazil, Canada, China, India, Japan, Mexico, Singapore,
+South Africa, South Korea and Türkiye.
+
+Make sure you have a link in the footer to the privacy policy and cookie policy pages.
+
+**2. Opt-Out Popup**
+
+By default this is not enabled for any country.
+
+Make sure you have a link in the footer to the cookie policy page, labelled "Your privacy choices" or similar.
+
+**3. Do-Not-Sell Popup**
+
+By default this is enabled for the US.
+
+Make sure you have a link in the footer to the cookie policy page, labelled "Do not sell or share my personal information" or "Your privacy choices".
+
+### Default consent behaviour if geo location is enabled
+
+If the geo location is set to a country that is not covered by any of the above options, the default behaviour is to
+enable all cookies and not show any consent popup.
+
+If no country has been recognised, the opt-in/GDPR cookie consent popup will be shown.
+
+### Country override for testing
+
+In Dev and Test mode, you can test the country specific consent by adding a `?country=XX` query parameter to the URL.
 
 ## Usage
 
-Then you can check for consent in your PHP code by calling
+### check consent in PHP
+
+You can check for consent given in your PHP code by calling
 
 ```php
 if (CookieConsent::check('Analytics')) {
@@ -108,7 +188,7 @@ if (CookieConsent::check('Analytics')) {
 }
 ```
 
-In templates, you can check for consent using
+In templates, you can check for consent given using
 
 ```html
 <% if $CookieConsent(Analytics) %>
@@ -119,14 +199,14 @@ In templates, you can check for consent using
 The CookieConsent popup fires a custom JavaScript event `updateCookieConsent` when the acceptance buttons in the popup
 are clicked. You can use that event to conditionally load parts of your site depending on what cookies have been set.
 
-### JavaScript example
+### check consent in JavaScript
 
 Here an example that lazy-loads a video embed only if marketing cookies have been accepted:
 
 Template:
 ```html
 <% if $EmbedCode %>
-<div class="VideoEmbed js-load-video" data-required-cookies="Marketing">
+<div class="VideoEmbed js-load-video" data-required-cookies="Marketing" data-cookie-consent-required="$CookieConsentRequired">
     <p class="message warning">Please accept marketing cookies to view this video.</p>
     <noscript><p class="message warning">Please enable JavaScript to view this video.</p></noscript>
 	<div hidden>
@@ -144,9 +224,17 @@ let loadVideos = function() {
     
     // unwraps hidden embed code if correct cookie value is set
     let showVideo = function(video) {
-        let requiredCookies = video.getAttribute('data-required-cookies');
-        let cookieValue = Cookies.get('CookieConsent');
-        if (requiredCookies === null || requiredCookies === '' || (cookieValue !== null && cookieValue.indexOf(requiredCookies) !== -1)) {
+        const requiredCookies = video.getAttribute('data-required-cookies');
+        const cookieConsentRequired = video.getAttribute('data-cookie-consent-required');
+        const cookieValue = Cookies.get('CookieConsent');
+        if (
+            // no cookies required
+            requiredCookies === null || requiredCookies === ''
+            // cookie is set and matches the requirement
+            || (cookieValue !== null && cookieValue.indexOf(requiredCookies) !== -1)
+            // cookie is not set and cookie consent is not required
+            || (cookieValue === null && cookieConsentRequired === 'false')
+        ) {
             let hidden = video.querySelector('[hidden]');
             let content = hidden.innerHTML;
             // get content from within html comment
@@ -181,6 +269,28 @@ let loadVideos = function() {
 loadVideos();
 // load videos when JavaScript event is fired
 document.addEventListener('updateCookieConsent', loadVideos);
+```
+## Default Cookie Content
+
+This module comes with some default content for cookies we've encountered before. If you want to set default content
+for these cookies yourself that is possible trough the lang files. If you have cookie descriptions that are not in
+this module, contributions to the lang files are much appreciated!
+
+The files are structured as such:
+
+```yaml
+en:
+  CookieConsent_{provider}:
+    {cookie}_Purpose: 'Cookie description'
+    {cookie}_Expiry: 'Cookie expire time'
+  # for cookies from your own domain:
+  CookieConsent_local:
+    PHPSESSID_Purpose: 'Session'
+    PHPSESSID_Expiry: 'Session'
+  # for cookies from an external domain:
+  CookieConsent_ads_marketingcompany_com:
+    _track_Purpose: 'Cookie description'
+    _track_Expiry: 'Cookie expire time'
 ```
 
 ## Default Pages

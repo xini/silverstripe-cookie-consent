@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Innoweb\CookieConsent\Model;
 
 use Innoweb\CookieConsent\CookieConsent;
@@ -26,9 +28,9 @@ use SilverStripe\ORM\DataObject;
  */
 class CookieDescription extends DataObject
 {
-    private static $table_name = 'CookieDescription';
+    private static string $table_name = 'CookieDescription';
 
-    private static $db = [
+    private static array $db = [
         'ConfigName' => 'Varchar(255)',
         'Title' => 'Varchar(255)',
         'Provider' => 'Varchar(255)',
@@ -36,25 +38,25 @@ class CookieDescription extends DataObject
         'Expiry' => 'Varchar(255)'
     ];
 
-    private static $has_one = [
+    private static array $has_one = [
         'Group' => CookieGroup::class
     ];
 
-    private static $summary_fields = [
+    private static array $summary_fields = [
         'Title',
         'Provider',
         'Purpose',
         'Expiry'
     ];
 
-    private static $translate = [
+    private static array $translate = [
         'Purpose',
         'Expiry'
     ];
 
-    private static $singular_name = 'Cookie description';
+    private static string $singular_name = 'Cookie description';
 
-    private static $plural_name = 'Cookie descriptions';
+    private static string $plural_name = 'Cookie descriptions';
 
     #[Override]
     public function getCMSFields()
@@ -82,16 +84,13 @@ class CookieDescription extends DataObject
 
     /**
      * Cookies without a config definition can be deleted
-     *
-     * @param null $member
-     * @return bool
      */
     #[Override]
-    public function canDelete($member = null)
+    public function canDelete($member = null): bool
     {
         $cookieConfig = Config::inst()->get(CookieConsent::class, 'cookies');
         $found = false;
-        foreach ($cookieConfig as $group => $domains) {
+        foreach ($cookieConfig as $domains) {
             if ($found) {
                 break;
             }

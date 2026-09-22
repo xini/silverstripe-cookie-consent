@@ -39,6 +39,54 @@
         </div>
     </div>
 <% end_if %>
+<% if $PromptOptOutPopup %>
+    <div role="dialog"
+         aria-labelledby="cookieconsent-title"
+         class="CookieConsent"
+         id="CookieConsent"
+    >
+        <div class="CookieConsent__hd">
+            <h2 class="CookieConsent__title" id="cookieconsent-title">$SiteConfig.CookieOptOutTitle</h2>
+        </div>
+        <div class="CookieConsent__bd">
+            <div class="CookieConsent__content">
+                $SiteConfig.CookieOptOutContent
+            </div>
+        </div>
+        <div class="CookieConsent__ft">
+            <a class="CookieConsent__button js-cookie-consent-button" href="$AcceptNecessaryCookiesLink" rel="nofollow" data-cookie-groups="Necessary">
+                <%t Innoweb\\CookieConsent\\CookieConsent.OptOut 'Opt out' %>
+            </a>
+            <a class="CookieConsent__button js-cookie-consent-button" href="$AcceptAllCookiesLink" rel="nofollow" data-cookie-groups="$AcceptAllCookiesGroups">
+                <%t Innoweb\\CookieConsent\\CookieConsent.AcceptAndClose 'Accept & close' %>
+            </a>
+        </div>
+    </div>
+<% end_if %>
+<% if $PromptDoNotSellPopup %>
+    <div role="dialog"
+         aria-labelledby="cookieconsent-title"
+         class="CookieConsent"
+         id="CookieConsent"
+    >
+        <div class="CookieConsent__hd">
+            <h2 class="CookieConsent__title" id="cookieconsent-title">$SiteConfig.CookieDoNotSellTitle</h2>
+        </div>
+        <div class="CookieConsent__bd">
+            <div class="CookieConsent__content">
+                $SiteConfig.CookieDoNotSellContent
+            </div>
+        </div>
+        <div class="CookieConsent__ft">
+            <a class="CookieConsent__button js-cookie-consent-button" href="$AcceptNecessaryCookiesLink" rel="nofollow" data-cookie-groups="Necessary">
+                <%t Innoweb\\CookieConsent\\CookieConsent.DoNotSellOrShareMyPersonalInformation 'Do not sell or share my personal information' %>
+            </a>
+            <a class="CookieConsent__button js-cookie-consent-button" href="$AcceptAllCookiesLink" rel="nofollow" data-cookie-groups="$AcceptAllCookiesGroups">
+                <%t Innoweb\\CookieConsent\\CookieConsent.AcceptAndClose 'Accept & close' %>
+            </a>
+        </div>
+    </div>
+<% end_if %>
 <% if $SetAdditionalDomainsCookies %>
     <% loop $AdditionalHosts %>
         <img src="$FullLink" width="1" height="1" alt="" class="CookieConsent__host-image"/>

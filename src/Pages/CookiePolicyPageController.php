@@ -14,7 +14,7 @@ use PageController;
  */
 class CookiePolicyPageController extends PageController
 {
-    private static $allowed_actions = [
+    private static array $allowed_actions = [
         'Form'
     ];
 

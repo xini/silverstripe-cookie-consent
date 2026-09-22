@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Innoweb\CookieConsent\Forms;
 
+use SilverStripe\ORM\FieldType\DBField;
 use Innoweb\CookieConsent\CookieConsent;
 use Innoweb\CookieConsent\Model\CookieGroup;
 use Override;
@@ -16,21 +19,15 @@ use SilverStripe\View\Requirements;
  */
 class CookieConsentCheckBoxField extends CheckboxField
 {
-    /**
-     * @var CookieGroup
-     */
-    protected $cookieGroup;
-
-    public function __construct(CookieGroup $cookieGroup)
+    public function __construct(protected CookieGroup $cookieGroup)
     {
-        $this->cookieGroup = $cookieGroup;
         parent::__construct(
-            $cookieGroup->ConfigName,
-            $cookieGroup->Title,
-            $cookieGroup->isRequired()
+            $this->cookieGroup->ConfigName,
+            $this->cookieGroup->Title,
+            $this->cookieGroup->isRequired()
         );
 
-        $this->setDisabled($cookieGroup->isRequired());
+        $this->setDisabled($this->cookieGroup->isRequired());
     }
 
     #[Override]
@@ -43,7 +40,7 @@ class CookieConsentCheckBoxField extends CheckboxField
         return parent::Field($properties);
     }
 
-    public function getContent()
+    public function getContent(): ?DBField
     {
         return $this->cookieGroup->dbObject('Content');
     }

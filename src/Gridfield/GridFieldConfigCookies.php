@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Innoweb\CookieConsent\Gridfield;
 
 use SilverStripe\Forms\GridField\GridFieldButtonRow;

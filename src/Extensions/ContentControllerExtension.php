@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Innoweb\CookieConsent\Extensions;
 
 use Exception;
@@ -23,18 +25,30 @@ use SilverStripe\View\Requirements;
  */
 class ContentControllerExtension extends Extension
 {
-    private static $allowed_actions = [
+    private static array $allowed_actions = [
         'acceptCookies',
         'acceptAllCookies',
         'acceptNecessaryCookies',
     ];
+
+    public function onBeforeInit(): void
+    {
+        // if no consent is set, check if we should set it based on geolocation/consent type
+        if (!CookieConsent::check() && $type = CookieConsent::getConsentType()) {
+            // check GPC
+            if ($type == CookieConsent::CONSENT_TYPE_GPC) {
+                // allow only necessary cookies and don't show popup
+                CookieConsent::grant(CookieConsent::NECESSARY);
+            }
+        }
+    }
 
     /**
      * Place the necessary js and css
      *
      * @throws Exception
      */
-    public function onAfterInit()
+    public function onAfterInit(): void
     {
         if (!($this->getOwner() instanceof Security)
             && !CookieConsent::check()
@@ -51,15 +65,12 @@ class ContentControllerExtension extends Extension
     }
 
     /**
-     * Method for checking cookie consent in template
-     *
-     * @param $group
-     * @return bool
-     * @throws Exception
+     * Check if only necessary cookies are accepted
      */
-    public function CookieConsent($group = CookieConsent::NECESSARY)
+    public function OnlyNecessaryCookiesAccepted(): bool
     {
-        return CookieConsent::check($group);
+        $consent = CookieConsent::getConsent();
+        return $consent && count($consent) === 1 && $consent[0] === CookieConsent::NECESSARY;
     }
 
     /**
@@ -83,28 +94,60 @@ class ContentControllerExtension extends Extension
     }
 
     /**
-     * Check if we can promt for concent
-     * We're not on a Securty or Cooky policy page and have no concent set
+     * Check if we should show opt-in popup
      *
      * @return bool
      */
     public function PromptCookieConsent()
     {
         $controller = Controller::curr();
-        $securiy = $controller instanceof Controller ? $controller instanceof Security : false;
-        $cookiePolicy = $controller instanceof Controller ? $controller instanceof CookiePolicyPageController : false;
-        $hasConsent = CookieConsent::check();
-        $prompt = !$securiy && !$cookiePolicy && !$hasConsent;
+        $type = CookieConsent::getConsentType();
+        $securiy = $controller instanceof Controller && $controller instanceof Security;
+        $cookiePolicy = $controller instanceof Controller && $controller instanceof CookiePolicyPageController;
+        $hasConsent = count(CookieConsent::getConsent()) > 0;
+        $prompt = ($type == CookieConsent::CONSENT_TYPE_OPT_IN) && !$securiy && !$cookiePolicy && !$hasConsent;
         $this->getOwner()->extend('updatePromptCookieConsent', $prompt);
         return $prompt;
     }
 
     /**
-     * Check if site only uses necessary cookies
+     * Check if we should show opt-out popup
      *
      * @return bool
      */
-    public function SiteUsesNecessaryCookiesOnly()
+    public function PromptOptOutPopup()
+    {
+        $controller = Controller::curr();
+        $type = CookieConsent::getConsentType();
+        $securiy = $controller instanceof Controller && $controller instanceof Security;
+        $cookiePolicy = $controller instanceof Controller && $controller instanceof CookiePolicyPageController;
+        $hasConsent = count(CookieConsent::getConsent()) > 0;
+        $prompt = ($type == CookieConsent::CONSENT_TYPE_OPT_OUT) && !$securiy && !$cookiePolicy && !$hasConsent;
+        $this->getOwner()->extend('updateOptOutPopup', $prompt);
+        return $prompt;
+    }
+
+    /**
+     * Check if we should show do-not-sell popup
+     *
+     * @return bool
+     */
+    public function PromptDoNotSellPopup()
+    {
+        $controller = Controller::curr();
+        $type = CookieConsent::getConsentType();
+        $securiy = $controller instanceof Controller && $controller instanceof Security;
+        $cookiePolicy = $controller instanceof Controller && $controller instanceof CookiePolicyPageController;
+        $hasConsent = count(CookieConsent::getConsent()) > 0;
+        $prompt = ($type == CookieConsent::CONSENT_TYPE_DO_NOT_SELL) && !$securiy && !$cookiePolicy && !$hasConsent;
+        $this->getOwner()->extend('updateDoNotSellPopup', $prompt);
+        return $prompt;
+    }
+
+    /**
+     * Check if site only uses necessary cookies
+     */
+    public function SiteUsesNecessaryCookiesOnly(): bool
     {
         $categories = array_keys(Config::inst()->get(CookieConsent::class, 'cookies'));
         return count($categories) === 1 && $categories[0] === CookieConsent::NECESSARY;
@@ -113,7 +156,7 @@ class ContentControllerExtension extends Extension
     public function AdditionalDomainsCookiesEnabled(): bool
     {
         $includeHosts = Config::inst()->get(CookieConsent::class, 'include_all_allowed_hosts');
-        $additionalExist = $this->getAdditionalHosts() && $this->getAdditionalHosts()->count();
+        $additionalExist = $this->getAdditionalHosts() instanceof ArrayList && $this->getAdditionalHosts()->count();
         return ($includeHosts && $additionalExist);
     }
 
@@ -124,7 +167,7 @@ class ContentControllerExtension extends Extension
     public function SetAdditionalDomainsCookies(): string|false
     {
         $includeHosts = Config::inst()->get(CookieConsent::class, 'include_all_allowed_hosts');
-        $additionalExist = $this->getAdditionalHosts() && $this->getAdditionalHosts()->count();
+        $additionalExist = $this->getAdditionalHosts() instanceof ArrayList && $this->getAdditionalHosts()->count();
         $acceptParam = $this->getOwner()->getRequest()->getVar('acceptCookies') ?? false;
         return ($includeHosts && $additionalExist && $acceptParam !== false) ? $acceptParam : false;
     }
@@ -168,71 +211,93 @@ class ContentControllerExtension extends Extension
         return CookiePolicyPage::instance();
     }
 
-    public function acceptAllCookies()
+    public function acceptAllCookies(): ?string
     {
         CookieConsent::grantAll();
 
         if (Director::is_ajax()) {
             return "ok";
-        } else {
-            // Get the url the same as the redirect back method gets it
-            $url = $this->getOwner()->getBackURL()
-                ?: $this->getOwner()->getReturnReferer()
-                    ?: Director::baseURL();
-
-            $cachebust = uniqid();
-            $consent = implode(',', CookieConsent::getConsent());
-            if (parse_url((string) $url, PHP_URL_QUERY)) {
-                $url = Director::absoluteURL(sprintf('%s&acceptCookies=%s&cachebust=%s', $url, $consent, $cachebust));
-            } else {
-                $url = Director::absoluteURL(sprintf('%s?acceptCookies=%s&cachebust=%s', $url, $consent, $cachebust));
-            }
-
-            $this->getOwner()->redirect($url);
         }
+        // Get the url the same as the redirect back method gets it
+        $url = $this->getOwner()->getBackURL()
+            ?: $this->getOwner()->getReturnReferer()
+                ?: Director::baseURL();
+        $cachebust = uniqid();
+        $consent = implode(',', CookieConsent::getConsent());
+        if (parse_url((string) $url, PHP_URL_QUERY)) {
+            $url = Director::absoluteURL(sprintf('%s&acceptCookies=%s&cachebust=%s', $url, $consent, $cachebust));
+        } else {
+            $url = Director::absoluteURL(sprintf('%s?acceptCookies=%s&cachebust=%s', $url, $consent, $cachebust));
+        }
+        $this->getOwner()->redirect($url);
 
         return null;
     }
 
-    public function getAcceptAllCookiesLink()
+    public function getAcceptAllCookiesLink(): string
     {
-        return Controller::join_links($this->getOwner()->Link(), 'acceptAllCookies');
+        // add testing country param
+        $countryParam = '';
+        if ((Director::isDev() || Director::isTest())
+            && ($controller = Controller::curr())
+            && ($request = $controller->getRequest())
+            && $request->getVar('country')
+        ) {
+            $countryParam = '?country=' . strtoupper((string) $request->getVar('country'));
+        }
+
+        return Controller::join_links(
+            $this->getOwner()->Link(),
+            'acceptAllCookies',
+            $countryParam
+        );
     }
 
-    public function getAcceptAllCookiesGroups()
+    public function getAcceptAllCookiesGroups(): string
     {
         return implode(',', array_keys(Config::inst()->get(CookieConsent::class, 'cookies')));
     }
 
-    public function acceptNecessaryCookies()
+    public function acceptNecessaryCookies(): ?string
     {
-        CookieConsent::grant(CookieConsent::NECESSARY);
+        CookieConsent::setConsent(CookieConsent::NECESSARY);
 
         if (Director::is_ajax()) {
             return "ok";
-        } else {
-            // Get the url the same as the redirect back method gets it
-            $url = $this->getOwner()->getBackURL()
-                ?: $this->getOwner()->getReturnReferer()
-                    ?: Director::baseURL();
-
-            $cachebust = uniqid();
-            $consent = implode(',', CookieConsent::getConsent());
-            if (parse_url((string) $url, PHP_URL_QUERY)) {
-                $url = Director::absoluteURL(sprintf('%s&acceptCookies=%s&cachebust=%s', $url, $consent, $cachebust));
-            } else {
-                $url = Director::absoluteURL(sprintf('%s?acceptCookies=%s&cachebust=%s', $url, $consent, $cachebust));
-            }
-
-            $this->getOwner()->redirect($url);
         }
+        // Get the url the same as the redirect back method gets it
+        $url = $this->getOwner()->getBackURL()
+            ?: $this->getOwner()->getReturnReferer()
+                ?: Director::baseURL();
+        $cachebust = uniqid();
+        $consent = implode(',', CookieConsent::getConsent());
+        if (parse_url((string) $url, PHP_URL_QUERY)) {
+            $url = Director::absoluteURL(sprintf('%s&acceptCookies=%s&cachebust=%s', $url, $consent, $cachebust));
+        } else {
+            $url = Director::absoluteURL(sprintf('%s?acceptCookies=%s&cachebust=%s', $url, $consent, $cachebust));
+        }
+        $this->getOwner()->redirect($url);
 
         return null;
     }
 
-    public function getAcceptNecessaryCookiesLink()
+    public function getAcceptNecessaryCookiesLink(): string
     {
-        return Controller::join_links($this->getOwner()->Link(), 'acceptNecessaryCookies');
+        // add testing country param
+        $countryParam = '';
+        if ((Director::isDev() || Director::isTest())
+            && ($controller = Controller::curr())
+            && ($request = $controller->getRequest())
+            && $request->getVar('country')
+        ) {
+            $countryParam = '?country=' . strtoupper((string) $request->getVar('country'));
+        }
+
+        return Controller::join_links(
+            $this->getOwner()->Link(),
+            'acceptNecessaryCookies',
+            $countryParam
+        );
     }
 
     /**

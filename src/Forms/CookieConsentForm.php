@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Innoweb\CookieConsent\Forms;
 
+use Override;
+use SilverStripe\Control\HTTPResponse;
 use Innoweb\CookieConsent\CookieConsent;
 use Innoweb\CookieConsent\Model\CookieGroup;
 use SilverStripe\Control\Controller;
@@ -17,6 +21,7 @@ use SilverStripe\Forms\FormAction;
  */
 class CookieConsentForm extends Form
 {
+    #[Override]
     protected $extraClasses = ['cookie-consent-form'];
 
     public function __construct(Controller $controller, $name)
@@ -41,9 +46,8 @@ class CookieConsentForm extends Form
      * Submit the consent
      *
      * @param $data
-     * @param Form $form
      */
-    public function submitConsent($data, Form $form)
+    public function submitConsent(array $data, Form $form): HTTPResponse
     {
         $consent = [];
         $consent = array_merge($consent, CookieConsent::config()->get('required_groups'));
