@@ -211,16 +211,16 @@ class CookieConsent implements TemplateGlobalProvider
     public static function getConsent()
     {
         $consent = [];
-        // get consent data from cookie
-        if ($value = Cookie::get(self::config()->get('cookie_name'))) {
-            $consent = explode(',', $value);
-        }
         // get consent data from http header (for example when in use behind CDN)
         if (Controller::has_curr()
             && ($request = Controller::curr()->getRequest())
             && ($value = $request->getHeader(self::config()->get('header_name')))
         ) {
             $consent = explode(',', urldecode($value));
+        }
+        // get consent data from cookie
+        if ($value = Cookie::get(self::config()->get('cookie_name'))) {
+            $consent = explode(',', $value);
         }
         return $consent;
     }
