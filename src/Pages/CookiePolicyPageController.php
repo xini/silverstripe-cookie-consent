@@ -23,7 +23,6 @@ class CookiePolicyPageController extends PageController
      *
      * @return CookieConsentForm
      */
-    #[Override]
     public function Form()
     {
         return CookieConsentForm::create($this, 'Form');
