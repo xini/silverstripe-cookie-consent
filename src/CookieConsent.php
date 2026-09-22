@@ -313,7 +313,7 @@ class CookieConsent implements TemplateGlobalProvider
             && Controller::has_curr()
             && ($request = Controller::curr()->getRequest())
             && (int) $request->getHeader('Sec-GPC') === 1
-            && ($gpcConfig === true || (is_array($gpcConfig) && in_array($country, $gpcConfig)))
+            && ($gpcConfig === true || (is_array($gpcConfig) && ($country = self::getCountry()) && in_array($country, $gpcConfig)))
         ) {
             return self::CONSENT_TYPE_GPC;
         }
