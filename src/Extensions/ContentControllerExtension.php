@@ -305,7 +305,7 @@ class ContentControllerExtension extends Extension
      */
     public function acceptCookies()
     {
-        if (($var = $this->getOwner()->getRequest()->getVar('acceptCookies'))
+        if (($var = urldecode($this->getOwner()->getRequest()->getVar('acceptCookies')))
             && ($parts = explode(',', (string) $var))
             && ($groups = array_intersect($parts, array_keys(Config::inst()->get(CookieConsent::class, 'cookies'))))
             && count($groups)

@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.2.0]
+
+* use buttons instead of links in popup
+
 ## [5.1.0]
 
 * add ability to use CDN geolocation header for consent targeting
