@@ -24,7 +24,7 @@ fr:
     DoNotSellPopupTitle: 'Titre'
     OptInGDPRPopup: 'Inscription / RGPD'
     OptOutPopup: 'Désinscription'
-    OptOutPopupContent': 'Contenue'
+    OptOutPopupContent: 'Contenue'
     OptOutPopupTitle: 'Titre'
     db_CookieConsentContent: 'Contenu de consentement aux cookies'
     db_CookieConsentTitle: 'Titre de consentement au cookie'

@@ -24,7 +24,7 @@ de:
     DoNotSellPopupTitle: '„Nicht verkaufen“-Popup-Titel'
     OptInGDPRPopup: 'Opt-in / DSGVO-Popup'
     OptOutPopup: 'Opt-out-Popup'
-    OptOutPopupContent': 'Opt-out-Popup-Inhalt'
+    OptOutPopupContent: 'Opt-out-Popup-Inhalt'
     OptOutPopupTitle: 'Opt-out-Popup-Titel'
     db_CookieConsentContent: 'Inhalt der Cookie-Einwilligung'
     db_CookieConsentTitle: 'Titel der Cookie-Einwilligung'

@@ -24,7 +24,7 @@ en:
     DoNotSellPopupTitle: 'Do-Not-Sell Popup Title'
     OptInGDPRPopup: 'Opt-In / GDPR Popup'
     OptOutPopup: 'Opt-Out Popup'
-    OptOutPopupContent': 'Opt-Out Popup Content'
+    OptOutPopupContent: 'Opt-Out Popup Content'
     OptOutPopupTitle: 'Opt-Out Popup Title'
     db_CookieConsentContent: 'Cookie consent content'
     db_CookieConsentTitle: 'Cookie consent title'
