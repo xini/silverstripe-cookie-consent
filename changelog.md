@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.3.0]
+
+* upgrade frontend build to vite 8, clean up dependencies
+
 ## [5.2.2]
 
 * fix form override

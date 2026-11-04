@@ -6,22 +6,18 @@
     "license": "BSD-3-Clause",
     "type": "module",
     "engines": {
-        "node": "^22.0.0"
+        "node": "^24.15.0"
     },
     "dependencies": {
         "js-cookie": "^3.0.8"
     },
     "devDependencies": {
-        "@rollup/plugin-terser": "^1.0.0",
-        "@rollup/plugin-virtual": "^3.0.2",
-        "autoprefixer": "^10.6.1",
-        "cssnano": "^7.1.9",
-        "postcss": "^8.5.28",
-        "rollup-plugin-copy": "^3.5.0",
-        "sass": "^1.104.1",
+        "autoprefixer": "^10.6.2",
+        "cssnano": "^9.9.0",
+        "postcss": "^8.5.32",
+        "sass": "^1.107.1",
         "terser": "^5.51.2",
-        "vite": "^6.4.3",
-        "vite-plugin-iife": "^1.2.1"
+        "vite": "^8.3.5"
     },
     "browserslist": [
         "> 1%",

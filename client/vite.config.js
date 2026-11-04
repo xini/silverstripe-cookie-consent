@@ -29,8 +29,7 @@ function cleanDistOnce() {
     };
 }
 
-export default defineConfig(({ command, mode }) => {
-    const isProduction = mode === 'production';
+export default defineConfig(({ mode }) => {
     const isDebug = mode === 'debug';
     const stripConsole = !isDebug;
 
@@ -70,7 +69,6 @@ export default defineConfig(({ command, mode }) => {
 
         css: {
             postcss: './postcss.config.js',
-            sourcemap: true,
             devSourcemap: true,
         },
 
@@ -93,7 +91,7 @@ export default defineConfig(({ command, mode }) => {
                 mangle: false,
             },
 
-            rollupOptions: {
+            rolldownOptions: {
                 onwarn(warning, warn) {
                     if (warning.message?.includes('/_resources/') &&
                         warning.message?.includes("didn't resolve at build time")) {
@@ -117,14 +115,15 @@ export default defineConfig(({ command, mode }) => {
                     },
                     chunkFileNames: 'js/chunks/[name]-[hash].js',
                     assetFileNames: (assetInfo) => {
-                        if (assetInfo.name?.endsWith('.css')) {
-                            const name = assetInfo.name.replace(/^css[_:]/, '').replace(/\.css$/, '');
+                        const assetName = assetInfo.names[0];
+                        if (assetName?.endsWith('.css')) {
+                            const name = assetName.replace(/^css[_:]/, '').replace(/\.css$/, '');
                             return `css/${name}.css`;
                         }
-                        if (assetInfo.name?.match(/\.(png|jpg|jpeg|gif|webp|avif)$/)) {
+                        if (assetName?.match(/\.(png|jpg|jpeg|gif|webp|avif)$/)) {
                             return 'images/[name][extname]';
                         }
-                        if (assetInfo.name?.match(/\.(woff2|woff|ttf|otf|eot)$/)) {
+                        if (assetName?.match(/\.(woff2|woff|ttf|otf|eot)$/)) {
                             return 'fonts/[name][extname]';
                         }
                         return 'assets/[name][extname]';

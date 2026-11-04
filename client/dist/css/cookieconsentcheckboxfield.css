@@ -1,1 +1,1 @@
-.field.cookieconsentcheckbox .field_wrapper{display:flex;gap:2rem}.field.cookieconsentcheckbox .field_wrapper input{flex:0 0 auto}.field.cookieconsentcheckbox .field_wrapper label.right{flex:0 0 25%}
+.field.cookieconsentcheckbox .field_wrapper{align-items:start;gap:2rem;display:flex}.field.cookieconsentcheckbox .field_wrapper input{flex:none;margin-top:.2em}.field.cookieconsentcheckbox .field_wrapper label.right{flex:0 0 25%}
